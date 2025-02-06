@@ -1,2 +1,0 @@
-<a <?php echo e($attributes->merge(['class' => 'block px-4 py-2 text-sm text-gray-700 hover:bg-[#173F74] hover:text-white'])); ?>><?php echo e($slot); ?></a>
-<?php /**PATH /var/www/resources/views/components/dropdown-link.blade.php ENDPATH**/ ?>
