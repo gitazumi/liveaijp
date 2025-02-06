@@ -1,0 +1,106 @@
+@section('title', 'Chat History')
+<x-app-layout>
+    <div class="flex justify-center">
+        <div class="w-full rounded-xl p-[30px] sm:p-[50px] bg-[#E9F2FF]">
+            <div class="flex items-center mb-10">
+                <a href="{{ route('dashboard') }}">
+                    <svg width="24" height="14" viewBox="0 0 24 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M8 14C8 13.258 7.267 12.15 6.525 11.22C5.571 10.02 4.431 8.973 3.124 8.174C2.144 7.575 0.956 7 -3.0598e-07 7M-3.0598e-07 7C0.956 7 2.145 6.425 3.124 5.826C4.431 5.026 5.571 3.979 6.525 2.781C7.267 1.85 8 0.74 8 -3.49691e-07M-3.0598e-07 7L24 7"
+                            stroke="black" stroke-width="2" />
+                    </svg>
+                </a>
+                <svg fill="currentColor" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32" class="mx-5"
+                    viewBox="0 0 31.612 31.612" xml:space="preserve">
+                    <g>
+                        <g>
+                            <path d="M10.871,13.671l-4.058,4.057c-0.234,0.234-0.367,0.553-0.367,0.885c0,0.333,0.133,0.65,0.367,0.885l3.923,3.924
+                   c0.245,0.244,0.565,0.367,0.887,0.367c0.32,0,0.641-0.123,0.885-0.367c0.49-0.488,0.49-1.281,0-1.771L9.47,18.613l3.173-3.172
+                   c0.489-0.488,0.489-1.281,0-1.77C12.152,13.182,11.36,13.182,10.871,13.671z" />
+                            <path d="M18.969,15.443l3.174,3.171l-3.039,3.038c-0.488,0.488-0.488,1.281,0,1.771c0.244,0.244,0.564,0.366,0.886,0.366
+                   s0.642-0.122,0.887-0.366l3.923-3.924c0.234-0.234,0.367-0.554,0.367-0.886c0-0.333-0.133-0.651-0.367-0.886l-4.058-4.056
+                   c-0.489-0.489-1.281-0.489-1.771,0C18.48,14.16,18.48,14.954,18.969,15.443z" />
+                            <path d="M13.265,26.844c0.081,0.023,0.162,0.037,0.245,0.037c0.356,0,0.688-0.232,0.798-0.592l4.59-14.995
+                   c0.138-0.441-0.111-0.908-0.553-1.043c-0.443-0.135-0.906,0.113-1.043,0.554L12.71,25.799
+                   C12.576,26.241,12.823,26.707,13.265,26.844z" />
+                            <path d="M11.216,0L3.029,8.643v22.969h25.554V0H11.216z M10.495,3.635v3.83H6.867L10.495,3.635z M26.605,29.637H5.005V9.441h7.465
+                   V1.975h14.135V29.637z" />
+                        </g>
+                    </g>
+                </svg>
+
+
+                <span class="text-[20px] sm:text-[28.95px] font-semibold">
+                    Generate Snippet
+                </span>
+            </div>
+
+            <div>
+                <p class="text-[18px] font-semibold">
+                    Please paste the following code right before the <code>&lt;/body&gt;</code> tag.
+                </p>
+                <hr class="my-5 border-[#0081eb]">
+
+                @php
+                    $url = env('ASSET_URL') . '/chatbot.js';
+                @endphp
+<pre id="snippet-code" class="text-wrap">&lt;script&gt;
+    (function() {
+         var chatbot = document.createElement('script');
+        chatbot.src = '{{ $url }}?token={{ $user->chatbot_token }}';
+        document.body.appendChild(chatbot);
+    })();
+&lt;/script&gt;</pre>
+                    <button id="copy-snippet" class="float-right text-white bg-[#173F74] rounded py-1 px-3">
+                        Copy
+                    </button>
+                    <hr class="mb-5 mt-10 border-[#0081eb]">
+                    <p class="text-[18px] font-semibold mb-5">
+                        By adding CSS, the following customizations are also possible.
+                    </p>
+<pre class="text-wrap">&lt;style&gt;
+    /* you can change background color of button */
+    #ai-chat-button{
+        background: #173F74 !important;
+    }
+    /*you can change background color of tab*/
+    .ai-chat-header{
+        background: #173F74 !important;
+    }
+    /*you can change background color of button*/
+    .ai-chat-input button{
+        background: #173F74 !important;
+    }
+&lt;/style&gt;
+
+&lt;script&gt;
+    (function() {
+        var chatbot = document.createElement('script');
+        chatbot.src = '{{ $url }}?token={{ $user->chatbot_token }}';
+        document.body.appendChild(chatbot);
+    })();
+&lt;/script&gt;
+</pre>
+            </div>
+        </div>
+    </div>
+
+    @push('script')
+        <script>
+            
+            $('#copy-snippet').click(function(e) {
+                e.preventDefault();
+
+                const textToCopy = $(`#snippet-code`).text().trim();
+                const tempInput = $('<textarea>');
+                tempInput.val(textToCopy);
+                $('body').append(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                tempInput.remove();
+                $(this).html('Copied');
+            });
+        </script>
+    @endpush
+</x-app-layout>
