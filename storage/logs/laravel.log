@@ -9790,3 +9790,13 @@ https://yotsuyalotus.com/
 [2025-02-07 08:49:09] production.INFO: SQL Query Executed: select * from `users` where `id` = ? limit 1 [7] (2.17ms)  
 [2025-02-07 08:49:09] production.INFO: SQL Query Executed: select `roles`.*, `model_has_roles`.`model_id` as `pivot_model_id`, `model_has_roles`.`role_id` as `pivot_role_id`, `model_has_roles`.`model_type` as `pivot_model_type` from `roles` inner join `model_has_roles` on `roles`.`id` = `model_has_roles`.`role_id` where `model_has_roles`.`model_id` in (7) and `model_has_roles`.`model_type` = ? [App\Models\User] (0.58ms)  
 [2025-02-07 08:49:09] production.INFO: SQL Query Executed: select * from `google_calendars` where `user_id` = ? limit 1 [7] (0.59ms)  
+[2025-02-07 14:05:07] production.INFO: SQL Query Executed: select * from `users` where `chatbot_token` = ? limit 1 [ae282e0f-4278-444b-b031-8426234a7c84] (2.3ms)  
+[2025-02-07 14:05:07] production.INFO: SQL Query Executed: select * from `conversations` where (`session_id` = ?) limit 1 [conv_8l5jq4qy0] (0.5ms)  
+[2025-02-07 14:05:07] production.INFO: SQL Query Executed: insert into `conversations` (`session_id`, `title`, `user_id`, `updated_at`, `created_at`) values (?, ?, ?, ?, ?) [conv_8l5jq4qy0, キャパは何人ですか？, 6, 2025-02-07 14:05:07, 2025-02-07 14:05:07] (19.68ms)  
+[2025-02-07 14:05:07] production.INFO: SQL Query Executed: insert into `chats` (`conversation_id`, `message`, `send_by`, `updated_at`, `created_at`) values (?, ?, ?, ?, ?) [78, キャパは何人ですか？, 1, 2025-02-07 14:05:07, 2025-02-07 14:05:07] (8.96ms)  
+[2025-02-07 14:05:07] production.INFO: SQL Query Executed: select * from `chats` where `conversation_id` = ? order by `created_at` desc limit 10 [78] (0.7ms)  
+[2025-02-07 14:05:07] production.INFO: SQL Query Executed: select * from `information` where `user_id` = ? limit 1 [6] (0.86ms)  
+[2025-02-07 14:05:07] production.INFO: SQL Query Executed: select * from `faqs` where `user_id` = ? [6] (0.67ms)  
+[2025-02-07 14:05:07] production.INFO: SQL Query Executed: select * from `users` where `users`.`id` = ? limit 1 [6] (0.47ms)  
+[2025-02-07 14:05:11] production.INFO: ChatGPT API Execution Time: 3.6471500396729 seconds  
+[2025-02-07 14:05:11] production.INFO: SQL Query Executed: insert into `chats` (`conversation_id`, `message`, `openai_message_id`, `send_by`, `updated_at`, `created_at`) values (?, ?, ?, ?, ?, ?) [78, 四谷LOTUSのホールのキャパシティはスタンディングで120人です。, chatcmpl-AyJGeNysjiQ9llnztSmSTGBxAArd5, 0, 2025-02-07 14:05:11, 2025-02-07 14:05:11] (7.38ms)  
