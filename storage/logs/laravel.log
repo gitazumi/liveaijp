@@ -9800,3 +9800,22 @@ https://yotsuyalotus.com/
 [2025-02-07 14:05:07] production.INFO: SQL Query Executed: select * from `users` where `users`.`id` = ? limit 1 [6] (0.47ms)  
 [2025-02-07 14:05:11] production.INFO: ChatGPT API Execution Time: 3.6471500396729 seconds  
 [2025-02-07 14:05:11] production.INFO: SQL Query Executed: insert into `chats` (`conversation_id`, `message`, `openai_message_id`, `send_by`, `updated_at`, `created_at`) values (?, ?, ?, ?, ?, ?) [78, 四谷LOTUSのホールのキャパシティはスタンディングで120人です。, chatcmpl-AyJGeNysjiQ9llnztSmSTGBxAArd5, 0, 2025-02-07 14:05:11, 2025-02-07 14:05:11] (7.38ms)  
+[2025-02-08 02:57:06] production.INFO: SQL Query Executed: select * from `users` where `chatbot_token` = ? limit 1 [ae282e0f-4278-444b-b031-8426234a7c84] (4.9ms)  
+[2025-02-08 02:57:06] production.INFO: SQL Query Executed: select * from `conversations` where (`session_id` = ?) limit 1 [conv_0gu4d8aan] (0.69ms)  
+[2025-02-08 02:57:06] production.INFO: SQL Query Executed: insert into `conversations` (`session_id`, `title`, `user_id`, `updated_at`, `created_at`) values (?, ?, ?, ?, ?) [conv_0gu4d8aan, 親と一緒であれば、小・中学生も行くことはできますか？今日の終日のイベントです。, 6, 2025-02-08 02:57:06, 2025-02-08 02:57:06] (8.5ms)  
+[2025-02-08 02:57:06] production.INFO: SQL Query Executed: insert into `chats` (`conversation_id`, `message`, `send_by`, `updated_at`, `created_at`) values (?, ?, ?, ?, ?) [79, 親と一緒であれば、小・中学生も行くことはできますか？今日の終日のイベントです。, 1, 2025-02-08 02:57:06, 2025-02-08 02:57:06] (9.07ms)  
+[2025-02-08 02:57:06] production.INFO: SQL Query Executed: select * from `chats` where `conversation_id` = ? order by `created_at` desc limit 10 [79] (0.96ms)  
+[2025-02-08 02:57:06] production.INFO: SQL Query Executed: select * from `information` where `user_id` = ? limit 1 [6] (0.55ms)  
+[2025-02-08 02:57:06] production.INFO: SQL Query Executed: select * from `faqs` where `user_id` = ? [6] (1.21ms)  
+[2025-02-08 02:57:06] production.INFO: SQL Query Executed: select * from `users` where `users`.`id` = ? limit 1 [6] (1.48ms)  
+[2025-02-08 02:57:12] production.INFO: ChatGPT API Execution Time: 6.4936420917511 seconds  
+[2025-02-08 02:57:12] production.INFO: SQL Query Executed: insert into `chats` (`conversation_id`, `message`, `openai_message_id`, `send_by`, `updated_at`, `created_at`) values (?, ?, ?, ?, ?, ?) [79, イベントや公演によっては異なりますので、特定のイベントについての詳細情報が必要となります。公式ウェブサイトや直接主催者にお問い合わせください。また、四谷LOTUSでは全てのお客様に対し、入場時にドリンク代（¥600）を頂戴していますので、ご了承ください。, chatcmpl-AyVJiKRw4ERWbfAUWVTnfYw9iNJVh, 0, 2025-02-08 02:57:12, 2025-02-08 02:57:12] (6.58ms)  
+[2025-02-08 02:57:25] production.INFO: SQL Query Executed: select * from `users` where `chatbot_token` = ? limit 1 [ae282e0f-4278-444b-b031-8426234a7c84] (1.81ms)  
+[2025-02-08 02:57:25] production.INFO: SQL Query Executed: select * from `conversations` where (`session_id` = ?) limit 1 [conv_0gu4d8aan] (2.22ms)  
+[2025-02-08 02:57:25] production.INFO: SQL Query Executed: insert into `chats` (`conversation_id`, `message`, `send_by`, `updated_at`, `created_at`) values (?, ?, ?, ?, ?) [79, 承知しました。, 1, 2025-02-08 02:57:25, 2025-02-08 02:57:25] (9.35ms)  
+[2025-02-08 02:57:25] production.INFO: SQL Query Executed: select * from `chats` where `conversation_id` = ? order by `created_at` desc limit 10 [79] (0.61ms)  
+[2025-02-08 02:57:25] production.INFO: SQL Query Executed: select * from `information` where `user_id` = ? limit 1 [6] (0.4ms)  
+[2025-02-08 02:57:25] production.INFO: SQL Query Executed: select * from `faqs` where `user_id` = ? [6] (0.69ms)  
+[2025-02-08 02:57:25] production.INFO: SQL Query Executed: select * from `users` where `users`.`id` = ? limit 1 [6] (0.34ms)  
+[2025-02-08 02:57:28] production.INFO: ChatGPT API Execution Time: 3.222892999649 seconds  
+[2025-02-08 02:57:28] production.INFO: SQL Query Executed: insert into `chats` (`conversation_id`, `message`, `openai_message_id`, `send_by`, `updated_at`, `created_at`) values (?, ?, ?, ?, ?, ?) [79, 何か他にご不明な点がございましたら、お気軽にお問い合わせください。お手伝いできることがあれば幸いです。, chatcmpl-AyVK1UtzNcPMNkjpXttBUOthg8fEK, 0, 2025-02-08 02:57:28, 2025-02-08 02:57:28] (7.87ms)  
