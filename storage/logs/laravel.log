@@ -108,3 +108,49 @@
 #48 /var/www/public/index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle()
 #49 {main}
 "} 
+[2025-02-10 09:01:45] production.INFO: SQL Query Executed: select * from `users` where `id` = ? limit 1 [10] (1.44ms)  
+[2025-02-10 09:01:45] production.INFO: SQL Query Executed: select `roles`.*, `model_has_roles`.`model_id` as `pivot_model_id`, `model_has_roles`.`role_id` as `pivot_role_id`, `model_has_roles`.`model_type` as `pivot_model_type` from `roles` inner join `model_has_roles` on `roles`.`id` = `model_has_roles`.`role_id` where `model_has_roles`.`model_id` in (10) and `model_has_roles`.`model_type` = ? [App\Models\User] (0.45ms)  
+[2025-02-10 09:01:45] production.INFO: SQL Query Executed: select * from `conversations` where (`session_id` = ?) limit 1 [d88377e6-9e94-4e7c-927d-ec21f96779a1] (0.32ms)  
+[2025-02-10 09:01:45] production.INFO: SQL Query Executed: insert into `conversations` (`session_id`, `title`, `user_id`, `updated_at`, `created_at`) values (?, ?, ?, ?, ?) [d88377e6-9e94-4e7c-927d-ec21f96779a1, s, 10, 2025-02-10 09:01:45, 2025-02-10 09:01:45] (7.05ms)  
+[2025-02-10 09:01:45] production.INFO: SQL Query Executed: insert into `chats` (`conversation_id`, `message`, `send_by`, `updated_at`, `created_at`) values (?, ?, ?, ?, ?) [84, s, 1, 2025-02-10 09:01:45, 2025-02-10 09:01:45] (6.89ms)  
+[2025-02-10 09:01:45] production.INFO: SQL Query Executed: select * from `chats` where `conversation_id` = ? order by `created_at` desc limit 10 [84] (0.57ms)  
+[2025-02-10 09:01:45] production.INFO: SQL Query Executed: select * from `information` where `user_id` = ? limit 1 [10] (0.39ms)  
+[2025-02-10 09:01:45] production.INFO: SQL Query Executed: select * from `faqs` where `user_id` = ? [10] (0.38ms)  
+[2025-02-10 09:01:45] production.INFO: SQL Query Executed: select * from `users` where `users`.`id` = ? limit 1 [10] (0.32ms)  
+[2025-02-10 09:01:47] production.INFO: ChatGPT API Execution Time: 2.3834500312805 seconds  
+[2025-02-10 09:01:47] production.INFO: SQL Query Executed: insert into `chats` (`conversation_id`, `message`, `openai_message_id`, `send_by`, `updated_at`, `created_at`) values (?, ?, ?, ?, ?, ?) [84, I'm sorry, your message is unclear. Could you please provide more information or clarify your question?, chatcmpl-AzJxiejEiedv3hLQbwVde5rG7cihC, 0, 2025-02-10 09:01:47, 2025-02-10 09:01:47] (6.46ms)  
+[2025-02-10 09:01:54] production.INFO: SQL Query Executed: select * from `users` where `id` = ? limit 1 [10] (1.8ms)  
+[2025-02-10 09:01:54] production.INFO: SQL Query Executed: select `roles`.*, `model_has_roles`.`model_id` as `pivot_model_id`, `model_has_roles`.`role_id` as `pivot_role_id`, `model_has_roles`.`model_type` as `pivot_model_type` from `roles` inner join `model_has_roles` on `roles`.`id` = `model_has_roles`.`role_id` where `model_has_roles`.`model_id` in (10) and `model_has_roles`.`model_type` = ? [App\Models\User] (0.84ms)  
+[2025-02-10 09:01:54] production.INFO: SQL Query Executed: select * from `conversations` where (`session_id` = ?) limit 1 [ae11e18e-c98e-4f12-848d-8cc56a08d00c] (0.38ms)  
+[2025-02-10 09:01:54] production.INFO: SQL Query Executed: insert into `conversations` (`session_id`, `title`, `user_id`, `updated_at`, `created_at`) values (?, ?, ?, ?, ?) [ae11e18e-c98e-4f12-848d-8cc56a08d00c, hello, 10, 2025-02-10 09:01:54, 2025-02-10 09:01:54] (6.37ms)  
+[2025-02-10 09:01:54] production.INFO: SQL Query Executed: insert into `chats` (`conversation_id`, `message`, `send_by`, `updated_at`, `created_at`) values (?, ?, ?, ?, ?) [85, hello, 1, 2025-02-10 09:01:54, 2025-02-10 09:01:54] (6.46ms)  
+[2025-02-10 09:01:54] production.INFO: SQL Query Executed: select * from `chats` where `conversation_id` = ? order by `created_at` desc limit 10 [85] (0.54ms)  
+[2025-02-10 09:01:54] production.INFO: SQL Query Executed: select * from `information` where `user_id` = ? limit 1 [10] (0.43ms)  
+[2025-02-10 09:01:54] production.INFO: SQL Query Executed: select * from `faqs` where `user_id` = ? [10] (0.42ms)  
+[2025-02-10 09:01:54] production.INFO: SQL Query Executed: select * from `users` where `users`.`id` = ? limit 1 [10] (0.39ms)  
+[2025-02-10 09:01:56] production.INFO: ChatGPT API Execution Time: 1.8528320789337 seconds  
+[2025-02-10 09:01:56] production.INFO: SQL Query Executed: insert into `chats` (`conversation_id`, `message`, `openai_message_id`, `send_by`, `updated_at`, `created_at`) values (?, ?, ?, ?, ?, ?) [85, Hello! How can I assist you today?, chatcmpl-AzJxqmiwWPxS7sJPE5lahOxZNvCmM, 0, 2025-02-10 09:01:56, 2025-02-10 09:01:56] (6.83ms)  
+[2025-02-10 09:02:18] production.INFO: SQL Query Executed: select * from `users` where `id` = ? limit 1 [10] (1.9ms)  
+[2025-02-10 09:02:18] production.INFO: SQL Query Executed: select `roles`.*, `model_has_roles`.`model_id` as `pivot_model_id`, `model_has_roles`.`role_id` as `pivot_role_id`, `model_has_roles`.`model_type` as `pivot_model_type` from `roles` inner join `model_has_roles` on `roles`.`id` = `model_has_roles`.`role_id` where `model_has_roles`.`model_id` in (10) and `model_has_roles`.`model_type` = ? [App\Models\User] (0.62ms)  
+[2025-02-10 09:02:18] production.INFO: SQL Query Executed: select * from `conversations` where (`session_id` = ?) limit 1 [d712da30-5766-4cf1-bb97-0d39f69d8147] (0.42ms)  
+[2025-02-10 09:02:18] production.INFO: SQL Query Executed: insert into `conversations` (`session_id`, `title`, `user_id`, `updated_at`, `created_at`) values (?, ?, ?, ?, ?) [d712da30-5766-4cf1-bb97-0d39f69d8147, any event?, 10, 2025-02-10 09:02:18, 2025-02-10 09:02:18] (6.37ms)  
+[2025-02-10 09:02:18] production.INFO: SQL Query Executed: insert into `chats` (`conversation_id`, `message`, `send_by`, `updated_at`, `created_at`) values (?, ?, ?, ?, ?) [86, any event?, 1, 2025-02-10 09:02:18, 2025-02-10 09:02:18] (6.13ms)  
+[2025-02-10 09:02:18] production.INFO: SQL Query Executed: select * from `chats` where `conversation_id` = ? order by `created_at` desc limit 10 [86] (0.6ms)  
+[2025-02-10 09:02:18] production.INFO: SQL Query Executed: select * from `information` where `user_id` = ? limit 1 [10] (0.35ms)  
+[2025-02-10 09:02:18] production.INFO: SQL Query Executed: select * from `faqs` where `user_id` = ? [10] (0.44ms)  
+[2025-02-10 09:02:18] production.INFO: SQL Query Executed: select * from `users` where `users`.`id` = ? limit 1 [10] (0.42ms)  
+[2025-02-10 09:02:29] production.INFO: ChatGPT API Execution Time: 11.556581020355 seconds  
+[2025-02-10 09:02:29] production.INFO: SQL Query Executed: insert into `chats` (`conversation_id`, `message`, `openai_message_id`, `send_by`, `updated_at`, `created_at`) values (?, ?, ?, ?, ?, ?) [86, Yes, there are several upcoming events:
+
+1. Hair updo Appointment on 8th March 2024, from 09:00 to 09:30 
+2. Wedding hairstyle Appointment on 9th March 2024, from 13:00 to 14:00 
+3. Hair care Appointment on 7th March 2024, from 15:30 to 20:00 
+4. Women's hair coloring Appointment on 8th March 2024, from 16:30 to 18:30 
+5. Hair updo Appointment on 3rd April 2024, from 11:00 to 12:00 
+6. Keratin straightening Appointment on 29th March 2024, from 19:00 to 19:30 
+7. Men's haircut Appointment on 2nd April 2024, from 11:00 to 12:00 
+8. Concert on 18th January 2025, all-day event
+9. Function on 30th January 2025, all-day event
+10. Event titled "gygy" on 30th January 2025, from 20:00 to 21:00
+
+Please let me know if you need more details about any specific event., chatcmpl-AzJyEn8Kuvl0mjBfn93fieS9zby2P, 0, 2025-02-10 09:02:29, 2025-02-10 09:02:29] (6.64ms)  

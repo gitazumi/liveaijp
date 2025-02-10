@@ -86,7 +86,7 @@ class ChatController extends Controller
             if ($request->conversation_id) {
                 $sessionId = $request->conversation_id;
             } else {
-                $sessionId = $this->getSessionId();
+                $sessionId = $this->getSessionId($request);
             }
             $conversation = $this->getOrCreateConversation($sessionId, $request->message, $userId);
             $this->storeMessage([
