@@ -34,9 +34,9 @@ class ChatController extends Controller
         return $request->input('chat_session_id');
     }
 
-    public function getChatHistory()
+    public function getChatHistory(Request $request)
     {
-        $sessionId = $this->getSessionId();
+     	$sessionId = $this->getSessionId($request);
         $conversation = Conversation::where('session_id', $sessionId)->first();
 
         if (!$conversation) {
