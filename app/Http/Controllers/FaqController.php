@@ -9,7 +9,9 @@ use Illuminate\Support\Facades\Auth;
 class FaqController extends Controller
 {
     function index() {
-        $faqs = Faq::where('user_id', Auth::id())->paginate(30);
+        $faqs = Faq::where('user_id', Auth::id())
+                   ->orderBy('created_at', 'desc') // 追加: 作成日時の降順
+                   ->paginate(30);
         return view('admin.faq.index', compact('faqs'));
     }
 
