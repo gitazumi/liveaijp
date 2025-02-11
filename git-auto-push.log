@@ -3931,3 +3931,50 @@ hint: Updates were rejected because the tip of your current branch is behind
 hint: its remote counterpart. Integrate the remote changes (e.g.
 hint: 'git pull ...') before pushing again.
 hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+error: 'liveaijp/' does not have a commit checked out
+fatal: adding files failed
+On branch main
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   git-auto-push.log
+	deleted:    storage/framework/cache/data/09/32/0932fd4ab87658fa1c7c607d83c6e8ecbd975bca
+	deleted:    storage/framework/cache/data/1a/7e/1a7eb848ef990ba8cf074d58ddfdf48bf227977c
+	deleted:    storage/framework/cache/data/2f/b0/2fb0b80ba95584739eb53bc09a7f6b7af263fc5b
+	deleted:    storage/framework/cache/data/3d/99/3d99dd49d2f6b6c5d008a5d9ba2c488f37d7f0c6
+	deleted:    storage/framework/cache/data/48/53/48531863330432600cfbb9bea9b7c973c633da87
+	deleted:    storage/framework/cache/data/4e/d8/4ed8d5994fc155cdb0136c4659785f171a01f757
+	deleted:    storage/framework/cache/data/5b/7e/5b7ee6bb9da58a2b33e9e83ffdd0ccad5b446fde
+	deleted:    storage/framework/cache/data/63/ac/63ac2243003bee9d6140a20f26944c3934d9083d
+	deleted:    storage/framework/cache/data/6b/b0/6bb064727162169bc90830e1a433f75aeea7d379
+	deleted:    storage/framework/cache/data/94/ba/94ba23dfbd168786774433f714a2e2519659a255
+	deleted:    storage/framework/cache/data/a9/3d/a93dbd08642a3cc320afcae355abb3c5018e00a4
+	deleted:    storage/framework/cache/data/d4/72/d472f98a8f5ed7fc667f78463f7bbcbc052b020f
+	deleted:    storage/framework/cache/data/e3/4e/e34eba044ba8b9b152c8a079394b9763c53d010d
+	deleted:    storage/framework/cache/data/ef/06/ef065f032d620389908dac145d69fcba41fa84a9
+	deleted:    storage/framework/cache/data/fb/81/fb81dbb90cbae8eabc813ef57e30e5117dbb82e3
+	deleted:    storage/framework/cache/data/ff/fd/fffdbddbef20ded85fca85cb71980d46a2de6a30
+	deleted:    storage/framework/views/1499f4e0fd3e253473836cde1478bc09.php
+	deleted:    storage/framework/views/1cf5b6f4512e300b7f99b620932a6932.php
+	deleted:    storage/framework/views/37422ffb80460090c907197a73241c7b.php
+	deleted:    storage/framework/views/53ba829aac1211631a840d0d7e61e00c.php
+	deleted:    storage/framework/views/7c6155fcc60ca2681971f6e0118ddb56.php
+	deleted:    storage/framework/views/c9270fede9dce183a8efc09ed18b3d39.php
+	deleted:    storage/framework/views/dab48f6ec59c29b7df9a8bce11f4f580.php
+	deleted:    storage/framework/views/dbb84313ac11f5807c35103f5e3b5b9a.php
+	deleted:    storage/framework/views/e3aa6c2fd900150247d6e06b29b5b3a5.php
+	modified:   storage/logs/laravel.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	liveaijp/
+
+no changes added to commit (use "git add" and/or "git commit -a")
+To github.com:gitazumi/liveaijp.git
+ ! [rejected]          main -> main (fetch first)
+error: failed to push some refs to 'github.com:gitazumi/liveaijp.git'
+hint: Updates were rejected because the remote contains work that you do
+hint: not have locally. This is usually caused by another repository pushing
+hint: to the same ref. You may want to first integrate the remote changes
+hint: (e.g., 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
