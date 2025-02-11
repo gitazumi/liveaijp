@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class FaqController extends Controller
 {
     function index() {
-        $faqs = Faq::where('user_id', Auth::id())->paginate(10);
+        $faqs = Faq::where('user_id', Auth::id())->paginate(30);
         return view('admin.faq.index', compact('faqs'));
     }
 
