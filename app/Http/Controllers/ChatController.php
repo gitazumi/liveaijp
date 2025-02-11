@@ -89,11 +89,14 @@ class ChatController extends Controller
                 $sessionId = $this->getSessionId($request);
             }
             $conversation = $this->getOrCreateConversation($sessionId, $request->message, $userId);
-            $this->storeMessage([
-                'conversation_id' => $conversation->id,
-                'message' => $request->message,
-                'send_by' => 1
-            ]);
+            // is_test フラグがある場合は履歴を保存しない
+            if (!$request->has('is_test') || !$request->is_test) {
+                $this->storeMessage([
+                    'conversation_id' => $conversation->id,
+                    'message' => $request->message,
+                    'send_by' => 1
+                ]);
+            }
 
             $contextMessages = $this->getConversationContext($conversation->id);
             $start = microtime(true);
@@ -106,12 +109,16 @@ class ChatController extends Controller
                 throw new \Exception($aiResponse['error']);
             }
 
-            $this->storeMessage([
-                'conversation_id' => $conversation->id,
-                'message' => $aiResponse['message'],
-                'openai_message_id' => $aiResponse['message_id'],
-                'send_by' => 0
-            ]);
+            // is_test フラグがある場合は履歴を保存しない
+            if (!$request->has('is_test') || !$request->is_test) {
+                $this->storeMessage([
+                    'conversation_id' => $conversation->id,
+                    'message' => $aiResponse['message'],
+                    'openai_message_id' => $aiResponse['message_id'],
+                    'send_by' => 0
+                ]);
+            }
+
             $processedResponse = $this->renderHyperlinks($aiResponse['message']);
 
             return response()->json([
