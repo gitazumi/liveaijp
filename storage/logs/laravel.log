@@ -315,3 +315,13 @@ Please let me know if you need more details about any specific event., chatcmpl-
 [2025-02-11 07:28:29] production.INFO: SQL Query Executed: select * from `chats` where `chats`.`conversation_id` = ? and `chats`.`conversation_id` is not null [12] (0.51ms)  
 [2025-02-11 07:28:29] production.INFO: SQL Query Executed: select * from `chats` where `chats`.`conversation_id` = ? and `chats`.`conversation_id` is not null [11] (0.4ms)  
 [2025-02-11 07:28:29] production.INFO: SQL Query Executed: select * from `chats` where `chats`.`conversation_id` = ? and `chats`.`conversation_id` is not null [9] (0.45ms)  
+[2025-02-11 20:55:28] production.INFO: SQL Query Executed: select * from `users` where `chatbot_token` = ? limit 1 [ae282e0f-4278-444b-b031-8426234a7c84] (2.17ms)  
+[2025-02-11 20:55:28] production.INFO: SQL Query Executed: select * from `conversations` where (`session_id` = ?) limit 1 [conv_yh1hgcotg] (1.17ms)  
+[2025-02-11 20:55:28] production.INFO: SQL Query Executed: insert into `conversations` (`session_id`, `title`, `user_id`, `updated_at`, `created_at`) values (?, ?, ?, ?, ?) [conv_yh1hgcotg, 店内にロッカーありますか？, 6, 2025-02-11 20:55:28, 2025-02-11 20:55:28] (7.04ms)  
+[2025-02-11 20:55:28] production.INFO: SQL Query Executed: insert into `chats` (`conversation_id`, `message`, `send_by`, `updated_at`, `created_at`) values (?, ?, ?, ?, ?) [92, 店内にロッカーありますか？, 1, 2025-02-11 20:55:28, 2025-02-11 20:55:28] (7.07ms)  
+[2025-02-11 20:55:28] production.INFO: SQL Query Executed: select * from `chats` where `conversation_id` = ? order by `created_at` desc limit 10 [92] (0.52ms)  
+[2025-02-11 20:55:28] production.INFO: SQL Query Executed: select * from `information` where `user_id` = ? limit 1 [6] (0.42ms)  
+[2025-02-11 20:55:28] production.INFO: SQL Query Executed: select * from `faqs` where `user_id` = ? [6] (0.65ms)  
+[2025-02-11 20:55:28] production.INFO: SQL Query Executed: select * from `users` where `users`.`id` = ? limit 1 [6] (0.35ms)  
+[2025-02-11 20:55:35] production.INFO: ChatGPT API Execution Time: 7.3598210811615 seconds  
+[2025-02-11 20:55:35] production.INFO: SQL Query Executed: insert into `chats` (`conversation_id`, `message`, `openai_message_id`, `send_by`, `updated_at`, `created_at`) values (?, ?, ?, ?, ?, ?) [92, 手荷物や上着類の大きさであれば、受付にて45ℓ袋を1枚500円で販売しております。ただし、数に限りがありますので、確実に預けたい場合は駅や近隣のコインロッカーをご利用ください。袋に入らないキャリーケースや大きな荷物はそのままお預かりする場合がございます。, chatcmpl-AzrZxgkCl373BcrguYFC9uJDNO0oM, 0, 2025-02-11 20:55:35, 2025-02-11 20:55:35] (6.33ms)  
