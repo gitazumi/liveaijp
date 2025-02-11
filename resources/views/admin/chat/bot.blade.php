@@ -185,7 +185,7 @@
                         'X-CSRF-TOKEN': "{{ csrf_token() }}"
                     },
                     data: {
-                        message
+                        message,
                         is_test: true  // テストを履歴に残さない
                     },
                     success: function(response) {
