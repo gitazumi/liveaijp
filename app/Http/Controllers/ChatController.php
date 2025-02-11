@@ -261,9 +261,17 @@ class ChatController extends Controller
 
     function history()
     {
-        $conversations = Conversation::where('user_id', Auth::id())->latest()->paginate(30);
+        // メッセージが1件以上ある会話のみ取得する
+        $conversations = Conversation::where('user_id', Auth::id())
+            ->whereHas('messages', function ($query) {
+                $query->where('conversation_id', '!=', null); // メッセージがある会話のみを対象
+            })
+            ->latest()
+            ->paginate(30);
+
         return view('admin.chat.history', compact('conversations'));
     }
+
 
     function chat($sessionId)
     {
