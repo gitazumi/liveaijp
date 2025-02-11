@@ -3889,3 +3889,24 @@ After doing this, you may fix the identity used for this commit with:
  create mode 100755 storage/framework/cache/data/fb/81/fb81dbb90cbae8eabc813ef57e30e5117dbb82e3
 To github.com:gitazumi/liveaijp.git
    1f273fe0..14d8479f  main -> main
+[main 76205d08] Auto commit: 2025-02-11 21:30:01
+ Committer: Ubuntu <ubuntu@ip-172-26-13-33.us-west-2.compute.internal>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly:
+
+    git config --global user.name "Your Name"
+    git config --global user.email you@example.com
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 3 files changed, 46 insertions(+), 1 deletion(-)
+To github.com:gitazumi/liveaijp.git
+ ! [rejected]          main -> main (non-fast-forward)
+error: failed to push some refs to 'github.com:gitazumi/liveaijp.git'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. Integrate the remote changes (e.g.
+hint: 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
