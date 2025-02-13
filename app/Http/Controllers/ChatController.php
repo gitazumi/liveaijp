@@ -17,7 +17,7 @@ use Google\Service\Calendar;
 class ChatController extends Controller
 {
     private $openai_api_key;
-    private $model = 'gpt-4';
+    private $model = 'gpt-3.5-turbo';
     private $max_tokens = 1000;
     private $temperature = 0.7;
 
