@@ -23,7 +23,7 @@ use App\Http\Controllers\GoogleCloudController;
 */
 
 Route::get('/', function () {
-    return redirect('login');
+    return redirect('index');
 });
 
 Route::middleware('auth')->group(function () {
