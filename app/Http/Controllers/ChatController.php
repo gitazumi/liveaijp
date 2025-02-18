@@ -137,9 +137,9 @@ class ChatController extends Controller
 
     private function renderHyperlinks($text)
     {
-        $urlRegex = '/(https?:\/\/[^\s]+)/';
+        $urlRegex = '/(https?:\/\/[^\s\)\.]+)/'; // 閉じ括弧や句読点を除外
         return preg_replace_callback($urlRegex, function ($matches) {
-            $url = $matches[0];
+            $url = rtrim($matches[0], '.,)'); // 余分な文字を削除
             return '<a href="' . $url . '" target="_blank" rel="noopener noreferrer">' . $url . '</a>';
         }, $text);
     }
