@@ -206,7 +206,7 @@ class ChatController extends Controller
                 [
                     [
                         'role' => 'system',
-                        'content' => "You are a chatbot trained to answer based on the following FAQs and Calendar Events:\n\nFAQs:\n$faqContent\n\nCalendar Events:\n$events\n\n. Answer questions as if you are their assistant. your company information: $storeInformation"
+                        'content' => "You are a chatbot trained to answer based on the following FAQs:\n\n$faqContent\n\nYour company information: $storeInformation. Answer questions as if you are their assistant."
                     ]
                 ],
                 $messages
