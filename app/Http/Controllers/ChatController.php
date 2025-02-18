@@ -137,12 +137,21 @@ class ChatController extends Controller
 
     private function renderHyperlinks($text)
     {
-        $urlRegex = '/(https?:\/\/[^\s\)]+)/u'; // `)` を含めないよう修正
+        // URLを抽出する正規表現
+        $urlRegex = '/\bhttps?:\/\/[a-zA-Z0-9\-._~:\/?#[\]@!$&\'()*+,;=%]+/u';
+
         return preg_replace_callback($urlRegex, function ($matches) {
-            $url = rtrim($matches[0], '),。'); // `)` `,` `。` だけを削除
-            return '<a href="' . $url . '" target="_blank" rel="noopener noreferrer">' . $url . '</a>';
+            $url = $matches[0];
+
+            // URLの末尾に `)` や `。` や `,` がある場合、それらを削除
+            while (preg_match('/[),。,\s]$/u', $url)) {
+                $url = substr($url, 0, -1);
+            }
+
+            return '<a href="' . htmlspecialchars($url, ENT_QUOTES, 'UTF-8') . '" target="_blank" rel="noopener noreferrer">' . htmlspecialchars($url, ENT_QUOTES, 'UTF-8') . '</a>';
         }, $text);
     }
+
 
     private function getOrCreateConversation($sessionId, $title, $userId)
     {
