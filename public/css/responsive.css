@@ -1,0 +1,1037 @@
+@media only screen and (max-width:1650px) {
+    .txt-45 {
+        font-size: 40px;
+    }
+}
+@media only screen and (max-width:1400px){
+    .hero{
+        padding: 187px 0 307px 0;
+    }
+}
+@media only screen and (max-width:1500px) {
+    header figure {
+        width: 7%;
+        align-items: center;
+        margin: 0;
+        max-width: 100px;
+        min-width: 60px;
+    }
+    .h-access {
+        gap: 50px;
+    }
+    .h-access li a {
+        margin: 0px 10px;
+        font-size: 15px;
+    }
+    .h-btn {
+        gap: 28px;
+    }
+    .btn-1 {
+        width: 300px;
+        height: 60px;
+    }
+    .hero {
+        padding-top: 150px;
+        clip-path: ellipse(98% 86% at 50% 14%)
+    }
+}
+
+@media only screen and (max-width:1300px) {
+    header {
+        padding: 0px 40px;
+        height: 80px;
+    }
+    .hero-ai-description{
+        font-size: 38px;
+    }
+    .h-access li a {
+        margin: 0px 10px;
+        font-size: 13px;
+    }
+    .h-btn {
+        width: 280px;
+    }
+    .h-btn button {
+        width: 130px;
+        height: 40px;
+    }
+    .hero {
+        clip-path: ellipse(78% 87% at 50% 13%);
+    }
+}
+
+@media only screen and (max-width:1200px) {
+    .txt-24 {
+        font-size: 20px;
+    }
+    .txt-25 {
+        font-size: 20px;
+    }
+    .txt-32 {
+        font-size: 24px;
+    }
+    .txt-36 {
+        font-size: 30px;
+    }
+    .txt-42 {
+        font-size: 30px;
+    }
+    .gap-50 {
+        gap: 20px
+    }
+    .mt-50 {
+        margin-top: 30px;
+    }
+    .txt-16 {
+        font-size: 14px;
+    }
+    .mt-n-20 {
+        margin-top: -15%;
+    }
+    .h-access {
+        width: 90%;
+        gap: 30px;
+    }
+
+    .hero .hero-content .txt-24 {
+        font-size: 20px;
+    }
+    .hero .hero-content .txt-45 {
+        font-size: 35px;
+    }
+    .hero-ai-description{
+        font-size: 35px;
+    }
+    .tooltip {
+        font-size: 14px;
+    }
+    .tooltip_ {
+        font-size: 14px;
+    }
+    .breadcrumbs {
+        margin-top: 40px;
+    }
+    .heading {
+        font-size: 75px;
+    }
+    .step-description p {
+        font-size: 16px;
+    }
+    .benefits-container {
+        padding: 15px 0px;
+        width: 364px;
+    }
+    .benifits-description {
+        margin-right: 0;
+        width: 350px;
+    }
+    .benifits-check-ico{
+        width: 7%;
+    }
+    .benifits-description .txt-26 {
+        font-size: 25px
+    }
+    .collapsible {
+        padding: 12px 18px;
+    }
+}
+
+@media only screen and (max-width:1100px) {
+    .txt-16 {
+        font-size: 14px;
+    }
+    .txt-32 {
+        font-size: 20px;
+    }
+    .txt-36 {
+        font-size: 24px;
+    }
+    .green-circle-s {
+        border: 25px solid #d7f3ff;
+    }
+    .mt-n-20 {
+        margin-top: 5%;
+    }
+    .sky-circle-s {
+        border: 40px solid #d7f3ff;
+    }
+    .hero {
+        padding: 93px 0 259px 0;
+        clip-path: ellipse(89% 79% at 50% 13%);
+    }
+    .hero-content{
+        flex-direction: column;
+    }
+    .hero .hero-content .image-container{
+        width: 60%;
+    }
+    .content {
+        width: 100%;
+        align-items: center;
+    }
+    .content :nth-child(2) {
+        text-align: center;
+    }
+    .content :nth-child(3) {
+        text-align: center;
+    }
+    .hero .hero-content .txt-45 {
+        font-size: 30px;
+    }
+    .highlight {
+        margin: auto;
+    }
+    .image-container {
+        width: 100%;
+        margin: auto;
+        padding: 1%;
+        padding-top: 0;
+    }
+    .chatting {
+        gap: 1%;
+    }
+    .tooltip_ {
+        font-size: 14px;
+        margin-right: 0px;
+        margin: 0px;
+        padding: 10px 40px;
+        width: 90%;
+    }
+    .tooltip {
+        margin-right: 0px;
+        font-size: 14px;
+        margin: 0px;
+        width: 90%;
+        padding: 10px 40px;
+    }
+    .chatting-img {
+        width: 60px
+    }
+    .chatting-img_ {
+        width: 18%;
+        width: 55px;
+        margin: 0;
+        display: flex;
+        align-items: center;
+    }
+    .chatting-img img {
+        margin: 0;
+    }
+    .hero-faq{
+        font-size: 22px;
+    }
+    .hero-content .content .txt-45{
+        font-size: 30px;
+    }
+    .scroll {
+        bottom: 100px;
+    }
+    .line-30{
+        line-height: 20px;
+    }
+    .heading {
+        font-size: 70px;
+    }
+    .step-description p {
+        font-size: 14px;
+    }
+    .direct .txt-20 {
+        font-size: 18px;
+    }
+    .direct .ft-btn {
+        margin-top: 40px;
+    }
+    .bubble-bot {
+        width: 30%;
+        transform: translateX(230%) translateY(-70%);
+    }
+    .benifits_img {
+        margin: 0;
+        width: 40%;
+    }
+    .service_title {
+        width: 100%;
+    }
+    .service-f{
+        flex-direction: column;
+    }
+    .service_img{
+        width: 50%;
+    }
+    .service_img_s {
+        display: block;
+        margin: 20px 0px;
+        z-index: -1;
+    }
+    .service .service_img2{
+        width: 40%;
+    }
+    .service .service_title{
+        width: 60%;
+    }
+    .service .service_title .service_detail{
+        width: 100%;
+    }
+    .service_title ul{
+        margin-left: 0;
+    }
+}
+
+@media only screen and (max-width:950px) {
+    header {
+        height: 70px;
+        padding: 0px 50px 0px 50px;
+    }
+    .container {
+        width: 100%;
+        margin: 0;
+        padding:20px 80px 0px 80px;
+    }
+    header figure {
+        width: 8%;
+    }
+    .sky-circle-s {
+        border: 30px solid #d7f3ff;
+    }
+    .sky-circle-m {
+        border: 35px solid #d7f3ff;
+    }
+    .h-menu {
+        display: none;
+    }
+    .h-btn .hamburger {
+        display: flex;
+    }
+    .h-btn .login,
+    .register {
+        display: none;
+    }
+    .btn-1 {
+        width: 262px;
+        height: 48px;
+        font-size: 18px;
+    }
+    .btn-1 div img{
+        width: 15px;
+    }
+
+    .scroll::after {
+        transform: translateX(15px);
+    }
+    .heading {
+        font-size: 55px;
+    }
+    .step-indicator {
+        padding: 0;
+        padding: auto;
+    }
+    .mt-n-20 {
+        margin-top: 10%;
+    }
+    .service_detail li {
+        margin-top: 10px;
+    }
+    .benifits-description .txt-25 {
+        font-size: 18px;
+    }
+    .benifits-description .txt-16 {
+        margin-top: 12px;
+    }
+    .step-description p {
+        font-size: 12px;
+    }
+    .txt-32 {
+        font-size: 18px;
+    }
+    .txt-36 {
+        font-size: 20px;
+    }
+    .benefits-container {
+        padding: 15px 0px;
+        width: 350px;   
+    }
+    .benifits-check-ico {
+        margin-right: 0px;
+    }
+    .benifits-description {
+        margin-left: 30px;
+        gap: 0px;
+        width: 300px;
+    }
+    .benifits-description .txt-26{
+        font-size: 20px;
+    }
+    .bubble-bot {
+        width: 36%;
+        transform: translateX(200%) translateY(-70%);
+    }
+    .ft-btn {
+        width: 340px;
+        padding: 0px 10px;
+        height: 55px;
+        font-size: 22px;
+    }
+    .ft-btn div img{
+        width: 18px;
+    }
+    .faq-status {
+        width: 20px;
+    }
+    .collapsible p {
+        font-size: 16px;
+    }
+    .answer p {
+        font-size: 16px;
+    }
+    .footer-logo {
+        width: 100px;
+    }
+    .desription_container{
+        padding:0 80px;
+    }
+}
+
+@media only screen and (max-width:800px) {
+    header figure {
+        width: 11%;
+    }
+    .hero {
+        clip-path: ellipse(101% 80% at 50% 13%);
+        padding: 93px 0 259px 0;
+    }
+    .hero-content{
+        padding: 0px 20px;
+    }
+    .hero .hero-content .txt-45 {
+        font-size: 25px;
+    }
+    .circle-gray-l {
+        border: 35px solid #EEEEEE;
+    }
+    .sky-circle-m {
+        border: 30px solid #d7f3ff;
+    }
+    .green-circle-s {
+        border: 20px solid #d7f3ff;
+    }
+    .plan-circle-m-l {
+        border: 40px solid #d7f3ff;
+    }
+    .service .service_title{
+        width: 100%;
+    }
+    .chatbot_1{
+        transform: translateY(0%);
+        width: 120%;
+    }
+    .service_summary{
+        width: 100%;
+    }
+    .benifits_img {
+        margin: 0;
+        width: 40%;
+    }
+    .container {
+        width: 100%;
+        margin: 0;
+        padding: 30px 60px 0 60px;
+    }
+    .txt-24 {
+        font-size: 18px;
+    }
+    .ft-btn {
+        width: 300px;
+        padding: 0px 10px;
+        height: 50px;
+        font-size: 18px;
+    }
+    .ft-btn div img{
+        width: 16px;
+    }
+    .bubble-bot {
+        width: 30%;
+        transform: translateX(220%) translateY(-70%);
+    }
+    .collapsible {
+        padding: 10px 10px;
+    }
+    .benifits_s{
+        padding: 0xp 50px;
+    }
+    .benifits_img {
+        display: none;
+    }
+    .benefits-container {
+        width: 70%;
+        justify-content: space-around;
+        gap: 0;
+    }
+    .benifits-check-ico {
+        width: 25px;
+    }
+    .benifits_s {
+        width: 100%;
+    }
+    .scroll-up{
+        width: 35px;
+        height: 35px;
+    }
+    .scroll-up img{
+        width: 30px;
+        height: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .container{
+        padding: 30px 40px 0px 40px;
+    }
+    .hero {
+        padding: 28px 0 186px 0;
+        clip-path: ellipse(101% 80% at 50% 13%);
+    }
+    .hero .hero-content .image-container{
+        width: 80%;
+    }
+    .hero-ai-description{
+        font-size: 30px;
+    }
+    .hero-faq{
+        font-size: 18px;
+    }
+    .hero .hero-content .txt-24 {
+        font-size: 14px;
+    }
+    .content {
+        width: 100%;
+    }
+    .ft-btn{
+        margin-top: 30px;
+        width: 280px;
+        height: 50px;
+    }
+    .service_deatil .line-30{
+        line-height: 16;
+    }
+    #plan .ft-btn {
+        margin-top: -150px;
+    }
+    .image-container {
+        margin: auto;
+    }
+    .image-container {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+    .breadcrumbs {
+        margin-top: 30px;
+    }
+    .step-box {
+        gap: 0;
+        font-size: 11px;
+    }
+    .image-container img {
+        margin-top: 0px;
+    }
+    nav :nth-child(1) {
+        flex-direction: column;
+    }
+    .speech-bubble {
+        padding: 15px 36px 14px 20px;
+    }
+    .speech-bubble p {
+        margin-top: 5px;
+    }
+    .footer-nav{
+        flex-direction: column;
+        gap: 20px;
+    }
+   .footer-nav-left{
+    width: 100%;
+    flex-direction: column;
+    justify-content: start;
+   }
+   .footer-logo{
+    width: 70px;
+   }
+   .footer-left{
+    width: 100%;
+    gap: 5px;
+   }
+   .footer-nav-right{
+    width: 100%;
+    margin: 0;
+    flex-direction: column;
+   }
+   .footer-right{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+   }
+   .scroll-up{
+    right: 7vw;
+   }
+   .desription_container{
+    padding:0 50px;
+    }
+
+}
+
+@media (max-width: 710px) {
+     .hero-faq{
+        font-size: 16px;
+     }
+     .hero-ai-description{
+        font-size: 23px;
+     }
+    .btn-1 {
+        width: 250px;
+        height: 45px;
+    }
+    .btn-1 span img {
+        width: 5%;
+    }
+    .sky-circle-s {
+        border: 25px solid #d7f3ff;
+    }
+    .sky-circle-m-l {
+        border: 35px solid #d7f3ff;
+    }
+    .plan-circle-m-l {
+        border: 35px solid #d7f3ff;
+    }
+    .tooltip_ {
+        width: 85%;
+        font-size: 16px;
+    }
+    .service_img_s{
+        display: block;
+    }
+    .tooltip {
+        width: 85%;
+        font-size: 16px;
+    }
+    .chatting-img_ {
+        position: relative;
+    }
+    .chatting-img_ img {
+        position: absolute;
+        bottom: 10px;
+        margin: 0px;
+    }
+    .content {
+        max-width: 100%;
+    }
+    .w-55 {
+        width: 100%;
+    }
+    .container {
+        width: 100%;
+        margin: 0;
+        padding: 30px 20px 0 20px;
+    }
+    .txt-24 {
+        font-size: 16px;
+    }
+    .txt-16 {
+        font-size: 12px;
+    }
+    .heading {
+        font-size: 50px;
+    }
+    .footer-nav{
+        gap: 10px;
+    }
+}
+
+@media only screen and (max-width:600px) {
+
+    header figure {
+        max-width: 60px;
+        width: 13%;
+    }
+    header {
+        padding: 0 20px;
+    }
+    .hero {
+        clip-path: ellipse(101% 80% at 50% 13%);
+    }
+    .hero .hero-content .txt-45 {
+        font-size: 20px;
+    }
+    .hero-ai-description{
+        font-size: 25px;
+    }
+    .hero-faq{
+        font-size: 15px;
+    }
+    .btn-1 {
+        width: 240px;
+        height: 40px;
+        font-size: 16px;
+    }
+    .btn-1 div img{
+        width: 13px;
+    }
+    .hero .hero-content .txt-24 {
+        font-size: 11px;
+    }
+    .h-btn {
+        width: 70%;
+    }
+    .circle-gray-l {
+        border: 30px solid #EEEEEE;
+    }
+    .sky-circle-s {
+        border: 20px solid #d7f3ff;
+    }
+    .sky-circle-m {
+        border: 20px solid #d7f3ff;
+    }
+    .green-circle-s {
+        border: 15px solid #d7f3ff;
+    }
+    .plan-circle-m-l {
+        border: 35px solid #d7f3ff;
+    }
+    .tooltip {
+        padding: 10px 10px;
+        font-size: 14px;
+    }
+    .tooltip_ {
+        padding: 10px 10px;
+        font-size: 14px;
+    }
+    .service_description{
+        flex-direction: column;
+    }
+    .service{
+        flex-direction: column-reverse;
+    }
+    .service .service_img2{
+        width: 100%;
+        display: flex;
+        justify-content: end;
+        margin: 0;
+    }
+    .service_img2 img{
+        margin: 0;
+        width: 60%;
+    }
+    .menu-collapse li {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        justify-content: space-between;
+    }
+    #plan .ft-btn {
+        margin-top: -130px;
+    }
+    .sp_breadcrumbs{
+        display: block;
+    }
+    .breadcrumbs{
+        display: none;
+    }
+    .steps-container{
+        display: none;
+    }
+    .container {
+        width: 100%;
+        margin: 0;
+        padding: 30px 40px 0 40px;
+    }
+    .heading {
+        font-size: 40px
+    }
+    .step-indicator {
+        padding: 0;
+    }
+    .steps-container .txt-20 {
+        font-size: 14px;
+    }
+    .step-box {
+        gap: 0;
+        font-size: 10px;
+        height: 150%;
+    }
+    .speech-bubble {
+            padding: 10px 36px 10px 20px;
+    }
+    .bubble-fbn {
+        margin-top: -150px;
+    }
+    .speech-bubble p {
+        font-size: 12px;
+        margin-top: 0px;
+    }
+    .footer-content img {
+        width: 50px;
+    }
+    .bubble-bot {
+        transform: translateX(220%) translateY(-70%);
+    }
+    .speech-bubble {
+        margin-left: 0;
+    }
+    .ft-btn{
+        margin-top: 30px;
+        width: 230px;
+        height: 40px;
+    }
+    .collapsible p {
+        font-size: 14px;
+    }
+    .answer p {
+        font-size: 14px;
+    }
+    .footer-nav{
+        width: 100%;
+    }
+    .footer-left{
+        justify-content: center;
+        gap: 10px;
+    }
+    .footer-right{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    .footer-right li{
+        width: fit-content;
+    }
+    .footer-nav a {
+        font-size: 11px;
+    }
+}
+
+@media only screen and (max-width:500px) {
+    .container{
+        padding: 20px 30px 0px 30px;
+    }
+    .hero {
+        padding: 30px 0 150px 0;
+        clip-path: ellipse(130% 83% at 50% 10%);
+    }
+    .br{
+        display: block;
+    }
+    .hero .hero-content{
+        padding: 0 ;
+    }
+    .hero .hero-content .image-container{
+        width: 90%;
+    }
+    .chatting-img{width: 15%;}
+    .hero-content .tooltip {
+        font-size: 14px;
+    }
+    .hero-content .tooltip_ {
+        font-size: 14px;
+    }
+    .title-description{
+        display: block;
+    }
+    .btn-1 {
+        width: 170px;
+        height: 35px;
+        font-size: 14px;
+    }
+    .btn-1 span img {
+        width: 7%;
+    }
+    .ft-btn {
+        width: 200px;
+        padding: 0px 5px;
+        height: 40px;
+        font-size: 16px;
+    }
+    .ft-btn div img{
+        width: 15px;
+    }
+    #benifits .ft-btn {
+        margin-top: 30px;
+    }
+    #service .ft-btn {
+        margin-top: 30px;
+    }
+    #faq .ft-btn {
+        margin-top: 50px;
+    }
+    .circle-gray-l {
+        border: 25px solid #EEEEEE;
+    }
+    .sky-circle-m {
+        border: 15px solid #d7f3ff;
+    }
+    .sky-circle-m-l {
+        border: 28px solid #d7f3ff;
+    }
+    .green-circle-s {
+        border: 12px solid #d7f3ff;
+    }
+    .plan-circle-m-l {
+        border: 30px solid #d7f3ff;
+    }
+    .benefits-container {
+        padding: 10px 0px;
+        width: 270px;
+    }
+    .service_detail .txt-16{
+        line-height: 1.4;
+    }
+    .benefits-container {
+        width: 100%;
+        justify-content: space-around;
+        gap: 5%;
+    }
+    .benifits-description .txt-30 {
+        font-size: 18px
+    }
+    .benifits-description {
+        width: 250px;
+        margin-left: 0px;
+    }
+    .tooltip_ {
+        width: 80%;
+        font-size: 16px;
+    }
+    .tooltip {
+        width: 80%;
+        font-size: 14px;
+    }
+
+    .footer-content img {
+        width: 40px;
+    }
+    .speech-bubble {
+        width: 100%;
+        transform: translateX(-10%);
+    }
+    .bubble-bot {
+        width: 35%;
+        transform: translateX(220%) translateY(-75%);
+    }
+    .footer-nav{
+        margin-top: 10px;
+    }
+    .footer-nav-left{
+        margin-top: 0;
+    }
+    .footer-logo {
+        width: 60px;
+    }
+    .footer-right li{
+        margin-bottom: 0;
+    }
+    .desription_container{
+        padding:0 30px;
+    }
+}
+
+@media only screen and (max-width:450px) {
+    .sky-circle-s {
+        border: 15px solid #d7f3ff;
+    }
+    .tooltip{
+        font-size: 11px;
+    }
+    .tooltip_{
+        font-size: 11px;
+    }
+    .bubble-bot p {
+        font-size: 10px;
+    }
+    .collapsible p {
+        font-size: 12px;
+    }
+    .answer p {
+        font-size: 12px;
+    }
+}
+
+@media only screen and (max-width:400px) {
+    .br {
+        display: block;
+    }
+    .hero-faq-br{
+        display: block;
+    }
+    .scroll-up{
+        right: 20px;
+    }
+    .txt-42 {
+        font-size: 23px;
+    }
+    .tooltip_ {
+        width: 76%;
+        font-size: 12px;
+    }
+    .tooltip {
+        width: 76%;
+        font-size: 12px;
+    }
+    .chatting-img {
+        width: 20%;
+        margin: 0;
+        align-items: center;
+        display: flex;
+            align-items: center;
+    }
+    .benifits-description .txt-26{
+        font-size:  18px;
+    }
+    .benifits-check-ico{
+        width: 20px;
+    }
+    .footer-content img {
+        width: 40px;
+    }
+    .bubble-bot {
+        transform: translateX(220%) translateY(-90%);
+    }
+   
+}
+
+@media only screen and (max-width:370px) {
+    .container{
+        padding: 0 20px;
+    }
+    .circle-gray-l {
+        border: 20px solid #EEEEEE;
+    }
+    .speech-bubble {
+        width: 100%;
+        padding: 5px 20px 5px 5px;
+        transform: translateX(-20%);
+    }
+    .bubble-bot {
+        width: 35%;
+        transform: translateX(210%) translateY(-85%);
+    }
+    .benefits-container {
+        padding: 15px 0px;
+        width: 230px;
+    }
+    .benifits-description {
+        width: 100%
+    }
+}
+@media only screen and (max-width:350px) {
+    .bubble-bot {
+        transform: translateX(210%) translateY(-80%); 
+    }
+    #plan .ft-btn {
+        margin-top: -80px;
+    }
+    .sp_step_title{
+        font-size: 11px;
+    }
+    .sp_step_description p{
+        font-size: 11px;
+    }
+}

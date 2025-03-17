@@ -14,7 +14,10 @@ class FaqController extends Controller
                    ->paginate(30);
         return view('admin.faq.index', compact('faqs'));
     }
-
+    function faqView() {
+        $faqs = Faq::all(); // Fetch FAQs from database
+        return view('index', compact('faqs'));
+    }
     function store(Request $request) {
         $validatedData = $request->validate([
             'question' => 'required',

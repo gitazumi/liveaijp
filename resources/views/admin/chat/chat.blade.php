@@ -1,5 +1,5 @@
 @section('title', 'Chat')
-<x-app-layout>
+<x-sidebar>
     <div class="flex justify-center h-screen overflow-y-hidden">
         <div class="h-[90%]  w-full rounded-xl p-[30px] sm:p-[50px] bg-[#E9F2FF]">
             <div class="flex items-center">
@@ -102,4 +102,4 @@
         }
         document.addEventListener('DOMContentLoaded', scrollToBottom);
     </script>
-</x-app-layout>
+</x-sidebar>

@@ -1,5 +1,5 @@
 @section('title', 'Bot Test')
-<x-app-layout>
+<x-sidebar>
     <style>
         /* Keep only necessary animations that can't be done with Tailwind */
         .typing-indicator span {
@@ -28,9 +28,9 @@
         }
     </style>
 
-    <div class="!h-[95vh] bg-blue-50  rounded-2xl">
+    <div class="!h-[80vh] bg-blue-50  rounded-2xl">
         <div class="max-w-7xl mx-auto">
-            <div class="bg-[#E9F2FF] rounded-xl h-[95vh] flex flex-col px-2 sm:px-6 lg:px-8 pt-3 sm:pt-6 pb-10 sm:pb-3">
+            <div class="bg-[#E9F2FF] rounded-xl h-[80vh] flex flex-col px-2 sm:px-6 lg:px-8 pt-3 sm:pt-6 pb-10 sm:pb-3">
                 <!-- Header -->
                 <div class="p-4">
                     <div class="flex items-center space-x-4">
@@ -186,7 +186,7 @@
                     },
                     data: {
                         message,
-                        is_test: true  // テストを履歴に残さない
+                        // is_test: true  // テストを履歴に残さない
                     },
                     success: function(response) {
                         typingDiv.remove();
@@ -207,4 +207,4 @@
             document.addEventListener('DOMContentLoaded', scrollToBottom);
         </script>
     @endpush
-</x-app-layout>
+</x-sidebar>

@@ -1,0 +1,121 @@
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+body{
+    width: 100%;
+    font-family: 'Noto Sans JP', sans-serif;
+    margin: auto;
+}
+img{
+    width: 100%;
+    height: auto;
+}
+header{
+    width: 100%;
+    height: 100px;
+    padding: 0px 50px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid transparent; 
+    border-image: radial-gradient(circle, #fff 5%, #096FCA 80%, #024681 100%);
+    border-image-slice: 1;
+    background-color: #096FCA;
+}
+.logo{
+    display: flex;
+    position: absolute;
+    align-items: center;
+    width: 60px;
+}
+.logout{
+    display: flex;
+    align-items: center;
+    width: 40px;
+}
+section{
+    width: 100%;
+    display: flex;
+    position: relative;
+    background-color: #096FCA ;
+    position: relative;
+    min-height: calc(100vh - 100px);
+}
+.sidebar{
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #FFF;
+    max-width: 285px;
+    min-width: 202px;
+    align-items: end;
+    position: sticky;
+    z-index: 3;
+    background-color: #096FCA;
+    top: 0px;
+    transition: 0.3s;
+}
+.side-list{
+    backdrop-filter: brightness(107%);
+    width:100%;
+    display: flex;
+    gap: 20px;
+    margin-top: 25px;
+    padding: 10px 10px;
+    border-bottom: 1px solid transparent;
+    border-top: 1px solid transparent;
+    border-image: radial-gradient(circle, #fff 0.5%, #5596cf 50%, #5291c9 70%);
+    border-image-slice: 1;
+}
+.side-list:hover{
+    cursor: pointer;
+    color: red;
+    background: radial-gradient(circle, rgb(79 156 245) 20%, #2d8bddc9 50%, #1883df 100%);
+}
+.side-list-img{
+    width: 22px;
+    display: flex;
+    align-items:center;
+}
+.layout-content{
+    width: calc(100vw - 285px);
+    height: calc(100vh -160px);
+    padding: 30px 149px;
+    background-color:#096FCA;
+    overflow-y: scroll;
+}
+.sections{
+    width: 100%;
+    background-color: #fff;
+    border-radius: 20px;
+    height: calc(100vh - 180px);
+    overflow-y: unset;
+}
+.sidebar-close{
+    display: none;
+    width: 25px;
+    margin: 20px;
+    margin-bottom: 0;
+}
+.sidebar-hidden{
+    transform: translateX(0%);
+}
+.sidebar-shown{
+    transform: translateX(0%);
+    transition: 0.3s;
+}
+.txt-hidden{
+    display: block;
+}
+.top-left{
+    display: flex;
+    width: 15%;
+    min-width: 50px;
+    align-items: center;
+    gap: 5px;
+}
+.menu{
+    width: 40px;
+    display: none;
+}
