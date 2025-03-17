@@ -1,5 +1,5 @@
 @section('title', 'Chat History')
-<x-app-layout>
+<x-sidebar>
     <div class="flex justify-center">
         <div class="w-full rounded-xl p-[30px] sm:p-[50px] bg-[#E9F2FF]">
             <div class="flex items-center mb-10">
@@ -110,6 +110,6 @@
             </div>
 
         </div>
-
+        
     </div>
-</x-app-layout>
+</x-sidebar>

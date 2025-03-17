@@ -25,6 +25,17 @@ use App\Http\Controllers\GoogleCloudController;
 Route::get('/', function () {
     return view('index');
 });
+Route::get('/', [FaqController::class, 'faqView']);
+
+Route::get('privacy-policy', function(){
+    return view('company_description.privacy');
+});
+Route::get('policy', function(){
+    return view('company_description.policy');
+});
+Route::get('company', function(){
+    return view('company_description.company');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -32,7 +43,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 Route::middleware(['auth', 'role:user'])->group(function () {
-
+   
     Route::get('/dashboard', function () {
         $calendar = GoogleCalendar::where('user_id', Auth::id())->first() ?? ''; 
         return view('dashboard', compact('calendar'));
@@ -68,8 +79,6 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::delete('users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
     Route::get('users/auto-login/{id}', [UserController::class, 'autoLogin'])->name('users.auto-login');
 });
-Route::get('privacy-policy', function(){
-    return view('privacy-policy');
-});
+
 
 require __DIR__ . '/auth.php';

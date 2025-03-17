@@ -1,5 +1,5 @@
 @section('title', ' FAQ Training')
-<x-app-layout>
+<x-sidebar>
     <div class="flex justify-center">
         <div class="w-full rounded-xl p-[30px] sm:p-[50px] bg-[#E9F2FF]">
             <div class="flex items-center mb-5">
@@ -82,7 +82,7 @@
                                             stroke-linejoin="round" />
                                     </svg>
                                 </a>
-                                <a href="#" data-id="{{ $faq->id }}" class="delete-modal mx-2">
+                                <a href="#" data-id="{{ $faq->id }}" class="delete-modal mx-2">                                
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path d="M4 7H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -171,7 +171,7 @@
     @push('script')
         <script>
             $('.delete-modal').click(function(e) {
-                e.preventDefault();
+                e.preventDefault();              
                 $('#delete-modal').removeClass('hidden');
 
 
@@ -207,4 +207,4 @@
         </script>
     @endpush
 
-</x-app-layout>
+</x-sidebar>

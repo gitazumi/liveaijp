@@ -1,0 +1,138 @@
+@media only screen and (max-width:1440px) {
+    .layout-content{
+        width: 80vw;
+        padding: 40px 100px;
+        background-color:#096FCA;
+    }
+    .side-list .txt-20{
+        font-size: 16px;
+    }
+    .side-list .side-list-img{
+        width: 18px;
+    }
+}
+@media only screen and (max-width:1150px) {
+    header{
+        height: 80px;
+    }
+    .sections{
+        height: calc(100vh - 140px);
+    }
+    .txt-20{
+        font-size: 16px;
+    }
+    .side-list .txt-20{
+        font-size: 14px;
+    }
+    .side-list .side-list-img{
+        width: 15px;
+    }
+    .logo{
+        width: 55px;
+    }
+    .layout-content{
+        padding: 30px 60px;
+        background-color:#096FCA;
+    }
+}
+@media only screen and (max-width:950px) {
+    .txt-20{
+        font-size: 14px;
+    }
+    .side-list-img{
+        width: 20px;
+    }
+    .side-list-img{
+        width: 10%;
+    }
+}
+@media only screen and (max-width:850px) {
+    header{
+        height: 60px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    section{
+        min-height: calc(100vh - 60px);
+    }
+    .sections{
+        height: calc(100vh - 120px);
+    }
+    .side-list{
+        width: 100%;
+        gap: 10px;
+    }
+    .txt-20{
+        font-size: 14px;
+    }
+    .side-list-img{
+        width: 20px;
+    }
+    .logout{
+        width: 40px;
+    }
+}
+@media only screen and (max-width:768px) {
+    header .logo{
+        width: 50px;
+    }
+    .sidebar-open{
+        width: 20px;
+        margin: 10px;
+        margin-bottom: 0px;
+    }
+    .side-list{
+        gap: 5px;
+    }
+    .txt-20{
+        font-size: 12px;
+    }
+    .side-list-img{
+        width: 15px;
+    }
+    .sidebar-close{
+        display: block;
+    }
+    .sidebar-hidden{
+        transform: translateX(-110%);
+    }
+    .menu{
+        display: block;
+    }
+    .sidebar{
+        position: absolute;
+        height: calc(100vh - 60px);
+    }
+    .layout-content{
+        width: 100%;
+        padding: 30px 30px;
+        padding-top: 0px;
+        padding-bottom: 20px;
+        background-color:#096FCA;
+    }
+}
+@media only screen and (max-width:650px) {
+    .sidebar-open{
+       margin-right: 5px;
+    }
+    .txt-20{
+        font-size: 10px;
+    }
+    .side-list-img{
+        width: 14px;
+    }
+    .logout{
+        width: 30px;
+    }
+}
+@media only screen and (max-width:560px) {
+    .top-left{
+        width: 65px;
+    }
+    .logout{
+        width: 20px;
+    }
+    .sidebar-close{
+        width: 15px;
+    }
+}
