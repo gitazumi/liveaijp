@@ -137,8 +137,8 @@ class ChatController extends Controller
 
     /**
      * Converts URLs in text to clickable hyperlinks
-     * 
-     * @param string $text The text containing URLs to be converted
+     *
+     * @param  string  $text  The text containing URLs to be converted
      * @return string Text with URLs converted to HTML anchor tags
      */
     private function renderHyperlinks($text)
