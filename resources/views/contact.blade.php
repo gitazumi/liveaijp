@@ -54,7 +54,7 @@
                 </div>
                 
                 <div class="mb-4">
-                    <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY', '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI') }}"></div>
+                    <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
                     @error('g-recaptcha-response')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
