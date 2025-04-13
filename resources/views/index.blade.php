@@ -342,28 +342,145 @@
         <h1 class="heading">FAQ</h1>
         <h2 class=" txt-42 txt-c">よくある質問</h2>
         <div class="wf flex-col faqs">
-            @php
-                $faqs = $faqs ?? collect();
-            @endphp
-            @if ($faqs->isEmpty())
-                <p>No FAQs available.</p>
-            @else
-                @foreach ($faqs as $faq)
-                    <div class="wf faq">
-                        <button type="button" class="collapsible ">
-                            <p class="txt-24 m-0">
-                                Q: {{ $faq['question'] }}
-                            </p>
-                            <div class="faq-status">
-                                <img src="{{ asset('./images/plus (1).png') }}" alt="">
-                            </div>
-                        </button>
-                        <div class="answer">
-                            <p>A: {{ $faq['answer'] }} </p>
-                        </div>
+            <div class="wf faq">
+                <button type="button" class="collapsible ">
+                    <p class="txt-24 m-0">
+                        Q：どのように使うのですか？
+                    </p>
+                    <div class="faq-status">
+                        <img src="{{ asset('./images/plus (1).png') }}" alt="">
                     </div>
-                @endforeach
-            @endif
+                </button>
+                <div class="answer">
+                    <p>A：管理画面にて表示されているFAQの形式に沿って、テキストで質問と回答を入力してください。<br>その内容がAIに学習され、訪問者の質問に自動応答できるようになります。</p>
+                </div>
+            </div>
+            
+            <div class="wf faq">
+                <button type="button" class="collapsible ">
+                    <p class="txt-24 m-0">
+                        Q：料金はどのようになっていますか？
+                    </p>
+                    <div class="faq-status">
+                        <img src="{{ asset('./images/plus (1).png') }}" alt="">
+                    </div>
+                </button>
+                <div class="answer">
+                    <p>A：現在はベータ版として、すべての機能を無料でご利用いただけます。</p>
+                </div>
+            </div>
+            
+            <div class="wf faq">
+                <button type="button" class="collapsible ">
+                    <p class="txt-24 m-0">
+                        Q：どのような会社で利用できますか？
+                    </p>
+                    <div class="faq-status">
+                        <img src="{{ asset('./images/plus (1).png') }}" alt="">
+                    </div>
+                </button>
+                <div class="answer">
+                    <p>A：基本的に、業種・業態を問わずすべての企業・団体でご利用いただけます。<br>FAQ形式で情報を提供できるあらゆるビジネスに適しています。</p>
+                </div>
+            </div>
+            
+            <div class="wf faq">
+                <button type="button" class="collapsible ">
+                    <p class="txt-24 m-0">
+                        Q：個人でも利用できますか？
+                    </p>
+                    <div class="faq-status">
+                        <img src="{{ asset('./images/plus (1).png') }}" alt="">
+                    </div>
+                </button>
+                <div class="answer">
+                    <p>A：個人でも利用可能です。</p>
+                </div>
+            </div>
+            
+            <div class="wf faq">
+                <button type="button" class="collapsible ">
+                    <p class="txt-24 m-0">
+                        Q：自社のホームページにはどのように設置しますか？
+                    </p>
+                    <div class="faq-status">
+                        <img src="{{ asset('./images/plus (1).png') }}" alt="">
+                    </div>
+                </button>
+                <div class="answer">
+                    <p>A：管理画面で自動生成されるJavaScriptのコードを、設置したいページのHTML内に貼り付けるだけでご利用いただけます。<br>専門的な知識がなくても簡単に導入可能です。</p>
+                </div>
+            </div>
+            
+            <div class="wf faq">
+                <button type="button" class="collapsible ">
+                    <p class="txt-24 m-0">
+                        Q：登録したFAQの内容は他社と共有されますか？
+                    </p>
+                    <div class="faq-status">
+                        <img src="{{ asset('./images/plus (1).png') }}" alt="">
+                    </div>
+                </button>
+                <div class="answer">
+                    <p>A：いいえ。登録されたFAQはアカウントごとに独立しており、他のユーザーと共有されたり公開されたりすることはありません。お客様専用のAIチャットボットとして、安全にご利用いただけます。</p>
+                </div>
+            </div>
+            
+            <div class="wf faq">
+                <button type="button" class="collapsible ">
+                    <p class="txt-24 m-0">
+                        Q：AIのベースは何ですか？
+                    </p>
+                    <div class="faq-status">
+                        <img src="{{ asset('./images/plus (1).png') }}" alt="">
+                    </div>
+                </button>
+                <div class="answer">
+                    <p>A：OpenAI APIのChatGPTを利用しています。</p>
+                </div>
+            </div>
+            
+            <div class="wf faq">
+                <button type="button" class="collapsible ">
+                    <p class="txt-24 m-0">
+                        Q：登録した情報が外部に漏れることはありませんか？
+                    </p>
+                    <div class="faq-status">
+                        <img src="{{ asset('./images/plus (1).png') }}" alt="">
+                    </div>
+                </button>
+                <div class="answer">
+                    <p>A：登録されたFAQやチャット内容は、外部に公開されることはありません。<br>通信は暗号化されており、OpenAI APIも含めて情報は適切に保護されています。</p>
+                </div>
+            </div>
+            
+            <div class="wf faq">
+                <button type="button" class="collapsible ">
+                    <p class="txt-24 m-0">
+                        Q：チャットの回答が間違っていた場合、修正できますか？
+                    </p>
+                    <div class="faq-status">
+                        <img src="{{ asset('./images/plus (1).png') }}" alt="">
+                    </div>
+                </button>
+                <div class="answer">
+                    <p>A：はい。FAQの内容を管理画面からいつでも編集できます。<br>修正された内容はすぐにAIに反映され、正確な応答が行われるようになります。</p>
+                </div>
+            </div>
+            
+            <div class="wf faq">
+                <button type="button" class="collapsible ">
+                    <p class="txt-24 m-0">
+                        Q：スマートフォンのサイトでも使えますか？
+                    </p>
+                    <div class="faq-status">
+                        <img src="{{ asset('./images/plus (1).png') }}" alt="">
+                    </div>
+                </button>
+                <div class="answer">
+                    <p>A：はい、生成されるチャットボットはレスポンシブ対応しており、PC・スマートフォン・タブレットなど、あらゆる端末で問題なく動作します。</p>
+                </div>
+            </div>
         </div>
         <p class="txt-24 txt-c w-55 mt-50 font-w-600">「あなたのサイトにも、<br class="title-description"> AIチャットボットを！」<br>
             今すぐ無料で試してみませんか？</p>
