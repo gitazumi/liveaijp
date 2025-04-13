@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LiveAI</title>
+    <title>LiveAI｜ChatGPT搭載のAIチャットボットを簡単導入 – FAQ登録だけで自社対応を自動化</title>
+    <meta name="description" content="ChatGPTを活用したAIチャットボットを、わずか数分であなたのWebサイトに。LiveAIではFAQを登録するだけで、訪問者の質問に自動対応する専用チャットボットを生成。コードの知識不要で、誰でも簡単に導入できます。">
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
     <link rel="stylesheet" href="./css/base_style.css">
     <link rel="stylesheet" href="./css/style.css">
