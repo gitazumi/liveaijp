@@ -98,6 +98,35 @@
         @yield('content')
     </section>
 
+    <footer class="footer">
+        <div class="footer-nav">
+            <div class="footer-nav-left">
+                <div class="footer-logo-container">
+                    {{-- Adjusted image path to be relative to public/images --}}
+                    <img src="{{ asset('images/logo_2.png') }}" alt="Logo" class="footer-logo">
+                </div>
+                <ul class="footer-left">
+                    @php
+                        $bottomItems = [
+                            ['name' => '会社概要', 'link' => url('company')],
+                            ['name' => '利用規約', 'link' => url('policy')],
+                            ['name' => 'プライバシーポリシー', 'link' => url('privacy-policy')],
+                            ['name' => 'お問い合わせ', 'link' => 'https://liveai.jp/contact'],
+                        ];
+                    @endphp
+                    @foreach ($bottomItems as $bottomItem)
+                        <li class="m-0">
+                            {{-- Removed unnecessary form tag --}}
+                            <a href="{{ $bottomItem['link'] }}" class="m-0">{{ $bottomItem['name'] }}</a>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+            {{-- Right side navigation removed --}}
+        </div>
+        <p class="copyright">© 2024 LiveAi.jp, All Rights Reserved</p>
+    </footer>
+
 </body>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
