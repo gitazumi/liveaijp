@@ -12,10 +12,10 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/base_style.css">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/custom.css">
-    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="{{ asset('css/base_style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;300;400;500;700;900&display=swap"
         rel="stylesheet">
     <style>
@@ -102,58 +102,52 @@
     <footer class="footer">
         <div class="footer-nav simple-footer-nav"> {{-- Added new class for specific styling --}}
             <div class="footer-logo-container">
+                {{-- Use asset() helper for image path --}}
                 <img src="{{ asset('images/logo_2.png') }}" alt="Logo" class="footer-logo">
             </div>
-            <nav class="footer-nav-center">
-                <ul class="footer-links centered-links"> {{-- Added new class for centering --}}
-                    @php
-                        $links = [
-                            ['name' => '会社概要', 'link' => url('company')],
-                            ['name' => '利用規約', 'link' => url('policy')],
-                            ['name' => 'プライバシーポリシー', 'link' => url('privacy-policy')],
-                            ['name' => 'お問い合わせ', 'link' => 'https://liveai.jp/contact'],
-                        ];
-                    @endphp
-                    @foreach ($links as $item)
-                        <li>
-                            <a href="{{ $item['link'] }}">{{ $item['name'] }}</a>
-                        </li>
-                    @endforeach
-                </ul>
-            </nav>
-            {{-- No right-side nav or scroll-up button in this version --}}
+            <ul class="footer-left">
+                @php
+                    $leftLinks = [
+                        ['name' => '会社概要', 'link' => url('company')],
+                        ['name' => '利用規約', 'link' => url('policy')],
+                        ['name' => 'プライバシーポリシー', 'link' => url('privacy-policy')],
+                        ['name' => 'お問い合わせ', 'link' => 'https://liveai.jp/contact'],
+                    ];
+                @endphp
+                @foreach ($leftLinks as $item)
+                    <li class="m-0">
+                        {{-- Remove unnecessary form tag from original index.blade.php --}}
+                        <a href="{{ $item['link'] }}" class="m-0">{{ $item['name'] }}</a>
+                    </li>
+                @endforeach
+            </ul>
         </div>
-        <p class="copyright">© 2024 LiveAI.jp, All Rights Reserved</p>
-    </footer>
-
-    <footer class="footer">
-        <div class="footer-nav">
-            <div class="footer-nav-left">
-                <div class="footer-logo-container">
-                    {{-- Adjusted image path to be relative to public/images --}}
-                    <img src="{{ asset('images/logo_2.png') }}" alt="Logo" class="footer-logo">
-                </div>
-                <ul class="footer-left">
-                    @php
-                        $bottomItems = [
-                            ['name' => '会社概要', 'link' => url('company')],
-                            ['name' => '利用規約', 'link' => url('policy')],
-                            ['name' => 'プライバシーポリシー', 'link' => url('privacy-policy')],
-                            ['name' => 'お問い合わせ', 'link' => 'https://liveai.jp/contact'],
-                        ];
-                    @endphp
-                    @foreach ($bottomItems as $bottomItem)
-                        <li class="m-0">
-                            {{-- Removed unnecessary form tag --}}
-                            <a href="{{ $bottomItem['link'] }}" class="m-0">{{ $bottomItem['name'] }}</a>
-                        </li>
-                    @endforeach
-                </ul>
+        <div class="footer-nav-right">
+            <ul class="footer-right">
+                @php
+                    $rightLinks = [
+                        ['name' => 'サービスの概要', 'link' => url('/#service')],
+                        ['name' => '使い方', 'link' => url('/#direct')],
+                        ['name' => '導入メリット', 'link' => url('/#benifits')],
+                        ['name' => '料金プラン', 'link' => url('/#plan')],
+                        ['name' => 'よくある質問', 'link' => url('/#faq')],
+                    ];
+                @endphp
+                @foreach ($rightLinks as $item)
+                    <li class="m-0">
+                        <a href="{{ $item['link'] }}" class="m-0 txt-s">{{ $item['name'] }}</a>
+                    </li>
+                @endforeach
+            </ul>
+             {{-- Include scroll-up button, use asset() helper --}}
+             <div class="scroll-up">
+                <a href="#top"><img src="{{ asset('images/scroll-up.png') }}" alt=""></a>
             </div>
-            {{-- Right side navigation removed --}}
         </div>
-        <p class="copyright">© 2024 LiveAi.jp, All Rights Reserved</p>
-    </footer>
+    </div>
+    {{-- Use original copyright text from index.blade.php --}}
+    <p class="copyright">© 2024 LiveAi.jp, All Rights Reserved</p>
+</footer>
 
 </body>
 <script>
