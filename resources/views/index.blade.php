@@ -505,7 +505,7 @@
                                 ['name' => '会社概要', 'link' => 'company'],
                                 ['name' => '利用規約', 'link' => 'policy'],
                                 ['name' => 'プライバシーポリシー', 'link' => 'privacy-policy'],
-                                ['name' => 'お問い合わせ', 'link' => 'contact'],
+                                ['name' => 'お問い合わせ', 'link' => 'https://liveai.jp/contact'],
                             ];
                         @endphp
                         @foreach ($bottomItems as $bottomItem)

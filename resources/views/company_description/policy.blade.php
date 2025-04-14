@@ -77,7 +77,7 @@
     </div>
     <div class="wf mb-20 flex-col">
         <p class="txt-20 txt-s m-0 font-w-800 mb-20">第9条　プライバシー</p>
-        <p class="txt-16 txt-s m-0">ユーザーの個人情報および登録内容は、当サイトの[プライバシーポリシー]に従って適切に取り扱われます。</p>
+        <p class="txt-16 txt-s m-0">ユーザーの個人情報および登録内容は、当サイトの<a href="privacy-policy">プライバシーポリシー</a>に従って適切に取り扱われます。</p>
     </div>
     <div class="wf mb-20 flex-col">
         <p class="txt-20 txt-s m-0 font-w-800 mb-20">第10条　準拠法および裁判管轄</p>
