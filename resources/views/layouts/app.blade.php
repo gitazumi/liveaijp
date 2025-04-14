@@ -61,7 +61,7 @@
         {{-- @include('layouts.navigation') --}}
 
         <div class="flex overflow-hidden flex-col flex-1">
-            @if (request()->routeIs('dashboard') || Auth::user()->hasRole('admin'))
+            @if (request()->routeIs('dashboard') || (Auth::check() && Auth::user()->hasRole('admin')))
                 @include('layouts.header')
             @endif
 
