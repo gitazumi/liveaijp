@@ -98,6 +98,34 @@
         @yield('content')
     </section>
 
+    {{-- Footer based on the SECOND image provided by the user (simpler design) --}}
+    <footer class="footer">
+        <div class="footer-nav simple-footer-nav"> {{-- Added new class for specific styling --}}
+            <div class="footer-logo-container">
+                <img src="{{ asset('images/logo_2.png') }}" alt="Logo" class="footer-logo">
+            </div>
+            <nav class="footer-nav-center">
+                <ul class="footer-links centered-links"> {{-- Added new class for centering --}}
+                    @php
+                        $links = [
+                            ['name' => '会社概要', 'link' => url('company')],
+                            ['name' => '利用規約', 'link' => url('policy')],
+                            ['name' => 'プライバシーポリシー', 'link' => url('privacy-policy')],
+                            ['name' => 'お問い合わせ', 'link' => 'https://liveai.jp/contact'],
+                        ];
+                    @endphp
+                    @foreach ($links as $item)
+                        <li>
+                            <a href="{{ $item['link'] }}">{{ $item['name'] }}</a>
+                        </li>
+                    @endforeach
+                </ul>
+            </nav>
+            {{-- No right-side nav or scroll-up button in this version --}}
+        </div>
+        <p class="copyright">© 2024 LiveAI.jp, All Rights Reserved</p>
+    </footer>
+
     <footer class="footer">
         <div class="footer-nav">
             <div class="footer-nav-left">
