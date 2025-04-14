@@ -50519,3 +50519,91 @@ After doing this, you may fix the identity used for this commit with:
  1 file changed, 18 insertions(+)
 To github.com:gitazumi/liveaijp.git
    2ff0ae11..cd666344  main -> main
+[main b105bded] Auto commit: 2025-04-14 00:30:02
+ Committer: Ubuntu <ubuntu@ip-172-26-13-33.us-west-2.compute.internal>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly:
+
+    git config --global user.name "Your Name"
+    git config --global user.email you@example.com
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 73 files changed, 12 insertions(+), 82 deletions(-)
+ delete mode 100755 storage/framework/cache/data/06/11/0611338e069c9aa30f13d4ad87cb88cf5481e102
+ delete mode 100755 storage/framework/cache/data/08/e4/08e42cb9174d597b026444b102b0e1467fc5780a
+ delete mode 100755 storage/framework/cache/data/0a/a0/0aa0cec45b048d338bcbe4158c4fc1ffd2696a1d
+ delete mode 100755 storage/framework/cache/data/0c/cd/0ccdab25291757ca3acad2e49994045210f4cf49
+ delete mode 100755 storage/framework/cache/data/11/90/119008fb307fb6f18ee9f5f9db6eb06d8a176c32
+ delete mode 100755 storage/framework/cache/data/13/01/13019612d7d641871f3f04fada10616334005232
+ delete mode 100755 storage/framework/cache/data/17/1a/171a8bd27b971bde1a71ee306cc20a0c8c167ff1
+ delete mode 100755 storage/framework/cache/data/17/7b/177bd22edb98c21330bbcb7b115b7b449113e6c8
+ delete mode 100755 storage/framework/cache/data/18/8e/188e6671b1637c6a63c07fa6c3e6bf73f42182cd
+ delete mode 100755 storage/framework/cache/data/1a/a4/1aa4df3b93a8dfdc82397be35e9238b78342ee6b
+ delete mode 100755 storage/framework/cache/data/1c/6c/1c6cc91b86e2cf6f352b84d37f6c814f1822ed6b
+ delete mode 100755 storage/framework/cache/data/25/15/2515e0a8de3dd12586eca0d23c5dc536cbcb8df9
+ delete mode 100755 storage/framework/cache/data/25/f2/25f2ccb7472f97fab601192b520a00b7786bf06e
+ delete mode 100755 storage/framework/cache/data/2f/99/2f99342133280c887739aae91b20c5b3bc9d30f6
+ delete mode 100755 storage/framework/cache/data/33/67/3367fcd7166a3c9d3f42b2062953e696cc8a5174
+ delete mode 100755 storage/framework/cache/data/33/fe/33fe06791b32d6fbb86d35709f35b57f708a49eb
+ delete mode 100755 storage/framework/cache/data/35/a9/35a94d5387ea224ec135d76d65534f8b102a786d
+ delete mode 100755 storage/framework/cache/data/3a/62/3a625587ed0e3e5fd3e8caf55cadf2f685d4d555
+ delete mode 100755 storage/framework/cache/data/3d/50/3d50c4045ccfc1a95e5b81c29e5a896accabb1e4
+ delete mode 100755 storage/framework/cache/data/3d/c8/3dc895428c32886314af7e6488c0c056f81ea093
+ delete mode 100755 storage/framework/cache/data/42/53/42537f5b03420424d2d06eb1cd3cec19467d38ad
+ delete mode 100755 storage/framework/cache/data/45/ed/45ed0eeb0553b000b10b488560e4bb9e4a751f66
+ delete mode 100755 storage/framework/cache/data/47/3d/473dbaead6bc54e48261d25e056dc6c2e46bd914
+ delete mode 100755 storage/framework/cache/data/52/c6/52c6d907ca773c6dc1792cdb984de6a934fa6300
+ delete mode 100755 storage/framework/cache/data/59/cf/59cf638b0c4bca0c6f9bad3a6082bff6d30375e0
+ delete mode 100755 storage/framework/cache/data/5a/9e/5a9e2846d1aba8b0bb8dbfdb8fc28ed54f52cd5c
+ delete mode 100755 storage/framework/cache/data/5b/7e/5b7ee6bb9da58a2b33e9e83ffdd0ccad5b446fde
+ delete mode 100755 storage/framework/cache/data/5f/93/5f935f9b4500b2246476cf2eaf3d1c1ae81157fc
+ delete mode 100755 storage/framework/cache/data/60/c5/60c5886bf6e83f90a485787ebe6698112ac45b31
+ delete mode 100755 storage/framework/cache/data/62/6c/626c411f614348962e72b24e1909a7469d237df8
+ delete mode 100755 storage/framework/cache/data/6f/af/6faf0ffb0e29444e26b8371e851e20d17252ae7a
+ delete mode 100755 storage/framework/cache/data/76/57/7657513d0f6935e27ac9907c7cbdbe8e64597f33
+ delete mode 100755 storage/framework/cache/data/7d/0c/7d0c79048dd47eb9336461ab3183f5c3f03715ae
+ delete mode 100755 storage/framework/cache/data/82/b7/82b74fbda0e28f3bf2292f1b64c2165e2a756051
+ delete mode 100755 storage/framework/cache/data/8a/3f/8a3f567ca674ade69a76e424e1b3862d8a51fee2
+ delete mode 100755 storage/framework/cache/data/8c/96/8c96162ff25c31f54b1d60b4096b65207ef651d0
+ delete mode 100755 storage/framework/cache/data/91/be/91be03ed5b49c3545b898437c6843d4edd33df4d
+ delete mode 100755 storage/framework/cache/data/94/3d/943d9c463dc29c8a1df9dc637f9389fb843f3417
+ delete mode 100755 storage/framework/cache/data/97/f9/97f9d69ef9065bc353c0c96d08d6faba29c5aade
+ delete mode 100755 storage/framework/cache/data/98/4c/984c94495fa9914349514eabc027c311d63f3f41
+ delete mode 100755 storage/framework/cache/data/99/77/99777c7aa7bc81c08c3cd9c8d47705e868f9e272
+ delete mode 100755 storage/framework/cache/data/a7/e0/a7e0bfba3e87f358f96ed8bc5f3d6a7bae8f7437
+ delete mode 100755 storage/framework/cache/data/a9/3a/a93a60ed3826ff6ac85556c9c59327c5307eb065
+ delete mode 100755 storage/framework/cache/data/aa/ea/aaea352557ba6ecdd5718489d9e940d079747ab8
+ delete mode 100755 storage/framework/cache/data/ac/6a/ac6a25543d03387f4f9ca3c35d50fb7547a0dcd0
+ delete mode 100755 storage/framework/cache/data/ae/54/ae5497c3cf78e691c427220636f87f278e34d2ce
+ delete mode 100755 storage/framework/cache/data/b2/1c/b21ccc9c64dbe2cd29deb1f3198aca3cf5bdf745
+ delete mode 100755 storage/framework/cache/data/b3/37/b337ee215b780c8a45980e5549a04995cc5ee258
+ delete mode 100755 storage/framework/cache/data/b9/3f/b93fd14a7f0216aa26379977fef1c04f6b37e8de
+ delete mode 100755 storage/framework/cache/data/bb/e9/bbe94580ad657f1a56916ea9ff13dcf0a82974f7
+ delete mode 100755 storage/framework/cache/data/bc/f1/bcf15cf46941cce31e421957447c26626f4f2007
+ delete mode 100755 storage/framework/cache/data/c0/2f/c02f5e9ce41ca6031fdd380c38ced86e7b252cf3
+ delete mode 100755 storage/framework/cache/data/c0/8c/c08c10c3973868aa9e3e267d18f34c94d73cb45a
+ delete mode 100755 storage/framework/cache/data/c4/11/c411f7564cca116d3ebaffe642e5c0d51c7991d2
+ delete mode 100755 storage/framework/cache/data/c7/2e/c72e41e3b3aa077c2c5f7877f08856b4f9e24796
+ delete mode 100755 storage/framework/cache/data/cd/4c/cd4c2abaa0546cd9b4ddf2883bfc1dc0cd681734
+ delete mode 100755 storage/framework/cache/data/cd/7e/cd7e1e1c3357cc9a269516328f6bd69325a3edb4
+ delete mode 100755 storage/framework/cache/data/cd/bb/cdbb5109d540eae9da9aabb2c3a25f9ff17bd171
+ delete mode 100755 storage/framework/cache/data/d6/62/d662f7dcfbaac8490b3217a6de45f9052320ce29
+ delete mode 100755 storage/framework/cache/data/da/dd/daddb55d319f91a24aa3808599ed367aae18e871
+ delete mode 100755 storage/framework/cache/data/de/de/dedefc242ddd12e0c885c5385e630e4099623278
+ delete mode 100755 storage/framework/cache/data/e0/8f/e08fd8ca2c614eebdf21690667f29c4bebb3164d
+ delete mode 100755 storage/framework/cache/data/e0/f4/e0f41a03b31ec50273f71d199ea873238d339fe6
+ delete mode 100755 storage/framework/cache/data/e2/98/e2988db2e4f825ff819a11fcc1d106aafeb66c11
+ delete mode 100755 storage/framework/cache/data/e4/89/e48931b9e230e7980f8c9f5904233cc896eb4790
+ delete mode 100755 storage/framework/cache/data/ec/85/ec855dc558a21b269878de0553a43c28aacdc852
+ delete mode 100755 storage/framework/cache/data/ec/9d/ec9d107e272f22107085da60ec7e677875d97c01
+ delete mode 100755 storage/framework/cache/data/f4/8a/f48a9cccbb7ff6c0b1b3ec04f9ad5b27f31c30a0
+ delete mode 100755 storage/framework/cache/data/f9/77/f977223e63f1e1bf8f55de5874a796de13c069d7
+ delete mode 100755 storage/framework/cache/data/fb/81/fb81dbb90cbae8eabc813ef57e30e5117dbb82e3
+ delete mode 100755 storage/framework/cache/data/fb/a6/fba6e504bc69672a1485fb608c387659c44887aa
+ delete mode 100755 storage/framework/cache/data/ff/a5/ffa5daa4eecb17600dd8a86b08ceb70965fb46af
+To github.com:gitazumi/liveaijp.git
+   cf9b4605..b105bded  main -> main
