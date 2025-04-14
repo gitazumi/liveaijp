@@ -975,6 +975,73 @@ background-color: #f1f1f1;
     font-size: 12px;
     opacity: 0.8;
 }
+/* Styles for the simpler footer based on the second image */
+.simple-footer-nav {
+    display: flex;
+    align-items: center; /* Vertically align logo and nav */
+    justify-content: space-between; /* Keep logo left, nav right initially */
+    width: 90%; /* Match existing .footer-nav */
+    margin: 0 auto; /* Center the nav container */
+    padding-bottom: 20px; /* Match existing .footer-nav */
+    border-bottom: 1px dotted #FFF; /* Match existing .footer-nav */
+    flex-wrap: wrap; /* Allow wrapping for responsiveness */
+    gap: 20px; /* Add gap for wrapping */
+}
+
+.simple-footer-nav .footer-logo-container {
+    /* Keep logo on the left */
+    flex-shrink: 0; /* Prevent logo from shrinking */
+    display: flex; /* Ensure logo itself is aligned if needed */
+    align-items: center;
+}
+
+.simple-footer-nav .footer-nav-center {
+    flex-grow: 1; /* Allow nav to take remaining space */
+    display: flex;
+    justify-content: center; /* Center the ul within this nav */
+}
+
+.simple-footer-nav .centered-links {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 30px; /* Adjust gap as needed */
+    justify-content: center; /* Center the list items */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+.simple-footer-nav .centered-links li {
+    margin: 0; /* Remove default margins */
+}
+
+.simple-footer-nav .centered-links a {
+    color: #FFF; /* Match existing footer link color */
+    text-decoration: none; /* Match existing footer link style */
+    font-size: 13px; /* Match existing footer link size */
+    font-weight: bold; /* Match existing footer link weight */
+}
+
+/* Responsive adjustments for simpler footer */
+@media (max-width: 768px) {
+    .simple-footer-nav {
+        flex-direction: column; /* Stack logo and nav */
+        align-items: center; /* Center items when stacked */
+        justify-content: center; /* Center content */
+        gap: 20px;
+    }
+    .simple-footer-nav .footer-nav-center {
+       width: 100%; /* Take full width */
+       justify-content: center; /* Ensure centering */
+    }
+    .simple-footer-nav .centered-links {
+        gap: 15px; /* Reduce gap */
+        justify-content: center; /* Ensure centering */
+        text-align: center; /* Center text within links if they wrap */
+    }
+}
+
+
 .p-description{
     width: 100%;
     border-top: 2px solid #096FCA;
