@@ -104,6 +104,11 @@
             <div class="footer-nav-left">
                 <div class="footer-logo-div">
                     {{-- Use asset() helper for image path --}}
+        <svg class="curve-container" viewBox="0 0 1440 320">
+            <path fill="white" d="M0,0 C480,250 960,250 1440,0 L1440,0 L0,0 Z"></path>
+        </svg>
+        {{-- The existing footer content starts below --}}
+
                     <img src="{{ asset('images/logo_2.png') }}" alt="Logo" class="footer-logo">
                 </div>
                 <ul class="footer-left">
