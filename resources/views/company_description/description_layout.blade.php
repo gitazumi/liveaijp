@@ -100,7 +100,7 @@
 
     {{-- Footer based on the SECOND image provided by the user (simpler design) --}}
     <footer class="footer">
-        <div class="footer-nav simple-footer-nav"> {{-- Added new class for specific styling --}}
+        <div class="footer-nav"> {{-- Removed simple-footer-nav class --}}
             <div class="footer-logo-container">
                 {{-- Use asset() helper for image path --}}
                 <img src="{{ asset('images/logo_2.png') }}" alt="Logo" class="footer-logo">
