@@ -98,57 +98,6 @@
         @yield('content')
     </section>
 
-    {{-- Exact Footer from index.blade.php --}}
-    <footer class="footer">
-        <div class="footer-nav">
-            <div class="footer-nav-left">
-                <div class="footer-logo-div">
-                    {{-- Use asset() helper for image path --}}
-                    <img src="{{ asset('images/logo_2.png') }}" alt="Logo" class="footer-logo">
-                </div>
-                <ul class="footer-left">
-                    @php
-                        $bottomItems = [
-                            ['name' => '会社概要', 'link' => url('company')],
-                            ['name' => '利用規約', 'link' => url('policy')],
-                            ['name' => 'プライバシーポリシー', 'link' => url('privacy-policy')],
-                            ['name' => 'お問い合わせ', 'link' => 'https://liveai.jp/contact'],
-                        ];
-                    @endphp
-                    @foreach ($bottomItems as $bottomItem)
-                        <li class="m-0">
-                            {{-- Removed unnecessary form tag --}}
-                            <a href="{{ $bottomItem['link'] }}" class="m-0">{{ $bottomItem['name'] }}</a>
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
-            <div class="footer-nav-right">
-                <ul class="footer-right">
-                    @php
-                        $bottomItems = [
-                            ['name' => 'サービスの概要', 'link' => url('/#service')],
-                            ['name' => '使い方', 'link' => url('/#direct')],
-                            ['name' => '導入メリット', 'link' => url('/#benifits')],
-                            ['name' => '料金プラン', 'link' => url('/#plan')],
-                            ['name' => 'よくある質問', 'link' => url('/#faq')],
-                        ];
-                    @endphp
-                    @foreach ($bottomItems as $bottomItem)
-                        <li class="m-0">
-                            <a href="{{ $bottomItem['link'] }}" class="m-0 txt-s">{{ $bottomItem['name'] }}</a>
-                        </li>
-                    @endforeach
-                </ul>
-                 {{-- Include scroll-up button, use asset() helper --}}
-                 <div class="scroll-up">
-                    <a href="#top"><img src="{{ asset('images/scroll-up.png') }}" alt=""></a>
-                </div>
-            </div>
-        </div>
-        <p class="copyright">© 2024 LiveAi.jp, All Rights Reserved</p>
-</footer>
-
 
 </body>
 <script>
