@@ -140,10 +140,6 @@
                         </li>
                     @endforeach
                 </ul>
-                 {{-- Include scroll-up button, use asset() helper --}}
-                 <div class="scroll-up">
-                    <a href="#top"><img src="{{ asset('images/scroll-up.png') }}" alt=""></a>
-                </div>
             </div>
         </div>
         <p class="copyright">© 2024 LiveAi.jp, All Rights Reserved</p>
