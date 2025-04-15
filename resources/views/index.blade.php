@@ -96,9 +96,9 @@
                 <div class="highlight txt-24 bold">ユーザーの疑問をリアルタイムで解決。</div>
                 <h1 class="hero-ai-description">AIチャットで<br class="br">ユーザー体験を向上！</h1>
                 <p class=" hero-faq">FAQを登録するだけで、<br class="hero-faq-br">あなた専用のAIが対応。<br>今すぐ無料で試せる！</p>
-                <form action="register" method="get " class="btn-1">
+                <a href="https://liveai.jp/register" class="btn-1">
                     無料体験する <div><img src="./images/gp 1854.png" alt=""></div>
-                </form>
+                </a>
             </div>
             <div class="image-container">
                 @php
@@ -203,9 +203,9 @@
 
             </div>
         </div>
-        <form action="register" method="get" class="ft-btn">
+        <a href="https://liveai.jp/register" class="ft-btn">
             無料体験する <div><img src="./images/gp 1854.png" alt=""></div>
-        </form>
+        </a>
         <div class="circle-gray-l">
         </div>
     </section>
@@ -279,9 +279,9 @@
         <p class="txt-24 txt-c mt-50 font-w-600">
             すぐに顧客対応を自動化する<br class="title-description">ことができます！
         </p>
-        <form action="register" method="get" class="ft-btn">
+        <a href="https://liveai.jp/register" class="ft-btn">
             無料体験する <div><img src="./images/gp 1854.png" alt=""></div>
-        </form>
+        </a>
         <div class="sky-circle-m-l"></div>
     </section>
     <section class="container flex-col benifits mt-50" id="benifits">
@@ -316,9 +316,9 @@
                 @endforeach
             </div>
         </div>
-        <form action="login" method="get" class="ft-btn">
+        <a href="https://liveai.jp/register" class="ft-btn">
             無料体験する <div><img src="./images/gp 1854.png" alt=""></div>
-        </form>
+        </a>
     </section>
     <section class="container flex-col mt-75" id="plan">
         <div class="plan-circle-m-l"></div>
@@ -334,9 +334,9 @@
         <div class="bubble-bot ">
             <img src="./images/GIU AMA 255-06 1.png" alt="">
         </div>
-        <form action="register" method="get" class="ft-btn plan-btn">
+        <a href="https://liveai.jp/register" class="ft-btn plan-btn">
             無料体験する <div><img src="./images/gp 1854.png" alt=""></div>
-        </form>
+        </a>
     </section>
     <section class="container flex-col mt-75" id="faq">
         <h1 class="heading">FAQ</h1>
@@ -484,9 +484,9 @@
         </div>
         <p class="txt-24 txt-c w-55 mt-50 font-w-600">「あなたのサイトにも、<br class="title-description"> AIチャットボットを！」<br>
             今すぐ無料で試してみませんか？</p>
-        <form action="register" method="get" class="ft-btn">
+        <a href="https://liveai.jp/register" class="ft-btn">
             無料体験する <div><img src="./images/gp 1854.png" alt=""></div>
-        </form>
+        </a>
     </section>
 
     <footer class="footer mt-75">
