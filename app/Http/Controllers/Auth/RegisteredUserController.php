@@ -43,8 +43,9 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        Auth::login($user);
+        // Auth::login($user); // 自動ログイン処理を削除
 
-        return redirect(RouteServiceProvider::HOME);
+        return redirect()->route('login')
+            ->with('status', 'ご登録いただいたメールアドレスに認証リンクを送信しました。メールをご確認ください。');
     }
 }

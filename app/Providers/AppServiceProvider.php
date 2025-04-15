@@ -13,6 +13,12 @@ class AppServiceProvider extends ServiceProvider
         DB::listen(function ($query) {
             Log::info('SQL Query Executed: ' . $query->sql . ' [' . implode(', ', $query->bindings) . '] (' . $query->time . 'ms)');
         });
+        
+        \Illuminate\Auth\Notifications\VerifyEmail::toMailUsing(function ($notifiable, $url) {
+            return (new \Illuminate\Notifications\Messages\MailMessage)
+                ->subject('LiveAI ご登録の確認')
+                ->markdown('emails.verification', ['verificationUrl' => $url]);
+        });
     }
 
     public function register()
