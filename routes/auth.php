@@ -36,9 +36,7 @@ Route::middleware('guest')->group(function () {
         ->name('password.store');
     Route::get('password-updated', [NewPasswordController::class, 'passwordUpdated'])
         ->name('password.updated');
-        
-    Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);
-    Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
+    
 });
 
 Route::middleware('auth')->group(function () {
