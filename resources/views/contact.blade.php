@@ -3,7 +3,7 @@
 @section('content')
     <h1 class="wf txt-42 txt-s f-weight-800">お問い合わせ</h1>
 
-    <div class="wf mt-50 flex-col">
+    <div class="wf mt-50 flex-col max-w-3xl mx-auto">
         <div class="mb-8 text-center">
             <p class="text-lg mb-4">
                 LiveAIにご興味をお持ちいただきありがとうございます。
@@ -53,7 +53,7 @@
             </div>
             
             <div class="text-center">
-                <button type="submit" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <button type="submit" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-black bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                     送信する
                 </button>
             </div>
