@@ -74,7 +74,9 @@ class AdjustUsers extends Command
                 $this->info('削除対象のユーザーはありません');
             }
         } catch (\Exception $e) {
-            DB::rollback();
+            if (DB::transactionLevel() > 0) {
+                DB::rollback();
+            }
             $this->error('エラーが発生しました: ' . $e->getMessage());
         }
     }
