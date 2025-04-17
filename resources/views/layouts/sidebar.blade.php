@@ -85,6 +85,12 @@
             @php
             $menuItems = [
                 [
+                    'url' => 'welcome',
+                    'method' => 'get',
+                    'img' => 'menu2.png',
+                    'label' => 'ご利用の流れ',
+                ],
+                [
                     'url' => 'information.create',
                     'method' => 'get',
                     'img' => 'shop_img.png',
