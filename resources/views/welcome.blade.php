@@ -1,4 +1,5 @@
-<x-sidebar-layout>
+@section('title', 'ようこそLiveAIへ')
+<x-sidebar>
     <div class="bg-white rounded-lg p-6 shadow-md">
         <h1 class="text-2xl font-bold text-[#173F74] mb-6">🌟ご利用の流れ</h1>
         <p class="mb-4">ようこそLiveAIへ！このページでは、チャットボットの導入までのステップをご案内します。</p>
@@ -48,4 +49,4 @@
             </div>
         </div>
     </div>
-</x-sidebar-layout>
+</x-sidebar>
