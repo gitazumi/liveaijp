@@ -27,7 +27,7 @@ class GoogleController extends Controller
 
             if ($findUser) {
                 Auth::login($findUser);
-                return redirect()->intended('dashboard');
+                return redirect()->intended('welcome');
             } else {
                 $newUser = User::create([
                     'name' => $user->name,
@@ -37,7 +37,7 @@ class GoogleController extends Controller
                 ]);
                 $newUser->assignRole('user');
                 Auth::login($newUser);
-                return redirect()->intended('dashboard');
+                return redirect()->intended('welcome');
             }
         } catch (\Throwable $th) {
             Log::error('Error in Google Callback:', [

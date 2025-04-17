@@ -48,6 +48,11 @@ Route::middleware('auth')->group(function () {
 });
 Route::middleware(['auth', 'role:user'])->group(function () {
    
+    Route::get('/welcome', function () {
+        $calendar = GoogleCalendar::where('user_id', Auth::id())->first() ?? ''; 
+        return view('welcome', compact('calendar'));
+    })->middleware(['auth', 'verified'])->name('welcome');
+    
     Route::get('/dashboard', function () {
         $calendar = GoogleCalendar::where('user_id', Auth::id())->first() ?? ''; 
         return view('dashboard', compact('calendar'));

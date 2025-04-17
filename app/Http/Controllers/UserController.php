@@ -61,6 +61,6 @@ class UserController extends Controller
 
     public function autoLogin($id) {
         Auth::loginUsingId($id);
-        return redirect('dashboard');
+        return redirect('welcome');
     }
 }

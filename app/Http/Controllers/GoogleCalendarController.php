@@ -141,11 +141,11 @@ class GoogleCalendarController extends Controller
                 'error_message' => null
             ]);
 
-            return redirect()->route('dashboard')->with('success', 'Google Calendar linked successfully!');
+            return redirect()->route('welcome')->with('success', 'Google Calendar linked successfully!');
         } catch (\Exception $e) {
             $credential->update(['status' => 'inactive', 'error_message' => $e->getMessage()]);
 
-            return redirect()->route('dashboard')->withErrors(['error' => 'Failed to validate Google Calendar: ' . $e->getMessage()]);
+            return redirect()->route('welcome')->withErrors(['error' => 'Failed to validate Google Calendar: ' . $e->getMessage()]);
         }
     }
 
