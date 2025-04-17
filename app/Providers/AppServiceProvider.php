@@ -23,6 +23,12 @@ class AppServiceProvider extends ServiceProvider
 
     public function register()
     {
-        //
+        $this->app->singleton('command.adjust.users', function ($app) {
+            return new \App\Console\Commands\AdjustUsers;
+        });
+
+        $this->commands([
+            'command.adjust.users',
+        ]);
     }
 }
