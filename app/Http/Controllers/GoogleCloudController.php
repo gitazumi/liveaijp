@@ -47,7 +47,7 @@ class GoogleCloudController extends Controller
                 'expires_in' => $accessToken['expires_in']
             ]);
 
-            return redirect('dashboard')->with('success', 'Google Calendar linked successfully!');
+            return redirect('welcome')->with('success', 'Google Calendar linked successfully!');
         }
 
         return redirect('/')->with('error', 'Failed to authenticate with Google.');
