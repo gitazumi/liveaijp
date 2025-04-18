@@ -322,7 +322,7 @@ class ChatController extends Controller
 
     function chatBot()
     {
-        $usageInfo = $this->getUsageInfo();
+        $usageInfo = \App\Helpers\UsageHelper::getUsageInfo();
         return view('admin.chat.bot', compact('usageInfo'));
     }
 
