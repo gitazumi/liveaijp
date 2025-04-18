@@ -16,7 +16,7 @@ class Controller extends BaseController
     /**
      * 利用状況情報を取得する
      */
-    protected function getUsageInfo()
+    public function getUsageInfo()
     {
         $user = Auth::user();
         $isExistingAccount = $user->isExistingAccount();
