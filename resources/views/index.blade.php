@@ -106,12 +106,12 @@
                         ['text' => '営業時間は何時ですか？', 'img' => 'chatting_user.png', 'type' => 'user'],
                         ['text' => '当店の営業時間は10:00〜22:00です。', 'img' => 'chatting_bot.png', 'type' => 'bot'],
                         [
-                            'text' => 'ホールレンタルの料金を教えてください。',
+                            'text' => 'オンライン予約は可能でしょうか？',
                             'img' => 'chatting_user_2.png',
                             'type' => 'user',
                         ],
                         [
-                            'text' => '1時間あたり5,000円（税込）です。詳しいプランはこちらをご覧ください。',
+                            'text' => 'はい、公式サイトよりご予約いただけます。空状況もご確認いただけます。',
                             'img' => 'chatting_bot.png',
                             'type' => 'bot',
                         ],

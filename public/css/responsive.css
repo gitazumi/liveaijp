@@ -189,6 +189,7 @@
     }
     .chatting {
         gap: 1%;
+        margin-bottom: 3px; /* 吹き出し間の間隔を維持 */
     }
     .tooltip_ {
         font-size: 14px;
@@ -613,6 +614,9 @@
         width: 85%;
         font-size: 16px;
     }
+    .chatting {
+        margin-bottom: 3px; /* 小さい画面サイズでも間隔を維持 */
+    }
     .chatting-img_ {
         position: relative;
     }
@@ -643,6 +647,17 @@
     }
     .footer-nav{
         gap: 10px;
+    }
+}
+
+/* iPhone向けの特別なメディアクエリ */
+@media only screen and (max-width:428px) { /* iPhone 14 Pro Maxの幅 */
+    .chatting {
+        margin-bottom: 3px; /* iPhone向けに吹き出し間の間隔を確保 */
+    }
+    .tooltip, .tooltip_ {
+        padding: 10px 10px;
+        font-size: 14px;
     }
 }
 
