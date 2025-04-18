@@ -1,4 +1,4 @@
-@section('title', 'Chat History')
+@section('title', 'チャット履歴')
 <x-sidebar>
     <div class="flex justify-center">
         <div class="w-full rounded-xl p-[30px] sm:p-[50px] bg-[#E9F2FF]">
@@ -32,7 +32,7 @@
 
 
                 <span class="text-[20px] sm:text-[28.95px] font-semibold">
-                    Chat History
+                    チャット履歴
                 </span>
             </div>
 
@@ -58,10 +58,10 @@
                             </div>
                             <div class="flex justify-between text-[14px] text-gray-600 mt-2">
                                 <div>
-                                    <span class="font-medium">Last Update:</span> {{ $conversation->created_at }}
+                                    <span class="font-medium">最終更新日:</span> {{ $conversation->created_at }}
                                 </div>
                                 <div>
-                                    <span class="font-medium">Messages:</span> {{ count($conversation->messages) }}
+                                    <span class="font-medium">会話数:</span> {{ count($conversation->messages) }}
                                 </div>
                             </div>
                         </div>
@@ -78,13 +78,13 @@
                         <thead class="bg-[#344EAF] text-[#E9F2FF] rounded p-2">
                             <tr>
                                 <th class="rounded-l-lg p-2 font-semibold text-[16px] sm:text-[20px] mb-5 uppercase text-left w-1/2">
-                                    Title
+                                    タイトル
                                 </th>
                                 <th class="p-2 font-semibold text-[16px] sm:text-[20px] mb-5 uppercase text-center w-1/4">
-                                    Last Update
+                                    最終更新日
                                 </th>
                                 <th class="rounded-r-lg p-2 font-semibold text-[16px] sm:text-[20px] mb-5 uppercase text-center w-1/4">
-                                    Messages
+                                    会話数
                                 </th>
                             </tr>
                         </thead>

@@ -1,4 +1,4 @@
-@section('title', ' FAQ Training')
+@section('title', 'FAQトレーニング')
 <x-sidebar>
     <div class="flex justify-center">
         <div class="w-full rounded-xl p-[30px] sm:p-[50px] bg-[#E9F2FF]">
@@ -27,7 +27,7 @@
                 </svg>
 
                 <span class="text-[20px] sm:text-[28.95px] font-semibold">
-                    FAQ Training
+                    FAQトレーニング
                 </span>
             </div>
 
@@ -35,7 +35,7 @@
                 @csrf
                 <div class="mb-3">
                     <label for="" class="text-[20px] font-medium">
-                        Question
+                        質問
                     </label>
                     <input type="text" name="question" id="question" value="{{ old('question') }}" required
                         class="w-full block rounded border-[#344EAF] bg-transparent focus:ring-[#344EAF] mt-1">
@@ -45,7 +45,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="" class="text-[20px] font-medium">
-                        Answer
+                        回答
                     </label>
                     <textarea name="answer" id="answer" cols="30" rows="5" required
                         class="resize-none p-2 w-full block rounded border-[#344EAF] bg-transparent focus:ring-[#344EAF] focus:ring-0 mt-1">{{ old('answer') }}</textarea>
@@ -59,7 +59,7 @@
             </form>
 
             <div class="mt-20">
-                <h1 class="font-semibold text-[28px]">Register FAQ’s</h1>
+                <h1 class="font-semibold text-[28px]">登録済みのFAQ一覧</h1>
                 @forelse ($faqs as $i => $faq)
                     <div class="mt-5 p-5 border-b border-[#344EAF]">
                         <div class="flex justify-between">
@@ -143,14 +143,14 @@
                     @method('PUT')
                     <div class="mb-3">
                         <label for="" class="text-[20px] font-medium">
-                            Question
+                            質問
                         </label>
                         <input type="text" name="question" id="modal-question"
                             class="w-full block rounded border-[#344EAF] bg-transparent focus:ring-[#344EAF] mt-1">
                     </div>
                     <div class="mb-3">
                         <label for="" class="text-[20px] font-medium">
-                            Answer
+                            回答
                         </label>
                         <textarea name="answer" id="modal-answer" cols="30" rows="5"
                             class="p-2 w-full block rounded border-[#344EAF] bg-transparent focus:ring-[#344EAF] focus:ring-0 mt-1"></textarea>

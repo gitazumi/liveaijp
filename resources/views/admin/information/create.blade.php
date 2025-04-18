@@ -1,4 +1,4 @@
-@section('title', 'Store Information')
+@section('title', 'お店の登録')
 <x-sidebar>
     <div class="flex justify-center">
         <div class="w-full rounded-xl p-[30px] sm:p-[50px] bg-[#E9F2FF]">
@@ -27,7 +27,7 @@
                 <input type="hidden" name="id" value="{{ $data->id ?? '' }}">
                 <div class="mb-3">
                     <label for="" class="text-[20px] font-medium">
-                        Venue Name
+                        お店の名前
                     </label>
                     <input type="text" name="venue_name" id="venue_name" value="{{ $data->venue_name ?? '' }}"
                         required class="w-full block rounded border-[#344EAF] bg-transparent focus:ring-[#344EAF] mt-1">
@@ -37,7 +37,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="" class="text-[20px] font-medium">
-                        Address
+                        住所
                     </label>
                     <input type="text" name="address" id="address" value="{{ $data->address ?? '' }}" required
                         class="w-full block rounded border-[#344EAF] bg-transparent focus:ring-[#344EAF] focus:ring-0 mt-1">
@@ -47,7 +47,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="" class="text-[20px] font-medium">
-                        Phone
+                        電話番号
                     </label>
                     <input type="text" name="phone" id="phone" value="{{ $data->phone ?? '' }}" required
                         class="w-full block rounded border-[#344EAF] bg-transparent focus:ring-[#344EAF] focus:ring-0 mt-1">
@@ -57,7 +57,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="" class="text-[20px] font-medium">
-                        Email
+                        メールアドレス
                     </label>
                     <input type="text" name="email" id="email" value="{{ $data->email ?? '' }}" required
                         class="w-full block rounded border-[#344EAF] bg-transparent focus:ring-[#344EAF] focus:ring-0 mt-1">
@@ -67,7 +67,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="" class="text-[20px] font-medium">
-                        Additional Information
+                        お店の特徴
                     </label>
                     <textarea name="additional_information" id="additional_information" cols="30" rows="5" required
                         class="p-2 w-full block rounded border-[#344EAF] bg-transparent focus:ring-[#344EAF] focus:ring-0 mt-1">{{ $data->additional_information ?? '' }}</textarea>

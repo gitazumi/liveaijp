@@ -1,4 +1,4 @@
-@section('title', 'Chat')
+@section('title', 'チャット')
 <x-sidebar>
     <div class="flex justify-center h-screen overflow-y-hidden">
         <div class="h-[90%]  w-full rounded-xl p-[30px] sm:p-[50px] bg-[#E9F2FF]">
@@ -21,7 +21,7 @@
                 </svg>
 
                 <span class="text-[20px] sm:text-[28.95px] font-semibold">
-                    Chat
+                    チャット
                 </span>
             </div>
 
