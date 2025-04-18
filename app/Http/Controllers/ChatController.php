@@ -83,6 +83,32 @@ class ChatController extends Controller
                     ]);
                 }
             }
+            
+            $user = User::find($userId);
+            if (!$user->isExistingAccount()) {
+                $today = date('Y-m-d');
+                $requestCount = ChatRequestCount::where('user_id', $userId)
+                    ->where('date', $today)
+                    ->first();
+                    
+                if (!$requestCount) {
+                    $requestCount = new ChatRequestCount([
+                        'user_id' => $userId,
+                        'date' => $today,
+                        'count' => 0
+                    ]);
+                }
+                
+                if ($requestCount->count >= 100) {
+                    return response()->json([
+                        'error' => true,
+                        'message' => '1日の利用上限に達しました'
+                    ], 429);
+                }
+                
+                $requestCount->count += 1;
+                $requestCount->save();
+            }
             if ($request->conversation_id) {
                 $sessionId = $request->conversation_id;
             } else {
@@ -296,7 +322,8 @@ class ChatController extends Controller
 
     function chatBot()
     {
-        return view('admin.chat.bot');
+        $usageInfo = $this->getUsageInfo();
+        return view('admin.chat.bot', compact('usageInfo'));
     }
 
     function generateSnippet()

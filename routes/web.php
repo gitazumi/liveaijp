@@ -50,7 +50,8 @@ Route::middleware(['auth', 'role:user'])->group(function () {
    
     Route::get('/welcome', function () {
         $calendar = GoogleCalendar::where('user_id', Auth::id())->first() ?? ''; 
-        return view('welcome', compact('calendar'));
+        $usageInfo = app(\App\Http\Controllers\Controller::class)->getUsageInfo();
+        return view('welcome', compact('calendar', 'usageInfo'));
     })->middleware(['auth', 'verified'])->name('welcome');
     
     Route::get('/dashboard', function () {

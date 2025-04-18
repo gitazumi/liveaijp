@@ -30,6 +30,18 @@
 
     <div class="!h-[80vh] bg-blue-50  rounded-2xl">
         <div class="max-w-7xl mx-auto">
+            @if(!$usageInfo['isExistingAccount'] && $usageInfo['chatCount'] >= 100)
+            <div class="bg-red-100 text-red-700 p-4 rounded-lg mb-4 text-center">
+                1日の利用上限に達しました
+            </div>
+            @endif
+
+            @if(!$usageInfo['isExistingAccount'])
+            <div class="text-sm text-gray-600 mb-4 text-center">
+                本日のチャット利用: {{ $usageInfo['chatCount'] }} / {{ $usageInfo['chatLimit'] }}
+            </div>
+            @endif
+            
             <div class="bg-[#E9F2FF] rounded-xl h-[80vh] flex flex-col px-2 sm:px-6 lg:px-8 pt-3 sm:pt-6 pb-10 sm:pb-3">
                 <!-- Header -->
                 <div class="p-4">
@@ -155,6 +167,11 @@
 
     $('#send-message').click(function(e) {
         e.preventDefault();
+        @if(!$usageInfo['isExistingAccount'] && $usageInfo['chatCount'] >= 100)
+        alert('1日の利用上限に達しました');
+        return false;
+        @endif
+        
         const messageInput = $('#message');
         const message = messageInput.val().trim();
 
