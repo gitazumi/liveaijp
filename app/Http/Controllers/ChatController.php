@@ -11,6 +11,7 @@ use App\Models\Conversation;
 use App\Models\Faq;
 use App\Models\Information;
 use App\Models\User;
+use App\Models\ChatRequestCount;
 use Google\Client;
 use Google\Service\Calendar;
 

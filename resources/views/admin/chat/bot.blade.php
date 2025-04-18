@@ -203,7 +203,7 @@
                     },
                     data: {
                         message,
-                        // is_test: true  // テストを履歴に残さない
+                        is_test: true  // テストを履歴に残さない
                     },
                     success: function(response) {
                         typingDiv.remove();
