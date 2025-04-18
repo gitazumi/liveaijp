@@ -105,7 +105,7 @@
 
             function createMessageElement(message, isUser = true) {
                 const messageDiv = document.createElement('div');
-                messageDiv.className = `flex items-start space-x-2 mb-4 ${isUser ? '' : 'flex-row-reverse space-x-reverse'}`;
+                messageDiv.className = `flex items-start space-x-2 mb-4 ${isUser ? 'flex-row-reverse space-x-reverse' : ''}`;
                 const formatDate = () => {
                     const now = new Date();
                     const year = now.getFullYear();
