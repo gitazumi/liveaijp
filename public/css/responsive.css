@@ -650,6 +650,17 @@
     }
 }
 
+/* iPhone向けの特別なメディアクエリ */
+@media only screen and (max-width:428px) { /* iPhone 14 Pro Maxの幅 */
+    .chatting {
+        margin-bottom: 3px; /* iPhone向けに吹き出し間の間隔を確保 */
+    }
+    .tooltip, .tooltip_ {
+        padding: 10px 10px;
+        font-size: 14px;
+    }
+}
+
 @media only screen and (max-width:600px) {
 
     header figure {
