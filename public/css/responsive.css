@@ -189,7 +189,7 @@
     }
     .chatting {
         gap: 1%;
-        margin-bottom: 15px; /* 吹き出し間の間隔を維持 */
+        margin-bottom: 3px; /* 吹き出し間の間隔を維持 */
     }
     .tooltip_ {
         font-size: 14px;
@@ -615,7 +615,7 @@
         font-size: 16px;
     }
     .chatting {
-        margin-bottom: 12px; /* 小さい画面サイズでも間隔を維持（少し狭く） */
+        margin-bottom: 3px; /* 小さい画面サイズでも間隔を維持 */
     }
     .chatting-img_ {
         position: relative;
