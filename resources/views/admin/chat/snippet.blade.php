@@ -1,4 +1,4 @@
-@section('title', 'Chat History')
+@section('title', 'JavaScript生成コード')
 <x-sidebar>
     <div class="flex justify-center">
         <div class="w-full rounded-xl p-[30px] sm:p-[50px] bg-[#E9F2FF]">
@@ -32,13 +32,13 @@
 
 
                 <span class="text-[20px] sm:text-[28.95px] font-semibold">
-                    Generate Snippet
+                    JavaScript生成コード
                 </span>
             </div>
 
             <div>
                 <p class="text-[18px] font-semibold">
-                    Please paste the following code right before the <code>&lt;/body&gt;</code> tag.
+                    HTMLの</body>タグの直前に貼り付けてください。
                 </p>
                 <hr class="my-5 border-[#0081eb]">
 
@@ -57,7 +57,7 @@
                     </button>
                     <hr class="mb-5 mt-10 border-[#0081eb]">
                     <p class="text-[18px] font-semibold mb-5">
-                        By adding CSS, the following customizations are also possible.
+                        CSSを追加することで、以下のようなカスタマイズも可能です。
                     </p>
 <pre class="text-wrap">&lt;style&gt;
     /* you can change background color of button */
