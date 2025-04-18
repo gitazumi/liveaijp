@@ -189,7 +189,7 @@
     }
     .chatting {
         gap: 1%;
-        margin-bottom: 3px; /* 吹き出し間の間隔を維持 */
+        margin-bottom: 20px; /* 吹き出し間の間隔を維持 - 大幅増量 */
     }
     .tooltip_ {
         font-size: 14px;
@@ -615,7 +615,7 @@
         font-size: 16px;
     }
     .chatting {
-        margin-bottom: 3px; /* 小さい画面サイズでも間隔を維持 */
+        margin-bottom: 20px; /* 小さい画面サイズでも間隔を維持 - 大幅増量 */
     }
     .chatting-img_ {
         position: relative;
@@ -653,11 +653,13 @@
 /* iPhone向けの特別なメディアクエリ */
 @media only screen and (max-width:428px) { /* iPhone 14 Pro Maxの幅 */
     .chatting {
-        margin-bottom: 3px; /* iPhone向けに吹き出し間の間隔を確保 */
+        margin-bottom: 20px !important; /* iPhone向けに吹き出し間の間隔を確保 - 大幅増量 */
+        padding-bottom: 10px !important; /* 追加のパディングで間隔を確保 */
     }
     .tooltip, .tooltip_ {
         padding: 10px 10px;
         font-size: 14px;
+        margin-bottom: 5px !important; /* 吹き出し自体にも余白を追加 */
     }
 }
 
