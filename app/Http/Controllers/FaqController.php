@@ -24,7 +24,15 @@ class FaqController extends Controller
             'answer' => 'required',
         ]);
 
-        $validatedData['user_id'] = Auth::id();
+        $user = Auth::user();
+        $validatedData['user_id'] = $user->id;
+        
+        if (!$user->isExistingAccount()) {
+            $faqCount = Faq::where('user_id', $user->id)->count();
+            if ($faqCount >= 20) {
+                return redirect()->back()->with('error', 'FAQ登録数の上限（20件）に達しています。');
+            }
+        }
 
         Faq::create($validatedData);
         return redirect()->back()->with('success', 'FAQ added successfully.');

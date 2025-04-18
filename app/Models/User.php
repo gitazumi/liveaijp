@@ -57,4 +57,17 @@ class User extends Authenticatable implements MustVerifyEmail
             $user->chatbot_token = Str::uuid()->toString();
         });
     }
+    
+    /**
+     * 既存アカウント（2025年4月16日以前に作成）かどうかを判定
+     */
+    public function isExistingAccount()
+    {
+        return $this->created_at <= '2025-04-16 23:59:59';
+    }
+    
+    public function chatRequestCounts()
+    {
+        return $this->hasMany(ChatRequestCount::class);
+    }
 }
