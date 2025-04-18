@@ -50,7 +50,35 @@ Route::middleware(['auth', 'role:user'])->group(function () {
    
     Route::get('/welcome', function () {
         $calendar = GoogleCalendar::where('user_id', Auth::id())->first() ?? ''; 
-        $usageInfo = app(\App\Http\Controllers\Controller::class)->getUsageInfo();
+        
+        $user = Auth::user();
+        $isExistingAccount = $user->created_at <= '2025-04-16 23:59:59';
+        
+        $faqCount = \App\Models\Faq::where('user_id', $user->id)->count();
+        $faqLimit = $isExistingAccount ? '無制限' : 20;
+        
+        $chatCount = 0;
+        $chatLimit = $isExistingAccount ? '無制限' : 100;
+        
+        if (!$isExistingAccount) {
+            $today = date('Y-m-d');
+            $requestCount = \App\Models\ChatRequestCount::where('user_id', $user->id)
+                ->where('date', $today)
+                ->first();
+            
+            if ($requestCount) {
+                $chatCount = $requestCount->count;
+            }
+        }
+        
+        $usageInfo = [
+            'faqCount' => $faqCount,
+            'faqLimit' => $faqLimit,
+            'chatCount' => $chatCount,
+            'chatLimit' => $chatLimit,
+            'isExistingAccount' => $isExistingAccount
+        ];
+        
         return view('welcome', compact('calendar', 'usageInfo'));
     })->middleware(['auth', 'verified'])->name('welcome');
     
