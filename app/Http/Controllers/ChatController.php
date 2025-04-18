@@ -86,33 +86,34 @@ class ChatController extends Controller
             }
             
             $user = User::find($userId);
-            Log::info('Chat request from user: ' . $user->email . ', isExistingAccount: ' . ($user->isExistingAccount() ? 'true' : 'false'));
             
-            $today = date('Y-m-d');
-            $requestCount = ChatRequestCount::where('user_id', $userId)
-                ->where('date', $today)
-                ->first();
+            try {
+                $today = date('Y-m-d');
+                $requestCount = ChatRequestCount::where('user_id', $userId)
+                    ->where('date', $today)
+                    ->first();
+                    
+                if (!$requestCount) {
+                    $requestCount = new ChatRequestCount();
+                    $requestCount->user_id = $userId;
+                    $requestCount->date = $today;
+                    $requestCount->count = 0;
+                }
                 
-            if (!$requestCount) {
-                $requestCount = new ChatRequestCount([
-                    'user_id' => $userId,
-                    'date' => $today,
-                    'count' => 0
-                ]);
-                Log::info('Created new chat request count for user: ' . $user->email);
+                if (!$user->isExistingAccount() && $requestCount->count >= 100) {
+                    return response()->json([
+                        'error' => true,
+                        'message' => '1日の利用上限に達しました'
+                    ], 429);
+                }
+                
+                $requestCount->count += 1;
+                $requestCount->save();
+                
+                Log::info('Chat count updated for user: ' . $user->email . ', count: ' . $requestCount->count);
+            } catch (\Exception $e) {
+                Log::error('Error updating chat count: ' . $e->getMessage());
             }
-            
-            if (!$user->isExistingAccount() && $requestCount->count >= 100) {
-                Log::info('User ' . $user->email . ' reached chat limit: ' . $requestCount->count);
-                return response()->json([
-                    'error' => true,
-                    'message' => '1日の利用上限に達しました'
-                ], 429);
-            }
-            
-            $requestCount->count += 1;
-            $requestCount->save();
-            Log::info('Incremented chat count for user: ' . $user->email . ', new count: ' . $requestCount->count);
             if ($request->conversation_id) {
                 $sessionId = $request->conversation_id;
             } else {
