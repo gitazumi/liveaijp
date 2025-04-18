@@ -373,6 +373,7 @@ h2::after {
     display: flex;
     justify-content: space-between;
     gap: 5px;
+    margin-bottom: 15px; /* 吹き出し間の間隔を追加 */
 }
 .tooltip {
       color: #096FCA;
