@@ -156,10 +156,10 @@ class ChatController extends Controller
                 'response' => $processedResponse
             ]);
         } catch (\Exception $e) {
-            Log::error('Chat Error: ' . $e->getMessage());
+            Log::error('Chat Error: ' . $e->getMessage() . "\n" . $e->getTraceAsString());
             return response()->json([
                 'error' => true,
-                'message' => 'An error occurred while processing your message.',
+                'message' => 'An error occurred while processing your message: ' . $e->getMessage(),
                 'issue' => $e->getMessage()
             ], 500);
         }
