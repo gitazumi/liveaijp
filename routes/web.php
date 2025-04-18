@@ -61,13 +61,17 @@ Route::middleware(['auth', 'role:user'])->group(function () {
         $chatLimit = $isExistingAccount ? '無制限' : 100;
         
         if (!$isExistingAccount) {
-            $today = date('Y-m-d');
-            $requestCount = \App\Models\ChatRequestCount::where('user_id', $user->id)
-                ->where('date', $today)
-                ->first();
-            
-            if ($requestCount) {
-                $chatCount = $requestCount->count;
+            try {
+                $today = date('Y-m-d');
+                $requestCount = \App\Models\ChatRequestCount::where('user_id', $user->id)
+                    ->where('date', $today)
+                    ->first();
+                
+                if ($requestCount) {
+                    $chatCount = $requestCount->count;
+                }
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error('Error fetching chat request count: ' . $e->getMessage());
             }
         }
         
