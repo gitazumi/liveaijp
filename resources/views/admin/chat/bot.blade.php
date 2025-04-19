@@ -105,7 +105,7 @@
 
             function createMessageElement(message, isUser = true) {
                 const messageDiv = document.createElement('div');
-                messageDiv.className = `flex items-start space-x-2 mb-4 ${isUser ? '' : 'flex-row-reverse space-x-reverse'}`;
+                messageDiv.className = `flex items-start space-x-2 mb-4 ${isUser ? 'flex-row-reverse space-x-reverse' : ''}`;
                 const formatDate = () => {
                     const now = new Date();
                     const year = now.getFullYear();
@@ -211,10 +211,13 @@
                         scrollToBottom();
                     },
                     error: function(xhr, status, error) {
-                        console.error("Error:", error);
+                        console.error("Error:", xhr.responseJSON);
                         typingDiv.remove();
-                        const errorMessage = createMessageElement(
-                            "Sorry, there was an error. Please try again.", false);
+                        let errorMsg = "Sorry, there was an error. Please try again.";
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            errorMsg = xhr.responseJSON.message;
+                        }
+                        const errorMessage = createMessageElement(errorMsg, false);
                         messageList.appendChild(errorMessage);
                         scrollToBottom();
                     }

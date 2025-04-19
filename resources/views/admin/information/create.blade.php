@@ -1,7 +1,7 @@
 @section('title', 'お店の登録')
 <x-sidebar>
     <div class="flex justify-center">
-        <div class="w-full rounded-xl p-[30px] sm:p-[50px] bg-[#E9F2FF]">
+        <div class="w-full rounded-xl p-[30px] sm:p-[50px] bg-white">
             <div class="flex items-center mb-5">
                 <a href="{{ route('dashboard') }}">
                     <svg width="24" height="14" viewBox="0 0 24 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -30,7 +30,7 @@
                         お店の名前
                     </label>
                     <input type="text" name="venue_name" id="venue_name" value="{{ $data->venue_name ?? '' }}"
-                        required class="w-full block rounded border-[#344EAF] bg-transparent focus:ring-[#344EAF] mt-1">
+                        required class="w-full block rounded border-[#344EAF] bg-white text-black focus:ring-[#344EAF] mt-1">
                     @error('venue_name')
                         {{ $message }}
                     @enderror
@@ -40,7 +40,7 @@
                         住所
                     </label>
                     <input type="text" name="address" id="address" value="{{ $data->address ?? '' }}" required
-                        class="w-full block rounded border-[#344EAF] bg-transparent focus:ring-[#344EAF] focus:ring-0 mt-1">
+                        class="w-full block rounded border-[#344EAF] bg-white text-black focus:ring-[#344EAF] focus:ring-0 mt-1">
                     @error('address')
                         {{ $message }}
                     @enderror
@@ -50,7 +50,7 @@
                         電話番号
                     </label>
                     <input type="text" name="phone" id="phone" value="{{ $data->phone ?? '' }}" required
-                        class="w-full block rounded border-[#344EAF] bg-transparent focus:ring-[#344EAF] focus:ring-0 mt-1">
+                        class="w-full block rounded border-[#344EAF] bg-white text-black focus:ring-[#344EAF] focus:ring-0 mt-1">
                     @error('phone')
                         {{ $message }}
                     @enderror
@@ -60,7 +60,7 @@
                         メールアドレス
                     </label>
                     <input type="text" name="email" id="email" value="{{ $data->email ?? '' }}" required
-                        class="w-full block rounded border-[#344EAF] bg-transparent focus:ring-[#344EAF] focus:ring-0 mt-1">
+                        class="w-full block rounded border-[#344EAF] bg-white text-black focus:ring-[#344EAF] focus:ring-0 mt-1">
                     @error('email')
                         {{ $message }}
                     @enderror
@@ -70,14 +70,14 @@
                         お店の特徴
                     </label>
                     <textarea name="additional_information" id="additional_information" cols="30" rows="5" required
-                        class="p-2 w-full block rounded border-[#344EAF] bg-transparent focus:ring-[#344EAF] focus:ring-0 mt-1">{{ $data->additional_information ?? '' }}</textarea>
+                        class="p-2 w-full block rounded border-[#344EAF] bg-white text-black focus:ring-[#344EAF] focus:ring-0 mt-1">{{ $data->additional_information ?? '' }}</textarea>
                     @error('additional_information')
                         {{ $message }}
                     @enderror
                 </div>
 
-                <x-primary-button class="!w-[100px] float-right">
-                    {{ __('Save') }}
+                <x-primary-button class="!w-[100px] float-right bg-[#344EAB] text-white">
+                    {{ __('登録') }}
                 </x-primary-button>
             </form>
         </div>
