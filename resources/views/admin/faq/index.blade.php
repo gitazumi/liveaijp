@@ -3,13 +3,6 @@
     <div class="flex justify-center">
         <div class="w-full rounded-xl p-[30px] sm:p-[50px] bg-white">
             <div class="flex items-center mb-5">
-                <a href="{{ route('dashboard') }}">
-                    <svg width="24" height="14" viewBox="0 0 24 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M8 14C8 13.258 7.267 12.15 6.525 11.22C5.571 10.02 4.431 8.973 3.124 8.174C2.144 7.575 0.956 7 -3.0598e-07 7M-3.0598e-07 7C0.956 7 2.145 6.425 3.124 5.826C4.431 5.026 5.571 3.979 6.525 2.781C7.267 1.85 8 0.74 8 -3.49691e-07M-3.0598e-07 7L24 7"
-                            stroke="black" stroke-width="2" />
-                    </svg>
-                </a>
                 <svg width="35" height="27" class="mx-2 sm:mx-5" viewBox="0 -19.5 164 164" fill="currentColor"
                     xmlns="http://www.w3.org/2000/svg">
                     <path
