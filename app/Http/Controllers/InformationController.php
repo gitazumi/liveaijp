@@ -29,6 +29,6 @@ class InformationController extends Controller
             array_merge($validatedData, ['user_id' => Auth::id()])
         );
 
-        return redirect()->route('welcome')->with('success', 'Information updated successfully');
+        return back()->with('success', 'Information updated successfully');
     }
 }
