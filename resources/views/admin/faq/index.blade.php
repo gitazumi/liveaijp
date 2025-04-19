@@ -53,8 +53,8 @@
                         {{ $message }}
                     @enderror
                 </div>
-                <x-primary-button class="!w-[100px] float-right">
-                    {{ __('Add') }}
+                <x-primary-button class="!w-[100px] float-right text-white">
+                    登録
                 </x-primary-button>
             </form>
 
