@@ -51,7 +51,7 @@
                     <h3 class="font-medium text-[#173F74]">【利用状況】</h3>
                     <ul class="mt-2 space-y-1">
                         <li>・FAQ登録数：{{ $usageInfo['faqCount'] }} / {{ $usageInfo['faqLimit'] }}</li>
-                        <li>・チャット利用：{{ $usageInfo['chatCount'] }} / {{ $usageInfo['chatLimit'] }}</li>
+                        <li>・チャット利用回数(1日)：{{ $usageInfo['chatCount'] }} / {{ $usageInfo['chatLimit'] }}</li>
                     </ul>
                 </div>
             </div>

@@ -1,7 +1,7 @@
 @section('title', 'FAQトレーニング')
 <x-sidebar>
     <div class="flex justify-center">
-        <div class="w-full rounded-xl p-[30px] sm:p-[50px] bg-[#E9F2FF]">
+        <div class="w-full rounded-xl p-[30px] sm:p-[50px] bg-white">
             <div class="flex items-center mb-5">
                 <a href="{{ route('dashboard') }}">
                     <svg width="24" height="14" viewBox="0 0 24 14" fill="none" xmlns="http://www.w3.org/2000/svg">
