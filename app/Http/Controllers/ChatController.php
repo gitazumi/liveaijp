@@ -120,8 +120,11 @@ class ChatController extends Controller
                 $sessionId = $this->getSessionId($request);
             }
             $conversation = $this->getOrCreateConversation($sessionId, $request->message, $userId);
+            
+            $isTestMode = $request->has('is_test') && $request->is_test;
+            
             // is_test フラグがある場合は履歴を保存しない
-            if (!$request->has('is_test') || !$request->is_test) {
+            if (!$isTestMode) {
                 $this->storeMessage([
                     'conversation_id' => $conversation->id,
                     'message' => $request->message,
@@ -131,7 +134,7 @@ class ChatController extends Controller
 
             $contextMessages = $this->getConversationContext($conversation->id);
             $start = microtime(true);
-            $aiResponse = $this->getAiResponse($contextMessages, $userId);
+            $aiResponse = $this->getAiResponse($contextMessages, $userId, $isTestMode, $request->message);
             $end = microtime(true);
             $executionTime = $end - $start;
             Log::info('ChatGPT API Execution Time: ' . $executionTime . ' seconds');
@@ -141,7 +144,7 @@ class ChatController extends Controller
             }
 
             // is_test フラグがある場合は履歴を保存しない
-            if (!$request->has('is_test') || !$request->is_test) {
+            if (!$isTestMode) {
                 $this->storeMessage([
                     'conversation_id' => $conversation->id,
                     'message' => $aiResponse['message'],
@@ -224,7 +227,7 @@ class ChatController extends Controller
         return $messages;
     }
 
-    private function getAiResponse($messages, $userId)
+    private function getAiResponse($messages, $userId, $isTestMode = false, $currentMessage = '')
     {
         $url = "https://api.openai.com/v1/chat/completions";
 
@@ -237,13 +240,34 @@ class ChatController extends Controller
         })->join("\n");
 
         $events = json_encode($events);
+        
+        $systemContent = "You are a chatbot trained to answer based on the following FAQs:\n\n$faqContent\n\nYour company information: $storeInformation. ";
+        
+        if ($isTestMode) {
+            $systemContent .= "This is a test chat. Please provide a detailed and helpful response to the user's question. ";
+            $systemContent .= "Always respond in Japanese unless specifically asked to use another language. ";
+            $systemContent .= "Be concise but informative. If you don't know the answer, say so politely in Japanese. ";
+            $systemContent .= "Avoid generic responses like 'ご質問があればどうぞ' or 'How can I help you?'. ";
+            
+            if (empty($messages)) {
+                $messages = [
+                    [
+                        'role' => 'user',
+                        'content' => $currentMessage
+                    ]
+                ];
+            }
+        }
+        
+        $systemContent .= "Answer questions as if you are their assistant.";
+        
         $data = [
             "model" => $this->model,
             "messages" => array_merge(
                 [
                     [
                         'role' => 'system',
-                        'content' => "You are a chatbot trained to answer based on the following FAQs:\n\n$faqContent\n\nYour company information: $storeInformation. Answer questions as if you are their assistant."
+                        'content' => $systemContent
                     ]
                 ],
                 $messages

@@ -183,14 +183,18 @@
         scrollToBottom();
 
         const typingDiv = document.createElement('div');
-        typingDiv.className = 'typing-indicator flex items-center space-x-2 mb-4 float-right';
+        typingDiv.className = 'typing-indicator flex items-start space-x-2 mb-4';
         typingDiv.innerHTML = `
-                        <div class="bg-[#D0E4FF] rounded-lg p-4 flex items-center space-x-2">
-                            <span class="w-2 h-2 bg-[#344EAB] rounded-full"></span>
-                            <span class="w-2 h-2 bg-[#344EAB] rounded-full"></span>
-                            <span class="w-2 h-2 bg-[#344EAB] rounded-full"></span>
+                        <div class="flex-shrink-0 w-10">
+                            ${getBotAvatar()}
                         </div>
-                        ${getBotAvatar()}
+                        <div class="flex flex-col max-w-[75%]">
+                            <div class="bg-[#D0E4FF] border border-[#344EAB] p-4 rounded-lg shadow-sm flex items-center space-x-2">
+                                <span class="w-2 h-2 bg-[#344EAB] rounded-full"></span>
+                                <span class="w-2 h-2 bg-[#344EAB] rounded-full"></span>
+                                <span class="w-2 h-2 bg-[#344EAB] rounded-full"></span>
+                            </div>
+                        </div>
                     `;
                 messageList.appendChild(typingDiv);
                 scrollToBottom();
