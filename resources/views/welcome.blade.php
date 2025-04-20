@@ -58,7 +58,7 @@
                 <p>操作方法や不具合などご不明な点がありましたら、<a href="https://liveai.jp/contact" class="text-blue-500 hover:underline">お問い合わせ</a>からいつでもご連絡ください。</p>
                 
                 <div class="mt-4 bg-gray-50 p-4 rounded-lg">
-                    <h3 class="font-medium text-[#173F74]">【利用状況】</h3>
+                    <h3 class="font-medium text-[#173F74]">【利用制限】</h3>
                     <ul class="mt-2 space-y-1">
                         <li>・FAQ登録数：{{ $usageInfo['faqCount'] }} / {{ $usageInfo['faqLimit'] }}</li>
                         <li>・チャット利用回数(1日)：{{ $usageInfo['chatCount'] }} / {{ $usageInfo['chatLimit'] }}</li>
