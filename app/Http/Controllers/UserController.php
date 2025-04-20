@@ -1,4 +1,4 @@
-<?php
+oうs<?php
 
 namespace App\Http\Controllers;
 
@@ -28,10 +28,10 @@ class UserController extends Controller
             'password_confirmation' => 'required',
         ]);
         $validatedData['password'] = Hash::make($request->password);
-        
+
         $validatedData['faq_limit'] = 20; // FAQ登録数のデフォルト値
         $validatedData['api_request_limit'] = 100; // APIリクエスト数のデフォルト値
-        
+
         $user = User::create($validatedData);
         $user->assignRole('user');
         return redirect()->route('users.index')->with('success', 'User added successfully.');
@@ -65,22 +65,22 @@ class UserController extends Controller
 
     public function autoLogin($id) {
         session(['admin_user_id' => Auth::id()]);
-        
+
         Auth::loginUsingId($id);
         return redirect('welcome');
     }
-    
+
     public function returnToAdmin() {
         if (session()->has('admin_user_id')) {
             $adminId = session('admin_user_id');
-            
+
             session()->forget('admin_user_id');
-            
+
             Auth::loginUsingId($adminId);
-            
+
             return redirect()->route('users.index')->with('success', '管理者アカウントに戻りました。');
         }
-        
+
         return redirect()->route('welcome')->with('error', '管理者アカウント情報が見つかりませんでした。');
     }
 
@@ -93,7 +93,7 @@ class UserController extends Controller
     public function updateManage(Request $request, $id)
     {
         $user = User::findOrFail($id);
-        
+
         $validatedData = $request->validate([
             'email' => 'required|email|unique:users,email,'.$id,
             'status' => 'required',
@@ -109,16 +109,16 @@ class UserController extends Controller
             $validatedData['password'] = Hash::make($request->password);
         }
 
-        if ($request->has('faq_limit_unlimited') && $request->faq_limit_unlimited) {
+        if ($request->has('faq_limit_type') && $request->faq_limit_type === 'unlimited') {
             $validatedData['faq_limit'] = null;
         }
         
-        if ($request->has('api_request_limit_unlimited') && $request->api_request_limit_unlimited) {
+        if ($request->has('api_request_limit_type') && $request->api_request_limit_type === 'unlimited') {
             $validatedData['api_request_limit'] = null;
         }
 
         $user->update($validatedData);
-        
+
         return redirect()->route('users.manage', ['id' => $id])->with('success', 'ユーザー情報が更新されました。');
     }
 }
