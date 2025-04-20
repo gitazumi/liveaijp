@@ -1,4 +1,4 @@
-<section class="bg-white text-gray-900 p-6 rounded-lg shadow">
+<section class="profile-form-section">
     <header>
         <h2 class="text-lg font-medium text-gray-900">
             {{ __('アカウント情報') }}
@@ -13,13 +13,13 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6 max-w-xl mx-auto">
+    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6 profile-form">
         @csrf
         @method('patch')
 
         <div>
             <x-input-label for="email" :value="__('メールアドレス')" />
-            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full bg-white text-gray-900" :value="old('email', $user->email)" required autocomplete="username" />
+            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full profile-input" :value="old('email', $user->email)" required autocomplete="username" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
@@ -41,8 +41,8 @@
             @endif
         </div>
 
-        <div class="flex justify-start items-center gap-4">
-            <x-primary-button>{{ __('保存') }}</x-primary-button>
+        <div class="profile-button-container">
+            <x-primary-button class="profile-button">{{ __('保存') }}</x-primary-button>
 
             @if (session('status') === 'profile-updated')
                 <p
@@ -50,7 +50,7 @@
                     x-show="show"
                     x-transition
                     x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-600"
+                    class="text-sm text-gray-600 ml-3"
                 >{{ __('Saved.') }}</p>
             @endif
         </div>
