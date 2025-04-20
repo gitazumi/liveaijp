@@ -19,8 +19,10 @@
 
         <div>
             <x-input-label for="email" :value="__('メールアドレス')" />
-            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full profile-input" :value="old('email', $user->email)" required autocomplete="username" />
-            <x-input-error class="mt-2" :messages="$errors->get('email')" />
+            <div class="flex flex-col mt-1">
+                <x-text-input id="email" name="email" type="email" class="block w-full profile-input" :value="old('email', $user->email)" required autocomplete="username" />
+                <x-input-error class="mt-2" :messages="$errors->get('email')" />
+            </div>
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
                 <div>
@@ -41,7 +43,7 @@
             @endif
         </div>
 
-        <div class="profile-button-container">
+        <div class="profile-button-container mt-4">
             <x-primary-button class="profile-button">{{ __('保存') }}</x-primary-button>
 
             @if (session('status') === 'profile-updated')
