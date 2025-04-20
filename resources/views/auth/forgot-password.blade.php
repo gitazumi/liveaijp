@@ -25,7 +25,7 @@
             </div>
 
             <div class="flex items-center justify-end mt-4">
-                <x-primary-button class="w-full text-white">
+                <x-primary-button class="w-full text-black">
                     {{ __('パスワードリセット') }}
                 </x-primary-button>
             </div>
