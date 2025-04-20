@@ -1,4 +1,4 @@
-<section>
+<section class="bg-white text-gray-900 p-6 rounded-lg shadow">
     <header>
         <h2 class="text-lg font-medium text-gray-900">
             {{ __('アカウント情報') }}
@@ -17,11 +17,9 @@
         @csrf
         @method('patch')
 
-
-
         <div>
             <x-input-label for="email" :value="__('メールアドレス')" />
-            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
+            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full bg-white text-gray-900" :value="old('email', $user->email)" required autocomplete="username" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
