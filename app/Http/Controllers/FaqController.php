@@ -27,10 +27,10 @@ class FaqController extends Controller
         $user = Auth::user();
         $validatedData['user_id'] = $user->id;
         
-        if (!$user->isExistingAccount()) {
+        if (!$user->isExistingAccount() && $user->faq_limit !== null) {
             $faqCount = Faq::where('user_id', $user->id)->count();
-            if ($faqCount >= 20) {
-                return redirect()->back()->with('error', 'FAQ登録数の上限（20件）に達しています。');
+            if ($faqCount >= $user->faq_limit) {
+                return redirect()->back()->with('error', 'FAQ登録数の上限（' . $user->faq_limit . '件）に達しています。');
             }
         }
 

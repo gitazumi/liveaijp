@@ -38,6 +38,8 @@ class RegisteredUserController extends Controller
         $user = User::create([
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'faq_limit' => 20,
+            'api_request_limit' => 100,
         ]);
         $user->assignRole('user');
 
