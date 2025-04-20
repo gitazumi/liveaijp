@@ -47,10 +47,11 @@ class ProfileController extends Controller
         ]);
 
         $user = $request->user();
-
+        
+        $user->status = 'Inactive';
+        $user->save();
+        
         Auth::logout();
-
-        $user->delete();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();

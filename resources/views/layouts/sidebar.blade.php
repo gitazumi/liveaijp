@@ -68,9 +68,9 @@
             </div>
         </div>
         <div class="logout">
-            <form action="{{ route('logout') }}" method="POST">
+            <form action="{{ route('logout') }}" method="POST" id="logout-form">
                 @csrf
-                <button type="submit">
+                <button type="button" id="logout-button">
                     <img src="{{ asset('/images/logout.png') }}" alt="Logout">
                 </button>
             </form>
@@ -110,6 +110,12 @@
                     'method' => 'get',
                     'img' => 'JS_img.png',
                     'label' => 'JavaScriptコード生成',
+                ],
+                [
+                    'url' => 'profile.edit',
+                    'method' => 'get',
+                    'img' => 'user_img.png',
+                    'label' => 'アカウント',
                 ],
             ];
         @endphp
@@ -227,6 +233,25 @@
             });
         </script>
     @endsession
+    
+    <script>
+        document.getElementById('logout-button').addEventListener('click', function(e) {
+            e.preventDefault();
+            Swal.fire({
+                title: 'ログアウトしますか？',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'はい',
+                cancelButtonText: 'いいえ'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('logout-form').submit();
+                }
+            });
+        });
+    </script>
 </body>
 <script src="{{ asset('js/index.js') }}"></script>
 

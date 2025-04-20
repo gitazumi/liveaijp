@@ -12,7 +12,7 @@
             <!-- Email Address -->
             <div class="mt-3">
                 <x-input-label for="email" :value="__('メールアドレス')" />
-                <x-text-input type="email" placeholder="info@example.com" name="email" id="email" value="{{ old('email') }}" required />
+                <x-text-input type="email" name="email" id="email" value="{{ old('email') }}" required />
                 <x-input-error :messages="$errors->get('email')" class="mt-2" />
             </div>
 
@@ -20,7 +20,7 @@
             <div class="mt-3">
                 <x-input-label for="password" :value="__('パスワード')" />
                 <div class="relative">
-                    <x-text-input type="password" placeholder="••••••••" name="password" id="password" required autocomplete="current-password" />
+                    <x-text-input type="password" name="password" id="password" required autocomplete="current-password" />
                     <button type="button" onclick="togglePassword(this, 'password')" data-status="text"
                         class="absolute inset-y-0 end-0 flex items-center z-20 px-3 cursor-pointer rounded-e-md focus:outline-none text-[#173F74] focus:text-[#173F74]">
                         <i class="fa-regular fa-eye-slash" id="icon-password"></i>
@@ -33,7 +33,7 @@
             <div class="mt-3">
                 <x-input-label for="password_confirmation" :value="__('パスワード（確認）')" />
                 <div class="relative">
-                    <x-text-input type="password" placeholder="••••••••" name="password_confirmation" id="password_confirmation" required /><button
+                    <x-text-input type="password" name="password_confirmation" id="password_confirmation" required /><button
                         type="button" onclick="togglePassword(this, 'password_confirmation')" data-status="text"
                         class="absolute inset-y-0 end-0 flex items-center z-20 px-3 cursor-pointer rounded-e-md focus:outline-none text-[#173F74] focus:text-[#173F74]">
                         <i class="fa-regular fa-eye-slash" id="icon-password_confirmation"></i>
