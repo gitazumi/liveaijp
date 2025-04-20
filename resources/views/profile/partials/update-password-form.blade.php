@@ -1,38 +1,40 @@
-<section class="profile-form-section">
-    <header>
-        <h2 class="text-lg font-medium text-gray-900">
+<section class="bg-white rounded-lg shadow p-6">
+    <header class="mb-6">
+        <h2 class="text-xl font-semibold text-gray-900">
             {{ __('パスワード更新') }}
         </h2>
 
-        <p class="mt-1 text-sm text-gray-600">
+        <p class="mt-2 text-sm text-gray-600">
             {{ __('安全のため、長くてランダムなパスワードを使用してください。') }}
         </p>
     </header>
 
-    <form method="post" action="{{ route('password.update') }}" class="mt-6 space-y-6 profile-form">
+    <form method="post" action="{{ route('password.update') }}" class="space-y-6">
         @csrf
         @method('put')
 
-        <div>
-            <x-input-label for="update_password_current_password" :value="__('現在のパスワード')" />
-            <x-text-input id="update_password_current_password" name="current_password" type="password" class="mt-1 block w-full profile-input" autocomplete="current-password" />
-            <x-input-error :messages="$errors->updatePassword->get('current_password')" class="mt-2" />
+        <div class="mb-6">
+            <x-input-label for="update_password_current_password" :value="__('現在のパスワード')" class="block mb-2 text-sm font-medium text-gray-900" />
+            <x-text-input id="update_password_current_password" name="current_password" type="password" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" autocomplete="current-password" />
+            <x-input-error :messages="$errors->updatePassword->get('current_password')" class="mt-2 text-sm text-red-600" />
         </div>
 
-        <div>
-            <x-input-label for="update_password_password" :value="__('新しいパスワード')" />
-            <x-text-input id="update_password_password" name="password" type="password" class="mt-1 block w-full profile-input" autocomplete="new-password" />
-            <x-input-error :messages="$errors->updatePassword->get('password')" class="mt-2" />
+        <div class="mb-6">
+            <x-input-label for="update_password_password" :value="__('新しいパスワード')" class="block mb-2 text-sm font-medium text-gray-900" />
+            <x-text-input id="update_password_password" name="password" type="password" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" autocomplete="new-password" />
+            <x-input-error :messages="$errors->updatePassword->get('password')" class="mt-2 text-sm text-red-600" />
         </div>
 
-        <div>
-            <x-input-label for="update_password_password_confirmation" :value="__('パスワード（確認）')" />
-            <x-text-input id="update_password_password_confirmation" name="password_confirmation" type="password" class="mt-1 block w-full profile-input" autocomplete="new-password" />
-            <x-input-error :messages="$errors->updatePassword->get('password_confirmation')" class="mt-2" />
+        <div class="mb-6">
+            <x-input-label for="update_password_password_confirmation" :value="__('パスワード（確認）')" class="block mb-2 text-sm font-medium text-gray-900" />
+            <x-text-input id="update_password_password_confirmation" name="password_confirmation" type="password" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" autocomplete="new-password" />
+            <x-input-error :messages="$errors->updatePassword->get('password_confirmation')" class="mt-2 text-sm text-red-600" />
         </div>
 
-        <div class="profile-button-container">
-            <x-primary-button class="profile-button">{{ __('保存') }}</x-primary-button>
+        <div class="flex items-center justify-center mt-8">
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                {{ __('保存') }}
+            </button>
 
             @if (session('status') === 'password-updated')
                 <p

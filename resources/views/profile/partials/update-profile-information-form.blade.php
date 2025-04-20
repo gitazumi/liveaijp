@@ -1,10 +1,10 @@
-<section class="profile-form-section">
-    <header>
-        <h2 class="text-lg font-medium text-gray-900">
+<section class="bg-white rounded-lg shadow p-6">
+    <header class="mb-6">
+        <h2 class="text-xl font-semibold text-gray-900">
             {{ __('アカウント情報') }}
         </h2>
 
-        <p class="mt-1 text-sm text-gray-600">
+        <p class="mt-2 text-sm text-gray-600">
             {{ __("アカウントのメールアドレスを更新します。") }}
         </p>
     </header>
@@ -13,20 +13,20 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6 profile-form">
+    <form method="post" action="{{ route('profile.update') }}" class="space-y-6">
         @csrf
         @method('patch')
 
-        <div>
-            <x-input-label for="email" :value="__('メールアドレス')" />
-            <div class="flex flex-col mt-1">
-                <x-text-input id="email" name="email" type="email" class="block w-full profile-input" :value="old('email', $user->email)" required autocomplete="username" />
-                <x-input-error class="mt-2" :messages="$errors->get('email')" />
-            </div>
+        <div class="mb-6">
+            <x-input-label for="email" :value="__('メールアドレス')" class="block mb-2 text-sm font-medium text-gray-900" />
+            
+            <x-text-input id="email" name="email" type="email" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" :value="old('email', $user->email)" required autocomplete="username" />
+            
+            <x-input-error class="mt-2 text-sm text-red-600" :messages="$errors->get('email')" />
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
-                <div>
-                    <p class="text-sm mt-2 text-gray-800">
+                <div class="mt-2">
+                    <p class="text-sm text-gray-800">
                         {{ __('Your email address is unverified.') }}
 
                         <button form="send-verification" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
@@ -43,8 +43,10 @@
             @endif
         </div>
 
-        <div class="profile-button-container mt-4">
-            <x-primary-button class="profile-button">{{ __('保存') }}</x-primary-button>
+        <div class="flex items-center justify-center mt-8">
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                {{ __('保存') }}
+            </button>
 
             @if (session('status') === 'profile-updated')
                 <p

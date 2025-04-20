@@ -3,23 +3,23 @@
 @endpush
 
 <x-sidebar>
-    <div class="profile-container">
+    <div class="bg-white p-6 rounded-lg">
         <div class="w-full rounded-xl p-[30px] sm:p-[50px] bg-white">
-            <div class="flex items-center mb-5 justify-center">
-                <span class="text-[20px] sm:text-[28.95px] font-semibold text-gray-900">
+            <div class="flex items-center mb-8 justify-center">
+                <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">
                     {{ __('アカウント情報') }}
-                </span>
+                </h1>
             </div>
             <div class="space-y-8">
-                <div class="profile-form-section">
+                <div>
                     @include('profile.partials.update-profile-information-form')
                 </div>
 
-                <div class="profile-form-section">
+                <div>
                     @include('profile.partials.update-password-form')
                 </div>
 
-                <div class="profile-form-section">
+                <div>
                     @include('profile.partials.delete-user-form')
                 </div>
             </div>
