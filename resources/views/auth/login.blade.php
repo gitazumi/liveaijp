@@ -16,7 +16,7 @@
             <div>
                 <x-input-label for="email" :value="__('メールアドレス')" />
                 <div class="relative flex items-center">
-                    <x-text-input type="email" placeholder="info@example.com" name="email" id="email"
+                    <x-text-input type="email" name="email" id="email"
                         value="{{ old('email') }}" class="pr-[45px]" required autofocus />
                     <div class="absolute right-0 rounded top-1 h-[42px] px-3 flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"
@@ -33,7 +33,7 @@
             <div class="mt-3">
                 <x-input-label for="password" :value="__('パスワード')" />
                 <div class="relative">
-                    <x-text-input type="password" placeholder="••••••••" name="password" id="password" required
+                    <x-text-input type="password" name="password" id="password" required
                         autocomplete="current-password" />
                     <button type="button" onclick="togglePassword(this, 'password')" data-status="text"
                         class="absolute inset-y-0 end-0 flex items-center z-20 px-3 cursor-pointer rounded-e-md focus:outline-none text-[#173F74] focus:text-[#173F74]">
