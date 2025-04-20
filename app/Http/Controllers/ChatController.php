@@ -100,7 +100,7 @@ class ChatController extends Controller
                     $requestCount->count = 0;
                 }
                 
-                if (!$user->isExistingAccount() && $requestCount->count >= 100) {
+                if ($user->api_request_limit !== null && $requestCount->count >= $user->api_request_limit) {
                     return response()->json([
                         'error' => true,
                         'message' => '1日の利用上限に達しました'
@@ -355,10 +355,10 @@ class ChatController extends Controller
         $isExistingAccount = $user->created_at <= '2025-04-16 23:59:59';
         
         $faqCount = Faq::where('user_id', $user->id)->count();
-        $faqLimit = $isExistingAccount ? '無制限' : 20;
+        $faqLimit = $user->faq_limit === null ? '無制限' : $user->faq_limit;
         
         $chatCount = 0;
-        $chatLimit = $isExistingAccount ? '無制限' : 100;
+        $chatLimit = $user->api_request_limit === null ? '無制限' : $user->api_request_limit;
         
         if (!$isExistingAccount) {
             $today = date('Y-m-d');
