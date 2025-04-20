@@ -27,6 +27,20 @@
                 <span class="text-[20px] sm:text-[28.95px] font-semibold">
                     チャット履歴
                 </span>
+                
+                <div class="ml-4 flex items-center">
+                    <form action="{{ route('chat.history.download') }}" method="GET" class="flex items-center">
+                        <select name="period" id="period" class="mr-2 px-2 py-1 border border-gray-300 rounded text-sm">
+                            <option value="7">過去7日</option>
+                            <option value="30">過去30日</option>
+                            <option value="90">過去90日</option>
+                            <option value="all">すべて</option>
+                        </select>
+                        <button type="submit" class="bg-[#344EAF] text-white px-3 py-1 rounded text-sm hover:bg-blue-700">
+                            過去の履歴をダウンロードする
+                        </button>
+                    </form>
+                </div>
             </div>
 
             <div class="w-full">
@@ -51,7 +65,7 @@
                             </div>
                             <div class="flex justify-between text-[14px] text-gray-600 mt-2">
                                 <div>
-                                    <span class="font-medium">最終更新日:</span> {{ $conversation->created_at }}
+                                    <span class="font-medium">最終更新日:</span> {{ $conversation->created_at->format('Y-m-d H:i') }}
                                 </div>
                                 <div>
                                     <span class="font-medium">会話数:</span> {{ count($conversation->messages) }}
@@ -100,7 +114,7 @@
                                         </a>
                                     </td>
                                     <td class="text-center text-[16px] sm:text-[20px] py-5 mt-5">
-                                        {{ $conversation->created_at }}
+                                        {{ $conversation->created_at->format('Y-m-d H:i') }}
                                     </td>
                                     <td class="text-center text-[16px] sm:text-[20px] py-5 mt-5">
                                         {{ count($conversation->messages) }}

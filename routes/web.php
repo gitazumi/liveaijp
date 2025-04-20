@@ -102,6 +102,7 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::put('faq/{id}', [FaqController::class, 'update'])->name('faq.update');
     Route::delete('faq/{id}', [FaqController::class, 'destroy'])->name('faq.destroy');
     Route::get('chat-history', [ChatController::class, 'history'])->name('chat.history');
+    Route::get('chat-history/download', [ChatController::class, 'downloadHistory'])->name('chat.history.download');
     Route::get('chat-history/{chatId}', [ChatController::class, 'chat'])->name('chat.chat');
     Route::get('chat-bot', [ChatController::class, 'chatBot'])->name('chat.bot');
     Route::post('chat/message', [ChatController::class, 'message'])->name('chat.message');
