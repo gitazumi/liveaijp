@@ -1,5 +1,5 @@
 <x-sidebar>
-    <div class="bg-blue-600 p-6">
+    <div class="bg-[#0070c9] p-6">
         <div class="max-w-4xl mx-auto space-y-6">
             <div class="flex items-center mb-6 justify-center">
                 <h1 class="text-2xl sm:text-3xl font-bold text-white">
