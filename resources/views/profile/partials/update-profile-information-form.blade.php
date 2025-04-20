@@ -1,4 +1,4 @@
-<section>
+<section class="bg-white text-gray-900 p-6 rounded-lg shadow">
     <header>
         <h2 class="text-lg font-medium text-gray-900">
             {{ __('アカウント情報') }}
@@ -13,15 +13,13 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6 max-w-xl mx-auto">
         @csrf
         @method('patch')
 
-
-
         <div>
             <x-input-label for="email" :value="__('メールアドレス')" />
-            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
+            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full bg-white text-gray-900" :value="old('email', $user->email)" required autocomplete="username" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
@@ -43,7 +41,7 @@
             @endif
         </div>
 
-        <div class="flex items-center gap-4">
+        <div class="flex justify-start items-center gap-4">
             <x-primary-button>{{ __('保存') }}</x-primary-button>
 
             @if (session('status') === 'profile-updated')
