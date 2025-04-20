@@ -55,12 +55,21 @@ Route::middleware(['auth', 'role:user'])->group(function () {
         $isExistingAccount = $user->created_at <= '2025-04-16 23:59:59';
         
         $faqCount = \App\Models\Faq::where('user_id', $user->id)->count();
-        $faqLimit = $isExistingAccount ? '無制限' : 20;
+        
+        if ($user->faq_limit === null) {
+            $faqLimit = '無制限';
+        } else {
+            $faqLimit = $user->faq_limit;
+        }
+        
+        if ($user->api_request_limit === null) {
+            $chatLimit = '無制限';
+        } else {
+            $chatLimit = $user->api_request_limit;
+        }
         
         $chatCount = 0;
-        $chatLimit = $isExistingAccount ? '無制限' : 100;
-        
-        if (!$isExistingAccount) {
+        if ($chatLimit !== '無制限') {
             $today = date('Y-m-d');
             $requestCount = \App\Models\ChatRequestCount::where('user_id', $user->id)
                 ->where('date', $today)
@@ -119,6 +128,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('users/{id}/manage', [UserController::class, 'manage'])->name('users.manage');
     Route::put('users/{id}/manage', [UserController::class, 'updateManage'])->name('users.update-manage');
 });
+
+Route::get('return-to-admin', [UserController::class, 'returnToAdmin'])->name('return-to-admin');
 
 
 require __DIR__ . '/auth.php';

@@ -60,8 +60,24 @@ class UserController extends Controller
     }
 
     public function autoLogin($id) {
+        session(['admin_user_id' => Auth::id()]);
+        
         Auth::loginUsingId($id);
         return redirect('welcome');
+    }
+    
+    public function returnToAdmin() {
+        if (session()->has('admin_user_id')) {
+            $adminId = session('admin_user_id');
+            
+            session()->forget('admin_user_id');
+            
+            Auth::loginUsingId($adminId);
+            
+            return redirect()->route('users.index')->with('success', '管理者アカウントに戻りました。');
+        }
+        
+        return redirect()->route('welcome')->with('error', '管理者アカウント情報が見つかりませんでした。');
     }
 
     public function manage($id)
