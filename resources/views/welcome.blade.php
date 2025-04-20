@@ -1,5 +1,15 @@
 @section('title', 'ようこそLiveAIへ')
 <x-sidebar>
+    @if(session()->has('admin_user_id'))
+    <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4" role="alert">
+        <div class="flex justify-between items-center">
+            <p>管理者アカウントからログインしています。</p>
+            <a href="{{ route('return-to-admin') }}" class="bg-[#173F74] hover:bg-[#1f559c] text-white font-bold py-2 px-4 rounded">
+                管理者に戻る
+            </a>
+        </div>
+    </div>
+    @endif
     <div class="bg-white rounded-lg p-6 shadow-md">
         <h1 class="text-2xl font-bold text-[#173F74] mb-6">🌟ご利用の流れ</h1>
         <p class="mb-4">ようこそLiveAIへ！このページでは、チャットボットの導入までのステップをご案内します。</p>
