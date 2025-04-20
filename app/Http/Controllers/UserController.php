@@ -28,6 +28,10 @@ class UserController extends Controller
             'password_confirmation' => 'required',
         ]);
         $validatedData['password'] = Hash::make($request->password);
+        
+        $validatedData['faq_limit'] = 20; // FAQ登録数のデフォルト値
+        $validatedData['api_request_limit'] = 100; // APIリクエスト数のデフォルト値
+        
         $user = User::create($validatedData);
         $user->assignRole('user');
         return redirect()->route('users.index')->with('success', 'User added successfully.');
