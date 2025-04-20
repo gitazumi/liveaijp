@@ -1,5 +1,6 @@
 @section('title', 'Users')
 <x-app-layout>
+    <x-delete-modal />
     <div class="md:flex justify-between">
         <h1 class="text-white font-semibold text-[28px]">
             User List
@@ -63,10 +64,13 @@
                             <span class="bg-[#173F74] text-white rounded p-1 px-3">{{$user->status}}</span>
                         </td>
                         <td>
-                            <p class="flex justify-center">
+                            <p class="flex justify-center space-x-2">
                                 <a href="{{ route('users.manage', ['id' => $user->id]) }}" class="bg-[#173F74] text-white rounded-full px-4 py-1 hover:bg-[#1f559c]">
                                     変更
                                 </a>
+                                <button type="button" data-id="{{ $user->id }}" class="delete-modal bg-red-600 text-white rounded-full px-4 py-1 hover:bg-red-700">
+                                    削除
+                                </button>
                             </p>
                         </td>
                     </tr>
@@ -85,13 +89,16 @@
             $('.delete-modal').click(function(e) {
                 e.preventDefault();
                 $('#delete-modal').removeClass('hidden');
-                $('#table').text('User');
-                $('#action').text('Delete');
+                $('#table').text('ユーザー');
+                $('#action').text('削除');
 
                 let id = $(this).data('id');
-                // let url = `/users/${id}`;
                 let url = "{{ url('/users/') }}" + '/' + id;
                 $('#delete-form').attr('action', url);
+            });
+
+            $('#cancel-btn').click(function() {
+                $('#delete-modal').addClass('hidden');
             });
         </script>
     @endpush
