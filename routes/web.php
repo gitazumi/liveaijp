@@ -116,6 +116,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::put('users/{id}', [UserController::class, 'update'])->name('users.update');
     Route::delete('users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
     Route::get('users/auto-login/{id}', [UserController::class, 'autoLogin'])->name('users.auto-login');
+    Route::get('users/{id}/manage', [UserController::class, 'manage'])->name('users.manage');
+    Route::put('users/{id}/manage', [UserController::class, 'updateManage'])->name('users.update-manage');
 });
 
 

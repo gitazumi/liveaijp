@@ -27,7 +27,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'google_access_token',
         'google_refresh_token',
         'expires_in',        
-        'google_id'
+        'google_id',
+        'faq_limit',
+        'api_request_limit'
     ];
 
     /**
