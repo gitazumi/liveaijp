@@ -179,12 +179,14 @@
             }
         }
 
-        document.getElementById('faq_limit_type').addEventListener('change', function() {
-            document.getElementById('faq_limit_container').classList.toggle('hidden', this.value === 'unlimited');
-        });
-        
-        document.getElementById('api_request_limit_type').addEventListener('change', function() {
-            document.getElementById('api_request_limit_container').classList.toggle('hidden', this.value === 'unlimited');
+        $(document).ready(function() {
+            $('#faq_limit_type').on('change', function() {
+                $('#faq_limit_container').toggleClass('hidden', $(this).val() === 'unlimited');
+            });
+            
+            $('#api_request_limit_type').on('change', function() {
+                $('#api_request_limit_container').toggleClass('hidden', $(this).val() === 'unlimited');
+            });
         });
     </script>
     @endpush

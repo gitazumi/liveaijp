@@ -89,8 +89,8 @@
             $('.delete-modal').click(function(e) {
                 e.preventDefault();
                 $('#delete-modal').removeClass('hidden');
-                $('#table').text('ユーザー');
-                $('#action').text('削除');
+                $('#table-name').text('ユーザー');
+                $('#action-name').text('削除');
 
                 let id = $(this).data('id');
                 let url = "{{ url('/users/') }}" + '/' + id;
