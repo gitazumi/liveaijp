@@ -63,4 +63,42 @@ class UserController extends Controller
         Auth::loginUsingId($id);
         return redirect('welcome');
     }
+
+    public function manage($id)
+    {
+        $user = User::findOrFail($id);
+        return view('users.manage', compact('user'));
+    }
+
+    public function updateManage(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        
+        $validatedData = $request->validate([
+            'email' => 'required|email|unique:users,email,'.$id,
+            'status' => 'required',
+            'faq_limit' => 'nullable|integer|min:0',
+            'api_request_limit' => 'nullable|integer|min:0',
+        ]);
+
+        if ($request->password) {
+            $request->validate([
+                'password' => ['required', 'confirmed', Password::defaults()],
+                'password_confirmation' => 'required',
+            ]);
+            $validatedData['password'] = Hash::make($request->password);
+        }
+
+        if ($request->has('faq_limit_unlimited') && $request->faq_limit_unlimited) {
+            $validatedData['faq_limit'] = null;
+        }
+        
+        if ($request->has('api_request_limit_unlimited') && $request->api_request_limit_unlimited) {
+            $validatedData['api_request_limit'] = null;
+        }
+
+        $user->update($validatedData);
+        
+        return redirect()->route('users.manage', ['id' => $id])->with('success', 'ユーザー情報が更新されました。');
+    }
 }
