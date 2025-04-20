@@ -118,11 +118,11 @@
                         <h3 class="font-medium mb-3">利用制限の設定</h3>
                         
                         <div class="mb-4">
-                            <div class="flex items-center mb-2">
-                                <input type="checkbox" name="faq_limit_unlimited" id="faq_limit_unlimited" value="1" 
-                                    @checked($user->faq_limit === null) class="rounded border-gray-300 text-[#344EAF] focus:ring-[#344EAF]">
-                                <label for="faq_limit_unlimited" class="ml-2 text-sm font-medium text-gray-700">FAQ登録数を無制限にする</label>
-                            </div>
+                            <label for="faq_limit_type" class="block text-sm font-medium text-gray-700 mb-1">FAQ登録数の制限タイプ</label>
+                            <select name="faq_limit_type" id="faq_limit_type" class="w-full rounded border-gray-300 focus:border-[#344EAF] focus:ring-[#344EAF] mb-2">
+                                <option value="unlimited" @selected($user->faq_limit === null)>無制限</option>
+                                <option value="limited" @selected($user->faq_limit !== null)>制限あり</option>
+                            </select>
                             
                             <div id="faq_limit_container" @class(['hidden' => $user->faq_limit === null])>
                                 <label for="faq_limit" class="block text-sm font-medium text-gray-700 mb-1">FAQ登録数の制限</label>
@@ -135,11 +135,11 @@
                         </div>
                         
                         <div class="mb-4">
-                            <div class="flex items-center mb-2">
-                                <input type="checkbox" name="api_request_limit_unlimited" id="api_request_limit_unlimited" value="1" 
-                                    @checked($user->api_request_limit === null) class="rounded border-gray-300 text-[#344EAF] focus:ring-[#344EAF]">
-                                <label for="api_request_limit_unlimited" class="ml-2 text-sm font-medium text-gray-700">APIリクエスト数を無制限にする</label>
-                            </div>
+                            <label for="api_request_limit_type" class="block text-sm font-medium text-gray-700 mb-1">APIリクエスト数の制限タイプ</label>
+                            <select name="api_request_limit_type" id="api_request_limit_type" class="w-full rounded border-gray-300 focus:border-[#344EAF] focus:ring-[#344EAF] mb-2">
+                                <option value="unlimited" @selected($user->api_request_limit === null)>無制限</option>
+                                <option value="limited" @selected($user->api_request_limit !== null)>制限あり</option>
+                            </select>
                             
                             <div id="api_request_limit_container" @class(['hidden' => $user->api_request_limit === null])>
                                 <label for="api_request_limit" class="block text-sm font-medium text-gray-700 mb-1">APIリクエスト数の制限</label>
@@ -179,12 +179,12 @@
             }
         }
 
-        document.getElementById('faq_limit_unlimited').addEventListener('change', function() {
-            document.getElementById('faq_limit_container').classList.toggle('hidden', this.checked);
+        document.getElementById('faq_limit_type').addEventListener('change', function() {
+            document.getElementById('faq_limit_container').classList.toggle('hidden', this.value === 'unlimited');
         });
         
-        document.getElementById('api_request_limit_unlimited').addEventListener('change', function() {
-            document.getElementById('api_request_limit_container').classList.toggle('hidden', this.checked);
+        document.getElementById('api_request_limit_type').addEventListener('change', function() {
+            document.getElementById('api_request_limit_container').classList.toggle('hidden', this.value === 'unlimited');
         });
     </script>
     @endpush
