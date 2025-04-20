@@ -341,6 +341,66 @@ class ChatController extends Controller
 
         return view('admin.chat.history', compact('conversations'));
     }
+    
+    function downloadHistory(Request $request)
+    {
+        $period = $request->input('period', '7');
+        $userId = Auth::id();
+        
+        $startDate = null;
+        if ($period !== 'all') {
+            $startDate = now()->subDays((int)$period);
+        }
+        
+        $query = Conversation::where('user_id', $userId)
+            ->whereHas('messages', function ($query) {
+                $query->where('conversation_id', '!=', null);
+            })
+            ->with('messages')
+            ->latest();
+            
+        if ($startDate) {
+            $query->where('created_at', '>=', $startDate);
+        }
+        
+        $conversations = $query->get();
+        
+        $filename = 'chat_history_' . now()->format('Ymd_His') . '.csv';
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+            'Pragma' => 'no-cache',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Expires' => '0'
+        ];
+        
+        $callback = function() use ($conversations) {
+            $file = fopen('php://output', 'w');
+            
+            fputs($file, "\xEF\xBB\xBF");
+            
+            fputcsv($file, ['タイトル', '最終更新日時', '会話数', '全チャット内容']);
+            
+            foreach ($conversations as $conversation) {
+                $allMessages = '';
+                foreach ($conversation->messages as $message) {
+                    $sender = $message->send_by ? 'ユーザー: ' : 'AI: ';
+                    $allMessages .= $sender . $message->message . "\n";
+                }
+                
+                fputcsv($file, [
+                    $conversation->title,
+                    $conversation->created_at->format('Y-m-d H:i'),
+                    count($conversation->messages),
+                    $allMessages
+                ]);
+            }
+            
+            fclose($file);
+        };
+        
+        return response()->stream($callback, 200, $headers);
+    }
 
 
     function chat($sessionId)
