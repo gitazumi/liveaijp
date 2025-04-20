@@ -119,3 +119,9 @@ section{
     width: 40px;
     display: none;
 }
+
+/* サイドバーのログアウトメニューのスタイル */
+#logout-menu {
+    cursor: pointer;
+}
+

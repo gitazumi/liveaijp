@@ -1,9 +1,6 @@
-<x-app-layout>
-    <x-slot name="header">
-        {{ __('アカウント') }}
-    </x-slot>
-
-    <div class="py-12">
+<x-sidebar-layout>
+    <div class="section bg-white p-4 rounded-lg">
+        <h2 class="mb-4 text-2xl font-semibold">{{ __('アカウント情報') }}</h2>
         <div class="overflow-hidden shadow-sm sm:rounded-lg space-y-6">
             <div class="p-6 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="max-w-xl">
@@ -24,4 +21,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+</x-sidebar-layout>

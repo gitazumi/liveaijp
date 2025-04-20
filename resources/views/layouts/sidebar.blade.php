@@ -67,14 +67,6 @@
                 </a>
             </div>
         </div>
-        <div class="logout">
-            <form action="{{ route('logout') }}" method="POST" id="logout-form">
-                @csrf
-                <button type="button" id="logout-button">
-                    <img src="{{ asset('/images/logout.png') }}" alt="Logout">
-                </button>
-            </form>
-        </div>
     </header>
 
     <section>
@@ -128,6 +120,14 @@
                     <p class="txt-20 color-white txt-hidden">{{ $item['label'] }}</p>
                 </a>
             @endforeach
+            
+            <!-- ログアウトメニュー -->
+            <div class="side-list" id="logout-menu">
+                <div class="side-list-img">
+                    <img src="{{ asset('/images/logout.png') }}" alt="ログアウト">
+                </div>
+                <p class="txt-20 color-white txt-hidden">ログアウト</p>
+            </div>
         </div>
 
         <div class="layout-content">
@@ -234,8 +234,13 @@
         </script>
     @endsession
     
+    <!-- ログアウト用フォーム -->
+    <form action="{{ route('logout') }}" method="POST" id="sidebar-logout-form" class="hidden">
+        @csrf
+    </form>
+    
     <script>
-        document.getElementById('logout-button').addEventListener('click', function(e) {
+        document.getElementById('logout-menu').addEventListener('click', function(e) {
             e.preventDefault();
             Swal.fire({
                 title: 'ログアウトしますか？',
@@ -247,7 +252,7 @@
                 cancelButtonText: 'いいえ'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    document.getElementById('logout-form').submit();
+                    document.getElementById('sidebar-logout-form').submit();
                 }
             });
         });
