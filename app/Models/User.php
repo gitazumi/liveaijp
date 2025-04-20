@@ -70,4 +70,15 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(ChatRequestCount::class);
     }
+
+    /**
+     * パスワードリセット通知の送信
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new \App\Notifications\ResetPasswordJapanese($token));
+    }
 }
