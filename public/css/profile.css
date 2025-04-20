@@ -1,0 +1,86 @@
+/* Profile page specific styles */
+.profile-container {
+    background-color: white !important;
+    color: #333 !important;
+    padding: 30px;
+    border-radius: 10px;
+    width: 100%;
+}
+
+.profile-container h2,
+.profile-container p,
+.profile-container label,
+.profile-container input,
+.profile-container div {
+    color: #333 !important;
+    background-color: white !important;
+}
+
+.profile-form {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: white !important;
+}
+
+.profile-form-section {
+    background-color: white !important;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-form-section h2 {
+    color: #333 !important;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.profile-form-section p {
+    color: #666 !important;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+}
+
+.profile-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.profile-input {
+    background-color: white !important;
+    color: #333 !important;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 100%;
+}
+
+/* Override layout-content background */
+.layout-content {
+    background-color: white !important;
+}
+
+/* Override sections background */
+.sections {
+    background-color: white !important;
+}
+
+/* Override body background for profile page */
+body.profile-page {
+    background-color: white !important;
+}
+
+/* Button styling */
+.profile-button {
+    background-color: #096FCA !important;
+    color: white !important;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}
+
+.profile-danger-button {
+    background-color: #dc3545 !important;
+    color: white !important;
+}
