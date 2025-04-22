@@ -319,7 +319,19 @@
         }
 
         formatMessage(text) {
-            let formatted = text.split('\n').map(line => line.trim()).filter(line => line).map(line => `<p>${line}</p>`).join('');
+            const urlRegex = /(https?:\/\/[^\s\)\]]+)(?!\)|\])/g;
+            const markdownLinkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+            
+            text = text.replace(/\[([^\]]+)\]\(([^)]+)(?!\))/g, '[$1]($2)');
+            
+            let formatted = text.split('\n').map(line => line.trim()).filter(line => line).map(line => {
+                line = line.replace(markdownLinkRegex, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+                
+                line = line.replace(urlRegex, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
+                
+                return `<p>${line}</p>`;
+            }).join('');
+            
             formatted = formatted.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
             formatted = formatted.replace(/`([^`]+)`/g, '<code>$1</code>');
             formatted = formatted.replace(/^\s*[-*]\s+(.+)/gm, '<li>$1</li>');
