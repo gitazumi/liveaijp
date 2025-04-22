@@ -20,6 +20,7 @@
             this.injectStyles();
             this.createWidget();
             this.addEventListeners();
+            this.setupResizing();
         }
 
         injectMetaTag() {
@@ -71,6 +72,29 @@
                     box-shadow: 0 5px 20px rgba(0,0,0,0.15);
                     flex-direction: column;
                     overflow: hidden;
+                    resize: both;
+                }
+                
+                #ai-chat-resize-handle {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 20px;
+                    height: 20px;
+                    cursor: nwse-resize;
+                    z-index: 100;
+                }
+                
+                #ai-chat-resize-handle::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 10px;
+                    height: 10px;
+                    border-top: 2px solid #2563eb;
+                    border-left: 2px solid #2563eb;
+                    border-top-left-radius: 4px;
                 }
 
                 .ai-chat-header {
@@ -252,6 +276,7 @@
             
             widget.innerHTML = `
                 <div id="ai-chat-window">
+                    <div id="ai-chat-resize-handle"></div>
                     <div class="ai-chat-header">ご質問はこちら</div>
                     <div class="ai-chat-messages"></div>
                     <div class="ai-chat-input">
@@ -314,7 +339,7 @@
             }
             
             messagesDiv.appendChild(messageDiv);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            // messagesDiv.scrollTop = messagesDiv.scrollHeight;
         }
 
         async sendMessage(message) {
@@ -326,7 +351,7 @@
             
             const messagesDiv = document.querySelector('.ai-chat-messages');
             messagesDiv.appendChild(loadingDiv);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            // messagesDiv.scrollTop = messagesDiv.scrollHeight;
 
             try {
                 console.log('Sending message:', message); // メッセージをデバッグ出力
@@ -353,6 +378,57 @@
                 console.error('Chat error:', error);
                 this.addMessageToChat('Sorry, I encountered an error. Please try again later.', false);
             }
+        }
+
+        setupResizing() {
+            const chatWindow = document.getElementById('ai-chat-window');
+            const resizeHandle = document.getElementById('ai-chat-resize-handle');
+            let isResizing = false;
+            let initialWidth, initialHeight, initialX, initialY;
+            
+            const minWidth = 250;
+            const minHeight = 250;
+            const maxWidth = Math.min(800, window.innerWidth * 0.9);
+            const maxHeight = Math.min(800, window.innerHeight * 0.9);
+            
+            resizeHandle.addEventListener('mousedown', (e) => {
+                e.preventDefault();
+                isResizing = true;
+                
+                initialWidth = parseInt(window.getComputedStyle(chatWindow).width);
+                initialHeight = parseInt(window.getComputedStyle(chatWindow).height);
+                initialX = e.clientX;
+                initialY = e.clientY;
+                
+                chatWindow.classList.add('resizing');
+                
+                document.addEventListener('mousemove', onMouseMove);
+                document.addEventListener('mouseup', onMouseUp);
+            });
+            
+            const onMouseMove = (e) => {
+                if (!isResizing) return;
+                
+                const widthChange = initialX - e.clientX;
+                const heightChange = initialY - e.clientY;
+                
+                let newWidth = Math.min(Math.max(initialWidth + widthChange, minWidth), maxWidth);
+                let newHeight = Math.min(Math.max(initialHeight + heightChange, minHeight), maxHeight);
+                
+                const currentRight = parseInt(window.getComputedStyle(chatWindow).right);
+                const currentBottom = parseInt(window.getComputedStyle(chatWindow).bottom);
+                
+                chatWindow.style.width = `${newWidth}px`;
+                chatWindow.style.height = `${newHeight}px`;
+            };
+            
+            const onMouseUp = () => {
+                isResizing = false;
+                chatWindow.classList.remove('resizing');
+                
+                document.removeEventListener('mousemove', onMouseMove);
+                document.removeEventListener('mouseup', onMouseUp);
+            };
         }
     }
 
