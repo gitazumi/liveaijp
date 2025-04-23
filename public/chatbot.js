@@ -121,6 +121,7 @@
                     padding: 20px;
                     display: flex;
                     flex-direction: column;
+                    justify-content: flex-start !important;
                     gap: 12px;
                     background: white;
                 }
@@ -296,7 +297,7 @@
                 <div id="ai-chat-window">
                     <div id="ai-chat-resize-handle"></div>
                     <div class="ai-chat-header">
-                        <a href="https://liveai.jp" target="_blank" style="color: black; text-decoration: none;">liveAI</a>
+                        <a href="https://liveai.jp" target="_blank" style="color: black; text-decoration: none; text-align: left !important; display: block !important;">liveAI</a>
                         <button id="ai-chat-close" style="position: absolute; top: 15px; right: 15px; background: none; border: none; cursor: pointer;">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
