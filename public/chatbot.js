@@ -4,6 +4,7 @@
             this.token = this.getTokenFromScript();
             this.conversationId = 'conv_' + Math.random().toString(36).substr(2, 9);
             this.apiEndpoint = 'https://liveai.jp/api/chat/message';
+            this.welcomeMessageShown = false; // ウェルカムメッセージが表示されたかどうかを追跡
             console.log('Chatbot Token:', this.token); // トークンをデバッグ出力
             this.init();
         }
@@ -74,7 +75,7 @@
                     overflow: hidden;
                     resize: both;
                 }
-                
+
                 #ai-chat-resize-handle {
                     position: absolute;
                     top: 0;
@@ -84,7 +85,7 @@
                     cursor: nwse-resize;
                     z-index: 100;
                 }
-                
+
                 #ai-chat-resize-handle::before {
                     content: "";
                     position: absolute;
@@ -98,7 +99,7 @@
                 }
 
                 .ai-chat-header {
-                    padding: 20px;
+るのです                    padding: 20px;
                     background: white;
                     color: black;
                     font-weight: 600;
@@ -273,7 +274,7 @@
         createWidget() {
             const widget = document.createElement('div');
             widget.id = 'ai-chat-widget';
-            
+
             widget.innerHTML = `
                 <div id="ai-chat-window">
                     <div id="ai-chat-resize-handle"></div>
@@ -297,7 +298,7 @@
                     </svg>
                 </button>
             `;
-            
+
             document.body.appendChild(widget);
         }
 
@@ -311,7 +312,9 @@
             button.addEventListener('click', () => {
                 if (window.style.display === 'none' || window.style.display === '') {
                     window.style.display = 'flex';
-                    this.showWelcomeMessage();
+                    if (!this.welcomeMessageShown) {
+                        this.showWelcomeMessage();
+                    }
                 } else {
                     window.style.display = 'none';
                 }
@@ -338,17 +341,17 @@
         formatMessage(text) {
             const urlRegex = /(https?:\/\/[^\s\)\]]+)(?!\)|\])/g;
             const markdownLinkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
-            
+
             text = text.replace(/\[([^\]]+)\]\(([^)]+)(?!\))/g, '[$1]($2)');
-            
+
             let formatted = text.split('\n').map(line => line.trim()).filter(line => line).map(line => {
                 line = line.replace(markdownLinkRegex, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
-                
+
                 line = line.replace(urlRegex, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
-                
+
                 return `<p>${line}</p>`;
             }).join('');
-            
+
             formatted = formatted.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
             formatted = formatted.replace(/`([^`]+)`/g, '<code>$1</code>');
             formatted = formatted.replace(/^\s*[-*]\s+(.+)/gm, '<li>$1</li>');
@@ -360,13 +363,13 @@
             const messagesDiv = document.querySelector('.ai-chat-messages');
             const messageDiv = document.createElement('div');
             messageDiv.className = `ai-message ${isUser ? 'user' : 'bot'}`;
-            
+
             if (isUser) {
                 messageDiv.textContent = message;
             } else {
                 messageDiv.innerHTML = this.formatMessage(message);
             }
-            
+
             messagesDiv.appendChild(messageDiv);
             // messagesDiv.scrollTop = messagesDiv.scrollHeight;
         }
@@ -377,7 +380,7 @@
             const loadingDiv = document.createElement('div');
             loadingDiv.className = 'ai-message bot loading';
             loadingDiv.innerHTML = '<span></span><span></span><span></span>';
-            
+
             const messagesDiv = document.querySelector('.ai-chat-messages');
             messagesDiv.appendChild(loadingDiv);
             // messagesDiv.scrollTop = messagesDiv.scrollHeight;
@@ -399,7 +402,7 @@
                 console.log('Response status:', response.status); // レスポンスステータスをデバッグ出力
                 const data = await response.json();
                 loadingDiv.remove();
-                
+
                 if (data.error) throw new Error(data.error);
                 this.addMessageToChat(data.response, false);
             } catch (error) {
@@ -414,47 +417,47 @@
             const resizeHandle = document.getElementById('ai-chat-resize-handle');
             let isResizing = false;
             let initialWidth, initialHeight, initialX, initialY;
-            
+
             const minWidth = 250;
             const minHeight = 250;
             const maxWidth = Math.min(800, window.innerWidth * 0.9);
             const maxHeight = Math.min(800, window.innerHeight * 0.9);
-            
+
             resizeHandle.addEventListener('mousedown', (e) => {
                 e.preventDefault();
                 isResizing = true;
-                
+
                 initialWidth = parseInt(window.getComputedStyle(chatWindow).width);
                 initialHeight = parseInt(window.getComputedStyle(chatWindow).height);
                 initialX = e.clientX;
                 initialY = e.clientY;
-                
+
                 chatWindow.classList.add('resizing');
-                
+
                 document.addEventListener('mousemove', onMouseMove);
                 document.addEventListener('mouseup', onMouseUp);
             });
-            
+
             const onMouseMove = (e) => {
                 if (!isResizing) return;
-                
+
                 const widthChange = initialX - e.clientX;
                 const heightChange = initialY - e.clientY;
-                
+
                 let newWidth = Math.min(Math.max(initialWidth + widthChange, minWidth), maxWidth);
                 let newHeight = Math.min(Math.max(initialHeight + heightChange, minHeight), maxHeight);
-                
+
                 const currentRight = parseInt(window.getComputedStyle(chatWindow).right);
                 const currentBottom = parseInt(window.getComputedStyle(chatWindow).bottom);
-                
+
                 chatWindow.style.width = `${newWidth}px`;
                 chatWindow.style.height = `${newHeight}px`;
             };
-            
+
             const onMouseUp = () => {
                 isResizing = false;
                 chatWindow.classList.remove('resizing');
-                
+
                 document.removeEventListener('mousemove', onMouseMove);
                 document.removeEventListener('mouseup', onMouseUp);
             };
@@ -484,6 +487,8 @@
                 messagesDiv.appendChild(messageDiv);
                 messagesDiv.scrollTop = messagesDiv.scrollHeight;
                 
+                this.welcomeMessageShown = true;
+                
             } catch (error) {
                 console.error('Error fetching store info:', error);
                 const messagesDiv = document.querySelector('.ai-chat-messages');
@@ -492,6 +497,8 @@
                 messageDiv.innerHTML = this.formatMessage('こんにちは！なんでもお聞きください！');
                 messagesDiv.appendChild(messageDiv);
                 messagesDiv.scrollTop = messagesDiv.scrollHeight;
+                
+                this.welcomeMessageShown = true;
             }
         }
     }
