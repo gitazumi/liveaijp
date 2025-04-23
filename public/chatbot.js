@@ -99,7 +99,7 @@
                 }
 
                 .ai-chat-header {
-るのです                    padding: 20px;
+                    padding: 20px;
                     background: white;
                     color: black;
                     font-weight: 600;
@@ -339,23 +339,46 @@
         }
 
         formatMessage(text) {
-            const urlRegex = /(https?:\/\/[^\s\)\]]+)(?!\)|\])/g;
-            const markdownLinkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
-
             text = text.replace(/\[([^\]]+)\]\(([^)]+)(?!\))/g, '[$1]($2)');
-
-            let formatted = text.split('\n').map(line => line.trim()).filter(line => line).map(line => {
-                line = line.replace(markdownLinkRegex, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
-
-                line = line.replace(urlRegex, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
-
+            
+            const tempDiv = document.createElement('div');
+            
+            let formatted = text.split('\n').map(line => {
+                line = line.trim();
+                if (!line) return '';
+                
+                const markdownLinkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+                line = line.replace(markdownLinkRegex, (match, text, url) => {
+                    tempDiv.textContent = ''; // Clear previous content
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.textContent = text;
+                    a.target = '_blank';
+                    a.rel = 'noopener noreferrer';
+                    tempDiv.appendChild(a);
+                    return tempDiv.innerHTML;
+                });
+                
+                const urlRegex = /(https?:\/\/[^\s\)\]]+)(?!\)|\])/g;
+                line = line.replace(urlRegex, (match, url) => {
+                    tempDiv.textContent = ''; // Clear previous content
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.textContent = url;
+                    a.target = '_blank';
+                    a.rel = 'noopener noreferrer';
+                    tempDiv.appendChild(a);
+                    return tempDiv.innerHTML;
+                });
                 return `<p>${line}</p>`;
             }).join('');
 
             formatted = formatted.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
             formatted = formatted.replace(/`([^`]+)`/g, '<code>$1</code>');
+            
             formatted = formatted.replace(/^\s*[-*]\s+(.+)/gm, '<li>$1</li>');
             formatted = formatted.replace(/(<li>.*?<\/li>\s*)+/g, '<ul>$&</ul>');
+            
             return formatted;
         }
 
