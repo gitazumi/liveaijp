@@ -11,9 +11,18 @@
 
         getTokenFromScript() {
             const scripts = document.getElementsByTagName('script');
-            const currentScript = scripts[scripts.length - 1];
-            const url = new URL(currentScript.src);
-            return url.searchParams.get('token');
+            for (let i = 0; i < scripts.length; i++) {
+                if (scripts[i].src && scripts[i].src.includes('chatbot.js')) {
+                    const url = new URL(scripts[i].src);
+                    return url.searchParams.get('token');
+                }
+            }
+            const lastScript = scripts[scripts.length - 1];
+            if (lastScript && lastScript.src) {
+                const url = new URL(lastScript.src);
+                return url.searchParams.get('token');
+            }
+            return null;
         }
 
         init() {
