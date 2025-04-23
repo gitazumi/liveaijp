@@ -31,7 +31,10 @@
                         質問
                     </label>
                     <input type="text" name="question" id="question" value="{{ old('question') }}" required
-                        class="w-full block rounded border-[#344EAF] bg-transparent focus:ring-[#344EAF] mt-1">
+                        class="w-full block rounded border-[#344EAF] bg-transparent focus:ring-[#344EAF] mt-1" maxlength="255">
+                    <div class="text-right text-sm mt-1">
+                        <span id="question-count">0</span>/255文字
+                    </div>
                     @error('question')
                         {{ $message }}
                     @enderror
@@ -41,15 +44,33 @@
                         回答
                     </label>
                     <textarea name="answer" id="answer" cols="30" rows="5" required
-                        class="resize-none p-2 w-full block rounded border-[#344EAF] bg-transparent focus:ring-[#344EAF] focus:ring-0 mt-1">{{ old('answer') }}</textarea>
+                        class="resize-none p-2 w-full block rounded border-[#344EAF] bg-transparent focus:ring-[#344EAF] focus:ring-0 mt-1" maxlength="300">{{ old('answer') }}</textarea>
+                    <div class="text-right text-sm mt-1">
+                        <span id="answer-count">0</span>/300文字
+                    </div>
                     @error('answer')
                         {{ $message }}
                     @enderror
                 </div>
-                <x-primary-button class="!w-[100px] float-right text-white">
+                <x-primary-button class="!w-[100px] float-right text-white" id="submit-button">
                     登録
                 </x-primary-button>
             </form>
+
+            <div class="clear-both mt-5">
+                @if(isset($faqLimit) && $faqLimit !== null)
+                    <div class="flex justify-between items-center mb-2">
+                        <div class="text-[16px] font-medium {{ $limitReached ? 'text-red-500' : '' }}">
+                            FAQ登録数：{{ $faqCount }} / {{ $faqLimit }}
+                        </div>
+                        @if($limitReached)
+                            <div class="text-red-500 font-medium">
+                                登録上限に達しました
+                            </div>
+                        @endif
+                    </div>
+                @endif
+            </div>
 
             <div class="mt-20">
                 <h1 class="font-semibold text-[28px]">登録済みのFAQ一覧</h1>
@@ -139,14 +160,20 @@
                             質問
                         </label>
                         <input type="text" name="question" id="modal-question"
-                            class="w-full block rounded border-[#344EAF] bg-transparent focus:ring-[#344EAF] mt-1">
+                            class="w-full block rounded border-[#344EAF] bg-transparent focus:ring-[#344EAF] mt-1" maxlength="255">
+                        <div class="text-right text-sm mt-1">
+                            <span id="modal-question-count">0</span>/255文字
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label for="" class="text-[20px] font-medium">
                             回答
                         </label>
                         <textarea name="answer" id="modal-answer" cols="30" rows="5"
-                            class="p-2 w-full block rounded border-[#344EAF] bg-transparent focus:ring-[#344EAF] focus:ring-0 mt-1"></textarea>
+                            class="p-2 w-full block rounded border-[#344EAF] bg-transparent focus:ring-[#344EAF] focus:ring-0 mt-1" maxlength="300"></textarea>
+                        <div class="text-right text-sm mt-1">
+                            <span id="modal-answer-count">0</span>/300文字
+                        </div>
                     </div>
                     <x-primary-button class="float-right">
                         {{ __('Update') }}
@@ -181,22 +208,69 @@
 
                 $('#modal-question').val(question);
                 $('#modal-answer').text(answer);
+                
+                $('#modal-question-count').text(question.length);
+                $('#modal-answer-count').text(answer.length);
 
                 let id = $(this).data('id');
                 let url = `{{url('/faq/${id}')}}`;
                 $('#edit-form').attr('action', url);
+            });
+            
+            $('#modal-question').on('input', function() {
+                const maxLength = 255;
+                const currentLength = $(this).val().length;
+                $('#modal-question-count').text(currentLength);
+                
+                if (currentLength > maxLength) {
+                    $(this).val($(this).val().slice(0, maxLength));
+                    $('#modal-question-count').text(maxLength);
+                }
+            });
+            
+            $('#modal-answer').on('input', function() {
+                const maxLength = 300;
+                const currentLength = $(this).val().length;
+                $('#modal-answer-count').text(currentLength);
+                
+                if (currentLength > maxLength) {
+                    $(this).val($(this).val().slice(0, maxLength));
+                    $('#modal-answer-count').text(maxLength);
+                }
             });
 
             $("#cancel-edit-modal").click(function(e) {
                 e.preventDefault();
                 $('#edit-modal').addClass('hidden');
             });
-            $('#answer').on('input', function() {
-                const maxLength = 300;
-                if ($(this).val().length > maxLength) {
+            $('#question').on('input', function() {
+                const maxLength = 255;
+                const currentLength = $(this).val().length;
+                $('#question-count').text(currentLength);
+                
+                if (currentLength > maxLength) {
                     $(this).val($(this).val().slice(0, maxLength));
+                    $('#question-count').text(maxLength);
                 }
             });
+            
+            $('#answer').on('input', function() {
+                const maxLength = 300;
+                const currentLength = $(this).val().length;
+                $('#answer-count').text(currentLength);
+                
+                if (currentLength > maxLength) {
+                    $(this).val($(this).val().slice(0, maxLength));
+                    $('#answer-count').text(maxLength);
+                }
+            });
+            
+            $('#question-count').text($('#question').val().length);
+            $('#answer-count').text($('#answer').val().length);
+            
+            @if($limitReached ?? false)
+                $('#submit-button').prop('disabled', true).addClass('opacity-50');
+            @endif
         </script>
     @endpush
 

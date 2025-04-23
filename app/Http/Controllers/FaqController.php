@@ -9,10 +9,16 @@ use Illuminate\Support\Facades\Auth;
 class FaqController extends Controller
 {
     function index() {
+        $user = Auth::user();
         $faqs = Faq::where('user_id', Auth::id())
                    ->orderBy('created_at', 'desc') // 追加: 作成日時の降順
                    ->paginate(30);
-        return view('admin.faq.index', compact('faqs'));
+        
+        $faqCount = Faq::where('user_id', Auth::id())->count();
+        $faqLimit = $user->faq_limit;
+        $limitReached = !$user->isExistingAccount() && $faqLimit !== null && $faqCount >= $faqLimit;
+        
+        return view('admin.faq.index', compact('faqs', 'faqCount', 'faqLimit', 'limitReached'));
     }
     function faqView() {
         $faqs = Faq::all(); // Fetch FAQs from database
