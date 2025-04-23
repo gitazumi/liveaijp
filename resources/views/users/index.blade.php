@@ -61,7 +61,17 @@
                             {{$user->email}}
                         </td>
                         <td class="py-5 px-3">
-                            <span class="bg-[#173F74] text-white rounded p-1 px-3">{{$user->status}}</span>
+                            @if($user->status == 'unverified')
+                                <span class="bg-yellow-600 text-white rounded p-1 px-3">メール未認証</span>
+                            @elseif($user->status == 'registered')
+                                <span class="bg-blue-600 text-white rounded p-1 px-3">登録済み</span>
+                            @elseif($user->status == 'active')
+                                <span class="bg-[#173F74] text-white rounded p-1 px-3">利用中</span>
+                            @elseif($user->status == 'inactive')
+                                <span class="bg-gray-600 text-white rounded p-1 px-3">退会済み</span>
+                            @else
+                                <span class="bg-[#173F74] text-white rounded p-1 px-3">{{$user->status}}</span>
+                            @endif
                         </td>
                         <td>
                             <p class="flex justify-center space-x-2">
