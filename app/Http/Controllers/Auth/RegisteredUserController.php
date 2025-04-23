@@ -42,7 +42,7 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
             'faq_limit' => 20,
             'api_request_limit' => 100,
-            'status' => 'unverified',
+            'status' => 'Active',
         ]);
         $user->assignRole('user');
 
