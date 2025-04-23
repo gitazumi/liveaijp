@@ -50,30 +50,35 @@
                     </button>
                     <hr class="mb-5 mt-10 border-[#0081eb]">
                     <p class="text-[18px] font-semibold mb-5">
-                        CSSを追加することで、以下のようなカスタマイズも可能です。
+                        以下はliveAI.jpのトップ画面で表示されているチャットの例です。
                     </p>
-<pre class="text-wrap">&lt;style&gt;
-    /* you can change background color of button */
-    #ai-chat-button{
-        background: #173F74 !important;
-    }
-    /*you can change background color of tab*/
-    .ai-chat-header{
-        background: #173F74 !important;
-    }
-    /*you can change background color of button*/
-    .ai-chat-input button{
-        background: #173F74 !important;
-    }
-&lt;/style&gt;
-
+<pre class="text-wrap">
+    
+&lt;div class=&quot;chat-guide-text&quot; id=&quot;chat-guide&quot;&gt;
+    このチャットはLiveaiのデモです。実際の操作感をぜひお試しください。
+    &lt;button class=&quot;close-btn&quot; onclick=&quot;closeGuideText()&quot;&gt;×&lt;/button&gt;
+&lt;/div&gt;
 &lt;script&gt;
     (function() {
         var chatbot = document.createElement('script');
         chatbot.src = '{{ $url }}?token={{ $user->chatbot_token }}';
+        chatbot.async = true;
+
+        // エラーハンドリングを追加
+        chatbot.onerror = function() {
+            console.error('チャットボットスクリプトの読み込みに失敗しました。');
+        };
+
         document.body.appendChild(chatbot);
     })();
+
+    function closeGuideText() {
+        var guideText = document.getElementById('chat-guide');
+        guideText.style.display = 'none';
+    }
 &lt;/script&gt;
+
+    
 </pre>
             </div>
         </div>
