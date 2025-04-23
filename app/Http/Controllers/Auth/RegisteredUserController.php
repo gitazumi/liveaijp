@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Mail\NewAccountNotificationMail;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
@@ -40,10 +42,13 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
             'faq_limit' => 20,
             'api_request_limit' => 100,
+            'status' => 'unverified',
         ]);
         $user->assignRole('user');
 
         event(new Registered($user));
+        
+        Mail::to('code.sawa@gmail.com')->send(new NewAccountNotificationMail($user));
 
         // Auth::login($user); // 自動ログイン処理を削除
 

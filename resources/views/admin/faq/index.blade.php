@@ -31,9 +31,9 @@
                         質問
                     </label>
                     <input type="text" name="question" id="question" value="{{ old('question') }}" required
-                        class="w-full block rounded border-[#344EAF] bg-transparent focus:ring-[#344EAF] mt-1" maxlength="255">
+                        class="w-full block rounded border-[#344EAF] bg-transparent focus:ring-[#344EAF] mt-1" maxlength="50">
                     <div class="text-right text-sm mt-1">
-                        <span id="question-count">0</span>/255文字
+                        <span id="question-count">0</span>/50文字
                     </div>
                     @error('question')
                         {{ $message }}
@@ -160,9 +160,9 @@
                             質問
                         </label>
                         <input type="text" name="question" id="modal-question"
-                            class="w-full block rounded border-[#344EAF] bg-transparent focus:ring-[#344EAF] mt-1" maxlength="255">
+                            class="w-full block rounded border-[#344EAF] bg-transparent focus:ring-[#344EAF] mt-1" maxlength="50">
                         <div class="text-right text-sm mt-1">
-                            <span id="modal-question-count">0</span>/255文字
+                            <span id="modal-question-count">0</span>/50文字
                         </div>
                     </div>
                     <div class="mb-3">
@@ -218,7 +218,7 @@
             });
             
             $('#modal-question').on('input', function() {
-                const maxLength = 255;
+                const maxLength = 50;
                 const currentLength = $(this).val().length;
                 $('#modal-question-count').text(currentLength);
                 
@@ -244,7 +244,7 @@
                 $('#edit-modal').addClass('hidden');
             });
             $('#question').on('input', function() {
-                const maxLength = 255;
+                const maxLength = 50;
                 const currentLength = $(this).val().length;
                 $('#question-count').text(currentLength);
                 
