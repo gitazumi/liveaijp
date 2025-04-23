@@ -23,7 +23,10 @@
                         お店の名前
                     </label>
                     <input type="text" name="venue_name" id="venue_name" value="{{ $data->venue_name ?? '' }}"
-                        required class="w-full block rounded border-[#344EAF] bg-white text-black focus:ring-[#344EAF] mt-1">
+                        required class="w-full block rounded border-[#344EAF] bg-white text-black focus:ring-[#344EAF] mt-1" maxlength="50">
+                    <div class="text-right text-sm mt-1">
+                        <span id="venue_name-count">0</span>/50文字
+                    </div>
                     @error('venue_name')
                         {{ $message }}
                     @enderror
@@ -33,7 +36,10 @@
                         住所
                     </label>
                     <input type="text" name="address" id="address" value="{{ $data->address ?? '' }}" required
-                        class="w-full block rounded border-[#344EAF] bg-white text-black focus:ring-[#344EAF] focus:ring-0 mt-1">
+                        class="w-full block rounded border-[#344EAF] bg-white text-black focus:ring-[#344EAF] focus:ring-0 mt-1" maxlength="50">
+                    <div class="text-right text-sm mt-1">
+                        <span id="address-count">0</span>/50文字
+                    </div>
                     @error('address')
                         {{ $message }}
                     @enderror
@@ -43,7 +49,10 @@
                         電話番号
                     </label>
                     <input type="text" name="phone" id="phone" value="{{ $data->phone ?? '' }}" required
-                        class="w-full block rounded border-[#344EAF] bg-white text-black focus:ring-[#344EAF] focus:ring-0 mt-1">
+                        class="w-full block rounded border-[#344EAF] bg-white text-black focus:ring-[#344EAF] focus:ring-0 mt-1" maxlength="20">
+                    <div class="text-right text-sm mt-1">
+                        <span id="phone-count">0</span>/20文字
+                    </div>
                     @error('phone')
                         {{ $message }}
                     @enderror
@@ -53,7 +62,10 @@
                         メールアドレス
                     </label>
                     <input type="text" name="email" id="email" value="{{ $data->email ?? '' }}" required
-                        class="w-full block rounded border-[#344EAF] bg-white text-black focus:ring-[#344EAF] focus:ring-0 mt-1">
+                        class="w-full block rounded border-[#344EAF] bg-white text-black focus:ring-[#344EAF] focus:ring-0 mt-1" maxlength="30">
+                    <div class="text-right text-sm mt-1">
+                        <span id="email-count">0</span>/30文字
+                    </div>
                     @error('email')
                         {{ $message }}
                     @enderror
@@ -63,7 +75,10 @@
                         お店の特徴
                     </label>
                     <textarea name="additional_information" id="additional_information" cols="30" rows="5" required
-                        class="p-2 w-full block rounded border-[#344EAF] bg-white text-black focus:ring-[#344EAF] focus:ring-0 mt-1">{{ $data->additional_information ?? '' }}</textarea>
+                        class="p-2 w-full block rounded border-[#344EAF] bg-white text-black focus:ring-[#344EAF] focus:ring-0 mt-1" maxlength="300">{{ $data->additional_information ?? '' }}</textarea>
+                    <div class="text-right text-sm mt-1">
+                        <span id="additional_information-count">0</span>/300文字
+                    </div>
                     @error('additional_information')
                         {{ $message }}
                     @enderror
@@ -77,3 +92,29 @@
 
     </div>
 </x-sidebar>
+
+@push('script')
+<script>
+    $(document).ready(function() {
+        function setupCounter(elementId, maxLength) {
+            $(`#${elementId}`).on('input', function() {
+                const currentLength = $(this).val().length;
+                $(`#${elementId}-count`).text(currentLength);
+                
+                if (currentLength > maxLength) {
+                    $(this).val($(this).val().slice(0, maxLength));
+                    $(`#${elementId}-count`).text(maxLength);
+                }
+            });
+            
+            $(`#${elementId}-count`).text($(`#${elementId}`).val().length);
+        }
+        
+        setupCounter('venue_name', 50);
+        setupCounter('address', 50);
+        setupCounter('phone', 20);
+        setupCounter('email', 30);
+        setupCounter('additional_information', 300);
+    });
+</script>
+@endpush
