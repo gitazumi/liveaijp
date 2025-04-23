@@ -171,21 +171,29 @@
                     font-size: 14px;
                     white-space: pre-wrap;
                     word-wrap: break-word;
+                    text-align: left !important;
+                    display: block !important;
+                    position: relative !important;
                 }
 
                 .ai-message.user {
-                    background: #f1f5f9; /* bg-light equivalent */
-                    color: black;
-                    margin-left: auto;
-                    border-bottom-right-radius: 4px;
+                    background: #f1f5f9 !important; /* bg-light equivalent */
+                    color: black !important;
+                    margin-left: auto !important;
+                    margin-right: 0 !important;
+                    border-bottom-right-radius: 4px !important;
+                    text-align: left !important;
                 }
 
                 .ai-message.bot {
-                    background: white;
-                    color: #1f2937;
-                    margin-right: auto;
-                    border-bottom-left-radius: 4px;
-                    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+                    background: #f8fafc !important;
+                    color: #1f2937 !important;
+                    margin-right: auto !important;
+                    margin-left: 0 !important;
+                    border-bottom-left-radius: 4px !important;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.05) !important;
+                    border: 1px solid #e2e8f0 !important;
+                    text-align: left !important;
                 }
 
                 .ai-chat-messages::-webkit-scrollbar {
@@ -403,7 +411,7 @@
             }
 
             messagesDiv.appendChild(messageDiv);
-            // messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
         }
 
         async sendMessage(message) {
@@ -415,7 +423,7 @@
 
             const messagesDiv = document.querySelector('.ai-chat-messages');
             messagesDiv.appendChild(loadingDiv);
-            // messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
 
             try {
                 console.log('Sending message:', message); // メッセージをデバッグ出力
