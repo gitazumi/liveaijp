@@ -195,12 +195,20 @@ class ChatController extends Controller
 
     private function getOrCreateConversation($sessionId, $title, $userId)
     {
-        return Conversation::firstOrCreate(
+        $conversation = Conversation::firstOrCreate(
             [
                 'session_id' => $sessionId,
             ],
             ['title' => $title, 'user_id' => $userId]
         );
+        
+        $user = \App\Models\User::find($userId);
+        if ($user && $user->status === 'registered') {
+            $user->status = 'active';
+            $user->save();
+        }
+        
+        return $conversation;
     }
 
     private function storeMessage($data)

@@ -19,6 +19,8 @@ class AppServiceProvider extends ServiceProvider
                 ->subject('LiveAI ご登録の確認')
                 ->markdown('emails.verification', ['verificationUrl' => $url]);
         });
+        
+        \App\Models\User::observe(\App\Observers\UserObserver::class);
     }
 
     public function register()
