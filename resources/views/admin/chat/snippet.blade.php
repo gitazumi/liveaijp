@@ -31,7 +31,7 @@
 
             <div>
                 <p class="text-[18px] font-semibold">
-                    HTMLの</body>タグの直前に貼り付けてください。
+                    HTMLの&lt;/body&gt;タグの直前に貼り付けてください。
                 </p>
                 <hr class="my-5 border-[#0081eb]">
 
