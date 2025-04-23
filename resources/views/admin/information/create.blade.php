@@ -97,6 +97,9 @@
 <script>
     $(document).ready(function() {
         function setupCounter(elementId, maxLength) {
+            const initialLength = $(`#${elementId}`).val().length;
+            $(`#${elementId}-count`).text(initialLength);
+            
             $(`#${elementId}`).on('input', function() {
                 const currentLength = $(this).val().length;
                 $(`#${elementId}-count`).text(currentLength);
@@ -107,7 +110,7 @@
                 }
             });
             
-            $(`#${elementId}-count`).text($(`#${elementId}`).val().length);
+            $(`#${elementId}`).trigger('input');
         }
         
         setupCounter('venue_name', 50);
