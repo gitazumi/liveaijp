@@ -91,51 +91,36 @@
         </div>
 
     </div>
-</x-sidebar>
 
-@push('script')
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        updateCounter('venue_name', 50);
-        updateCounter('address', 50);
-        updateCounter('phone', 20);
-        updateCounter('email', 30);
-        updateCounter('additional_information', 300);
-        
-        document.getElementById('venue_name').addEventListener('input', function() {
-            updateCounter('venue_name', 50);
-        });
-        
-        document.getElementById('address').addEventListener('input', function() {
-            updateCounter('address', 50);
-        });
-        
-        document.getElementById('phone').addEventListener('input', function() {
-            updateCounter('phone', 20);
-        });
-        
-        document.getElementById('email').addEventListener('input', function() {
-            updateCounter('email', 30);
-        });
-        
-        document.getElementById('additional_information').addEventListener('input', function() {
-            updateCounter('additional_information', 300);
-        });
-    });
-    
-    function updateCounter(elementId, maxLength) {
-        const element = document.getElementById(elementId);
-        const counter = document.getElementById(elementId + '-count');
-        
-        if (element && counter) {
-            const currentLength = element.value.length;
-            counter.textContent = currentLength;
+    <!-- 文字数カウンター用のインラインスクリプト -->
+    <script>
+        (function() {
+            countChars('venue_name', 50);
+            countChars('address', 50);
+            countChars('phone', 20);
+            countChars('email', 30);
+            countChars('additional_information', 300);
             
-            if (currentLength > maxLength) {
-                element.value = element.value.slice(0, maxLength);
-                counter.textContent = maxLength;
+            document.getElementById('venue_name').oninput = function() { countChars('venue_name', 50); };
+            document.getElementById('address').oninput = function() { countChars('address', 50); };
+            document.getElementById('phone').oninput = function() { countChars('phone', 20); };
+            document.getElementById('email').oninput = function() { countChars('email', 30); };
+            document.getElementById('additional_information').oninput = function() { countChars('additional_information', 300); };
+        })();
+        
+        function countChars(id, maxLength) {
+            var element = document.getElementById(id);
+            var counter = document.getElementById(id + '-count');
+            
+            if (element && counter) {
+                var length = element.value.length;
+                counter.textContent = length;
+                
+                if (length > maxLength) {
+                    element.value = element.value.substring(0, maxLength);
+                    counter.textContent = maxLength;
+                }
             }
         }
-    }
-</script>
-@endpush
+    </script>
+</x-sidebar>
