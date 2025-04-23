@@ -5,19 +5,30 @@
             this.conversationId = 'conv_' + Math.random().toString(36).substr(2, 9);
             this.apiEndpoint = 'https://liveai.jp/api/chat/message';
             this.welcomeMessageShown = false; // ウェルカムメッセージが表示されたかどうかを追跡
+            this.shadow = null; // Shadow DOM root
             console.log('Chatbot Token:', this.token); // トークンをデバッグ出力
             this.init();
         }
 
         getTokenFromScript() {
             const scripts = document.getElementsByTagName('script');
-            const currentScript = scripts[scripts.length - 1];
-            const url = new URL(currentScript.src);
-            return url.searchParams.get('token');
+            for (let i = 0; i < scripts.length; i++) {
+                if (scripts[i].src && scripts[i].src.includes('chatbot.js')) {
+                    const url = new URL(scripts[i].src);
+                    return url.searchParams.get('token');
+                }
+            }
+            const lastScript = scripts[scripts.length - 1];
+            if (lastScript && lastScript.src) {
+                const url = new URL(lastScript.src);
+                return url.searchParams.get('token');
+            }
+            return null;
         }
 
         init() {
             this.injectMetaTag();
+            this.createShadowRoot();
             this.injectStyles();
             this.createWidget();
             this.addEventListeners();
@@ -31,6 +42,14 @@
                 meta.content = 'width=device-width, initial-scale=1, maximum-scale=1';
                 document.head.appendChild(meta);
             }
+        }
+
+        createShadowRoot() {
+            const container = document.createElement('div');
+            container.id = 'ai-chatbot-container';
+            document.body.appendChild(container);
+            
+            this.shadow = container.attachShadow({ mode: 'open' });
         }
 
         injectStyles() {
@@ -112,6 +131,7 @@
                     padding: 20px;
                     display: flex;
                     flex-direction: column;
+                    justify-content: flex-start;
                     gap: 12px;
                     background: white;
                 }
@@ -162,21 +182,29 @@
                     font-size: 14px;
                     white-space: pre-wrap;
                     word-wrap: break-word;
+                    text-align: left;
+                    display: block;
+                    position: relative;
                 }
 
                 .ai-message.user {
-                    background: #f1f5f9; /* bg-light equivalent */
+                    background: #f1f5f9;
                     color: black;
                     margin-left: auto;
+                    margin-right: 0;
                     border-bottom-right-radius: 4px;
+                    text-align: left;
                 }
 
                 .ai-message.bot {
-                    background: white;
+                    background: #f8fafc;
                     color: #1f2937;
                     margin-right: auto;
+                    margin-left: 0;
                     border-bottom-left-radius: 4px;
                     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+                    border: 1px solid #e2e8f0;
+                    text-align: left;
                 }
 
                 .ai-chat-messages::-webkit-scrollbar {
@@ -268,7 +296,7 @@
             `;
             const style = document.createElement('style');
             style.textContent = css;
-            document.head.appendChild(style);
+            this.shadow.appendChild(style);
         }
 
         createWidget() {
@@ -279,7 +307,7 @@
                 <div id="ai-chat-window">
                     <div id="ai-chat-resize-handle"></div>
                     <div class="ai-chat-header">
-                        <a href="https://liveai.jp" target="_blank" style="color: black; text-decoration: none;">liveAI</a>
+                        <a href="https://liveai.jp" target="_blank" style="color: black; text-decoration: none; text-align: left; display: block;">liveAI</a>
                         <button id="ai-chat-close" style="position: absolute; top: 15px; right: 15px; background: none; border: none; cursor: pointer;">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
@@ -299,15 +327,15 @@
                 </button>
             `;
 
-            document.body.appendChild(widget);
+            this.shadow.appendChild(widget);
         }
 
         addEventListeners() {
-            const button = document.getElementById('ai-chat-button');
-            const window = document.getElementById('ai-chat-window');
+            const button = this.shadow.getElementById('ai-chat-button');
+            const window = this.shadow.getElementById('ai-chat-window');
             const input = window.querySelector('input');
-            const sendButton = window.querySelector('button');
-            const closeButton = document.getElementById('ai-chat-close');
+            const sendButton = window.querySelector('.ai-chat-input button');
+            const closeButton = this.shadow.getElementById('ai-chat-close');
 
             button.addEventListener('click', () => {
                 if (window.style.display === 'none' || window.style.display === '') {
@@ -383,7 +411,7 @@
         }
 
         addMessageToChat(message, isUser) {
-            const messagesDiv = document.querySelector('.ai-chat-messages');
+            const messagesDiv = this.shadow.querySelector('.ai-chat-messages');
             const messageDiv = document.createElement('div');
             messageDiv.className = `ai-message ${isUser ? 'user' : 'bot'}`;
 
@@ -394,7 +422,7 @@
             }
 
             messagesDiv.appendChild(messageDiv);
-            // messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
         }
 
         async sendMessage(message) {
@@ -404,9 +432,9 @@
             loadingDiv.className = 'ai-message bot loading';
             loadingDiv.innerHTML = '<span></span><span></span><span></span>';
 
-            const messagesDiv = document.querySelector('.ai-chat-messages');
+            const messagesDiv = this.shadow.querySelector('.ai-chat-messages');
             messagesDiv.appendChild(loadingDiv);
-            // messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
 
             try {
                 console.log('Sending message:', message); // メッセージをデバッグ出力
@@ -436,8 +464,8 @@
         }
 
         setupResizing() {
-            const chatWindow = document.getElementById('ai-chat-window');
-            const resizeHandle = document.getElementById('ai-chat-resize-handle');
+            const chatWindow = this.shadow.getElementById('ai-chat-window');
+            const resizeHandle = this.shadow.getElementById('ai-chat-resize-handle');
             let isResizing = false;
             let initialWidth, initialHeight, initialX, initialY;
 
@@ -503,7 +531,7 @@
                     welcomeMessage = `こんにちは！${data.venue_name}についてなんでもお聞きください！`;
                 }
                 
-                const messagesDiv = document.querySelector('.ai-chat-messages');
+                const messagesDiv = this.shadow.querySelector('.ai-chat-messages');
                 const messageDiv = document.createElement('div');
                 messageDiv.className = 'ai-message bot';
                 messageDiv.innerHTML = this.formatMessage(welcomeMessage);
@@ -514,7 +542,7 @@
                 
             } catch (error) {
                 console.error('Error fetching store info:', error);
-                const messagesDiv = document.querySelector('.ai-chat-messages');
+                const messagesDiv = this.shadow.querySelector('.ai-chat-messages');
                 const messageDiv = document.createElement('div');
                 messageDiv.className = 'ai-message bot';
                 messageDiv.innerHTML = this.formatMessage('こんにちは！なんでもお聞きください！');

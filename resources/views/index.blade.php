@@ -567,9 +567,10 @@
 <script>
     (function() {
         var chatbot = document.createElement('script');
-        chatbot.src = 'https://liveai.jp/chatbot.js?token={{ config("services.liveai.demo_token", "") }}';
+        chatbot.src = 'https://liveai.jp/chatbot.js?token=78b7ac4e-f6ee-412c-9684-78ef8a1a87dc';
         chatbot.async = true;
 
+        // エラーハンドリングを追加
         chatbot.onerror = function() {
             console.error('チャットボットスクリプトの読み込みに失敗しました。');
         };
@@ -582,7 +583,6 @@
         guideText.style.display = 'none';
     }
 </script>
-</body>
 <script src="{{ asset('./js/index.js') }}"></script>
 
 </html>
