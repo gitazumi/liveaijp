@@ -567,7 +567,7 @@
 <script>
     (function() {
         var chatbot = document.createElement('script');
-        chatbot.src = 'https://liveai.jp/chatbot.js?token=78b7ac4e-f6ee-412c-9684-78ef8a1a87dc';
+        chatbot.src = 'https://liveai.jp/chatbot.js?token={{ config("services.liveai.demo_token", "") }}';
         chatbot.async = true;
 
         chatbot.onerror = function() {
