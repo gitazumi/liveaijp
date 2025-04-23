@@ -95,29 +95,47 @@
 
 @push('script')
 <script>
-    $(document).ready(function() {
-        function setupCounter(elementId, maxLength) {
-            const initialLength = $(`#${elementId}`).val().length;
-            $(`#${elementId}-count`).text(initialLength);
-            
-            $(`#${elementId}`).on('input', function() {
-                const currentLength = $(this).val().length;
-                $(`#${elementId}-count`).text(currentLength);
-                
-                if (currentLength > maxLength) {
-                    $(this).val($(this).val().slice(0, maxLength));
-                    $(`#${elementId}-count`).text(maxLength);
-                }
-            });
-            
-            $(`#${elementId}`).trigger('input');
-        }
+    document.addEventListener('DOMContentLoaded', function() {
+        updateCounter('venue_name', 50);
+        updateCounter('address', 50);
+        updateCounter('phone', 20);
+        updateCounter('email', 30);
+        updateCounter('additional_information', 300);
         
-        setupCounter('venue_name', 50);
-        setupCounter('address', 50);
-        setupCounter('phone', 20);
-        setupCounter('email', 30);
-        setupCounter('additional_information', 300);
+        document.getElementById('venue_name').addEventListener('input', function() {
+            updateCounter('venue_name', 50);
+        });
+        
+        document.getElementById('address').addEventListener('input', function() {
+            updateCounter('address', 50);
+        });
+        
+        document.getElementById('phone').addEventListener('input', function() {
+            updateCounter('phone', 20);
+        });
+        
+        document.getElementById('email').addEventListener('input', function() {
+            updateCounter('email', 30);
+        });
+        
+        document.getElementById('additional_information').addEventListener('input', function() {
+            updateCounter('additional_information', 300);
+        });
     });
+    
+    function updateCounter(elementId, maxLength) {
+        const element = document.getElementById(elementId);
+        const counter = document.getElementById(elementId + '-count');
+        
+        if (element && counter) {
+            const currentLength = element.value.length;
+            counter.textContent = currentLength;
+            
+            if (currentLength > maxLength) {
+                element.value = element.value.slice(0, maxLength);
+                counter.textContent = maxLength;
+            }
+        }
+    }
 </script>
 @endpush
