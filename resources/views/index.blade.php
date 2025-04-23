@@ -13,6 +13,31 @@
     <link rel="stylesheet" href="./css/responsive.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;300;400;500;700;900&display=swap"
         rel="stylesheet">
+    <style>
+        .chat-guide-text {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 999;
+            max-width: 300px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .close-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: none;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            color: #666;
+        }
+    </style>
 </head>
 
 <body>
@@ -84,11 +109,7 @@
             </div>
         </div>
     </header>
-    <div class="scroll-up" style="display: none;" id="fadeUp">
-        <a href="#top">
-            <img src="./images/up.png " alt="">
-        </a>
-    </div>
+
 
     <section class="hero">
         <div class="hero-content">
@@ -436,7 +457,7 @@
                     </div>
                 </button>
                 <div class="answer">
-                    <p>A：OpenAI APIのChatGPTを利用しています。</p>
+                    <p>A：OpenAIのChatGPTを利用しています。</p>
                 </div>
             </div>
             
@@ -538,6 +559,29 @@
             </div>
             <p class="copyright">© 2024 LiveAi.jp, All Rights Reserved</p>
     </footer>
+
+<div class="chat-guide-text" id="chat-guide">
+    このチャットはLiveaiのデモです。実際の操作感をぜひお試しください。
+    <button class="close-btn" onclick="closeGuideText()">×</button>
+</div>
+<script>
+    (function() {
+        var chatbot = document.createElement('script');
+        chatbot.src = 'https://liveai.jp/chatbot.js?token={{ config("services.liveai.demo_token", "") }}';
+        chatbot.async = true;
+
+        chatbot.onerror = function() {
+            console.error('チャットボットスクリプトの読み込みに失敗しました。');
+        };
+
+        document.body.appendChild(chatbot);
+    })();
+
+    function closeGuideText() {
+        var guideText = document.getElementById('chat-guide');
+        guideText.style.display = 'none';
+    }
+</script>
 </body>
 <script src="{{ asset('./js/index.js') }}"></script>
 
