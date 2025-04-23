@@ -24,7 +24,7 @@ class ChatController extends Controller
 
     public function __construct()
     {
-        $this->openai_api_key = "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";
+        $this->openai_api_key = env('OPENAI_API_KEY');
     }
 
     private function getSessionId(Request $request)
