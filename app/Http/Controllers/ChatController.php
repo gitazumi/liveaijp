@@ -452,4 +452,23 @@ class ChatController extends Controller
 
         return view('admin.chat.snippet', compact('user'));
     }
+
+    public function getStoreInfo(Request $request)
+    {
+        try {
+            $user = User::where('chatbot_token', $request->header('X-Chatbot-Token'))->first();
+            if (!$user) {
+                return response()->json(['error' => 'Invalid chatbot token'], 401);
+            }
+            
+            $storeInfo = Information::where('user_id', $user->id)->first();
+            
+            return response()->json([
+                'venue_name' => $storeInfo ? $storeInfo->venue_name : null
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error getting store info: ' . $e->getMessage());
+            return response()->json(['error' => 'An error occurred'], 500);
+        }
+    }
 }
