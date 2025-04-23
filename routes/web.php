@@ -132,5 +132,6 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 Route::get('return-to-admin', [UserController::class, 'returnToAdmin'])->name('return-to-admin');
 
+Route::get('api/chat/store-info', [ChatController::class, 'getStoreInfo']);
 
 require __DIR__ . '/auth.php';

@@ -66,7 +66,7 @@
                     bottom: 90px;
                     right: 20px;
                     width: 350px;
-                    height: 400px;
+                    height: 480px;
                     background: white;
                     border-radius: 16px;
                     box-shadow: 0 5px 20px rgba(0,0,0,0.15);
@@ -99,8 +99,8 @@
 
                 .ai-chat-header {
                     padding: 20px;
-                    background: #2563eb;
-                    color: white;
+                    background: white;
+                    color: black;
                     font-weight: 600;
                     font-size: 16px;
                 }
@@ -112,7 +112,7 @@
                     display: flex;
                     flex-direction: column;
                     gap: 12px;
-                    background: #f8fafc;
+                    background: white;
                 }
 
                 .ai-chat-input {
@@ -164,8 +164,8 @@
                 }
 
                 .ai-message.user {
-                    background: #2563eb;
-                    color: white;
+                    background: #f1f5f9; /* bg-light equivalent */
+                    color: black;
                     margin-left: auto;
                     border-bottom-right-radius: 4px;
                 }
@@ -277,7 +277,14 @@
             widget.innerHTML = `
                 <div id="ai-chat-window">
                     <div id="ai-chat-resize-handle"></div>
-                    <div class="ai-chat-header">ご質問はこちら</div>
+                    <div class="ai-chat-header">
+                        <a href="https://liveai.jp" target="_blank" style="color: black; text-decoration: none;">liveAI</a>
+                        <button id="ai-chat-close" style="position: absolute; top: 15px; right: 15px; background: none; border: none; cursor: pointer;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
+                    </div>
                     <div class="ai-chat-messages"></div>
                     <div class="ai-chat-input">
                         <input type="text" placeholder="メッセージを入力してください...">
@@ -299,9 +306,19 @@
             const window = document.getElementById('ai-chat-window');
             const input = window.querySelector('input');
             const sendButton = window.querySelector('button');
+            const closeButton = document.getElementById('ai-chat-close');
 
             button.addEventListener('click', () => {
-                window.style.display = (window.style.display === 'none' || window.style.display === '') ? 'flex' : 'none';
+                if (window.style.display === 'none' || window.style.display === '') {
+                    window.style.display = 'flex';
+                    this.showWelcomeMessage();
+                } else {
+                    window.style.display = 'none';
+                }
+            });
+
+            closeButton.addEventListener('click', () => {
+                window.style.display = 'none';
             });
 
             const sendMessage = () => {
@@ -441,6 +458,41 @@
                 document.removeEventListener('mousemove', onMouseMove);
                 document.removeEventListener('mouseup', onMouseUp);
             };
+        }
+
+        async showWelcomeMessage() {
+            try {
+                const response = await fetch('https://liveai.jp/api/chat/store-info', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Chatbot-Token': this.token
+                    }
+                });
+                
+                const data = await response.json();
+                let welcomeMessage = 'こんにちは！なんでもお聞きください！';
+                
+                if (data.venue_name) {
+                    welcomeMessage = `こんにちは！${data.venue_name}についてなんでもお聞きください！`;
+                }
+                
+                const messagesDiv = document.querySelector('.ai-chat-messages');
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'ai-message bot';
+                messageDiv.innerHTML = this.formatMessage(welcomeMessage);
+                messagesDiv.appendChild(messageDiv);
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+                
+            } catch (error) {
+                console.error('Error fetching store info:', error);
+                const messagesDiv = document.querySelector('.ai-chat-messages');
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'ai-message bot';
+                messageDiv.innerHTML = this.formatMessage('こんにちは！なんでもお聞きください！');
+                messagesDiv.appendChild(messageDiv);
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            }
         }
     }
 
