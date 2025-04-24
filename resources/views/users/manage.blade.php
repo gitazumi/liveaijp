@@ -79,6 +79,7 @@
                             <option value="Active" @selected(old('status', $user->status) == 'Active')>Active</option>
                             <option value="Inactive" @selected(old('status', $user->status) == 'Inactive')>Inactive</option>
                             <option value="unverified" @selected(old('status', $user->status) == 'unverified')>Unverified</option>
+                            <option value="registered" @selected(old('status', $user->status) == 'registered')>Registered</option>
                         </select>
                         @error('status')
                             <span class="text-red-500 text-sm">{{ $message }}</span>

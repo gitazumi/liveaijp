@@ -96,7 +96,7 @@ class UserController extends Controller
 
         $validatedData = $request->validate([
             'email' => 'required|email|unique:users,email,'.$id,
-            'status' => 'required|in:Active,Inactive,unverified',
+            'status' => 'required|in:Active,Inactive,unverified,registered',
             'faq_limit' => 'nullable|integer|min:0',
             'api_request_limit' => 'nullable|integer|min:0',
         ]);
