@@ -76,10 +76,9 @@
                     <div class="mb-4">
                         <label for="status" class="block text-sm font-medium text-gray-700 mb-1">ステータス</label>
                         <select name="status" id="status" class="w-full rounded border-gray-300 focus:border-[#344EAF] focus:ring-[#344EAF]">
-                            <option value="unverified" @selected(old('status', $user->status) == 'unverified')>メール未認証</option>
-                            <option value="registered" @selected(old('status', $user->status) == 'registered')>登録済み（未使用）</option>
-                            <option value="active" @selected(old('status', $user->status) == 'active')>利用中</option>
-                            <option value="inactive" @selected(old('status', $user->status) == 'inactive')>退会済み</option>
+                            <option value="Active" @selected(old('status', $user->status) == 'Active')>Active</option>
+                            <option value="Inactive" @selected(old('status', $user->status) == 'Inactive')>Inactive</option>
+                            <option value="unverified" @selected(old('status', $user->status) == 'unverified')>Unverified</option>
                         </select>
                         @error('status')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
