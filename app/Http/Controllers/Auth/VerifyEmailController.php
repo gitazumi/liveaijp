@@ -17,7 +17,7 @@ class VerifyEmailController extends Controller
     {
         if ($request->user()->hasVerifiedEmail()) {
             return redirect()->route('login')
-                ->with('status', '登録が完了しました');
+                ->with('status', 'ご登録ありがとうございます。ご登録していただいたメールアドレスとパスワードを使ってログインしてください');
         }
 
         if ($request->user()->markEmailAsVerified()) {
@@ -25,6 +25,6 @@ class VerifyEmailController extends Controller
         }
 
         return redirect()->route('login')
-            ->with('status', '登録が完了しました');
+            ->with('status', 'ご登録ありがとうございます。ご登録していただいたメールアドレスとパスワードを使ってログインしてください');
     }
 }

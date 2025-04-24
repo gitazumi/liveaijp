@@ -59,7 +59,7 @@
         <p>LiveAIにご登録いただきありがとうございます。</p>
         <p>以下のリンクをクリックして、メール認証を完了してください：</p>
         
-        <a href="{{ $verificationUrl }}" class="button">メールアドレスを認証する</a>
+        <a href="{{ $verificationUrl }}" target="_blank" class="button">メールアドレスを認証する</a>
         
         <p class="note">このリンクの有効期限は24時間です。</p>
         <p>もしこのメールに心当たりがない場合は、このメールを無視していただければ幸いです。</p>
