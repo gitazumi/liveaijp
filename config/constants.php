@@ -5,5 +5,6 @@ return [
         'ACTIVE' => 'Active',
         'INACTIVE' => 'Inactive',
         'UNVERIFIED' => 'unverified',
+        'REGISTERED' => 'registered',
     ],
 ];
