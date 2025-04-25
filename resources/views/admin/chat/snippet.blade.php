@@ -53,32 +53,62 @@
                         以下はliveAI.jpのトップ画面で表示されているチャットの例です。
                     </p>
 <pre class="text-wrap">
-    
+
+以下の&lt;style&gt;を &lt;head&gt; タグ内に記載してください。
+
+&lt;style&gt;
+.chat-guide-text {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+    max-width: 300px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.close-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: #666;
+}
+&lt;/style&gt;
+
+次に、以下のコードを &lt;/body&gt; タグの直前に貼り付けてください。
+
 &lt;div class=&quot;chat-guide-text&quot; id=&quot;chat-guide&quot;&gt;
     このチャットはLiveaiのデモです。実際の操作感をぜひお試しください。
     &lt;button class=&quot;close-btn&quot; onclick=&quot;closeGuideText()&quot;&gt;×&lt;/button&gt;
 &lt;/div&gt;
+
 &lt;script&gt;
-    (function() {
-        var chatbot = document.createElement('script');
-        chatbot.src = '{{ $url }}?token={{ $user->chatbot_token }}';
-        chatbot.async = true;
+(function() {
+    var chatbot = document.createElement('script');
+    chatbot.src = '{{ $url }}?token={{ $user->chatbot_token }}';
+    chatbot.async = true;
 
-        // エラーハンドリングを追加
-        chatbot.onerror = function() {
-            console.error('チャットボットスクリプトの読み込みに失敗しました。');
-        };
+    chatbot.onerror = function() {
+        console.error('チャットボットスクリプトの読み込みに失敗しました。');
+    };
 
-        document.body.appendChild(chatbot);
-    })();
+    document.body.appendChild(chatbot);
+})();
 
-    function closeGuideText() {
-        var guideText = document.getElementById('chat-guide');
-        guideText.style.display = 'none';
-    }
+function closeGuideText() {
+    var guideText = document.getElementById('chat-guide');
+    guideText.style.display = 'none';
+}
 &lt;/script&gt;
 
-    
 </pre>
             </div>
         </div>
