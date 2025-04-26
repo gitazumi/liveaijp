@@ -86,11 +86,80 @@
             let typingCancelled = false;
             let currentTypingPromise = null;
 
+            function parseTextSegments(text) {
+                const segments = [];
+                const decodedText = decodeHtmlEntities(text);
+                
+                const containsHtmlTags = /<[a-z][\s\S]*>/i.test(decodedText);
+                
+                if (containsHtmlTags) {
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = decodedText;
+                    
+                    const processNode = (node) => {
+                        if (node.nodeType === Node.TEXT_NODE) {
+                            if (node.textContent.trim()) {
+                                segments.push({ type: 'text', content: node.textContent });
+                            }
+                        } else if (node.nodeType === Node.ELEMENT_NODE) {
+                            if (node.tagName.toLowerCase() === 'a') {
+                                segments.push({
+                                    type: 'link',
+                                    href: node.href,
+                                    content: node.textContent,
+                                    target: node.target || '_blank',
+                                    rel: node.rel || 'noopener noreferrer'
+                                });
+                            } else {
+                                node.childNodes.forEach(processNode);
+                            }
+                        }
+                    };
+                    
+                    tempDiv.childNodes.forEach(processNode);
+                } else {
+                    const urlRegex = /(https?:\/\/[^\s<>"']+)/g;
+                    let lastIndex = 0;
+                    let match;
+                    
+                    while ((match = urlRegex.exec(decodedText)) !== null) {
+                        if (match.index > lastIndex) {
+                            segments.push({
+                                type: 'text',
+                                content: decodedText.substring(lastIndex, match.index)
+                            });
+                        }
+                        
+                        segments.push({
+                            type: 'link',
+                            href: match[0],
+                            content: match[0],
+                            target: '_blank',
+                            rel: 'noopener noreferrer'
+                        });
+                        
+                        lastIndex = match.index + match[0].length;
+                    }
+                    
+                    if (lastIndex < decodedText.length) {
+                        segments.push({
+                            type: 'text',
+                            content: decodedText.substring(lastIndex)
+                        });
+                    }
+                }
+                
+                return segments;
+            }
+
             function typeText(element, text, speed = 50) {
                 typingCancelled = false;
                 
                 return new Promise((resolve) => {
-                    let i = 0;
+                    const segments = parseTextSegments(text);
+                    let segmentIndex = 0;
+                    let charIndex = 0;
+                    
                     const type = () => {
                         if (typingCancelled) {
                             element.innerHTML = formatMessage(text);
@@ -98,16 +167,37 @@
                             return resolve();
                         }
                         
-                        if (i < text.length) {
-                            const currentText = text.substring(0, i + 1);
-                            element.innerHTML = formatMessage(currentText);
-                            i++;
-                            setTimeout(type, speed);
-                        } else {
+                        if (segmentIndex >= segments.length) {
                             scrollToBottom();
-                            resolve();
+                            return resolve();
+                        }
+                        
+                        const segment = segments[segmentIndex];
+                        
+                        if (segment.type === 'text') {
+                            if (charIndex < segment.content.length) {
+                                element.append(segment.content.charAt(charIndex));
+                                charIndex++;
+                                setTimeout(type, speed);
+                            } else {
+                                segmentIndex++;
+                                charIndex = 0;
+                                type();
+                            }
+                        } else if (segment.type === 'link') {
+                            const a = document.createElement('a');
+                            a.href = segment.href;
+                            a.target = segment.target;
+                            a.rel = segment.rel;
+                            a.textContent = segment.content;
+                            element.append(a);
+                            
+                            segmentIndex++;
+                            charIndex = 0;
+                            setTimeout(type, speed);
                         }
                     };
+                    
                     type();
                 });
             }
