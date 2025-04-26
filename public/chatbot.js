@@ -366,7 +366,22 @@
             });
         }
 
+        decodeHtmlEntities(text) {
+            const textarea = document.createElement('textarea');
+            textarea.innerHTML = text;
+            return textarea.value;
+        }
+
         formatMessage(text) {
+            text = this.decodeHtmlEntities(text);
+            
+            const containsHtmlTags = /<[a-z][\s\S]*>/i.test(text);
+            
+            if (containsHtmlTags) {
+                let formatted = text.replace(/\n/g, '<br>');
+                return formatted;
+            }
+            
             text = text.replace(/\[([^\]]+)\]\(([^)]+)(?!\))/g, '[$1]($2)');
             
             const tempDiv = document.createElement('div');
