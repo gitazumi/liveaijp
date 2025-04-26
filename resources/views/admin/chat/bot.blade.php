@@ -162,9 +162,43 @@
             }
 
             function formatMessage(text) {
+                const tempDiv = document.createElement('div');
+                
                 // Convert line breaks to paragraphs
-                let formatted = text.split('\n').map(line => line.trim()).filter(line => line).map(line => `<p>${line}</p>`)
-                    .join('');
+                let formatted = text.split('\n').map(line => {
+                    line = line.trim();
+                    if (!line) return '';
+                    
+                    const markdownLinkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+                    line = line.replace(markdownLinkRegex, (match, text, url) => {
+                        tempDiv.textContent = ''; // Clear previous content
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.textContent = text;
+                        a.target = '_blank';
+                        a.rel = 'noopener noreferrer';
+                        tempDiv.appendChild(a);
+                        return tempDiv.innerHTML;
+                    });
+                    
+                    const urlRegex = /(https?:\/\/[^\s<>"']+)/g;
+                    line = line.replace(urlRegex, (match, url) => {
+                        if (line.indexOf(`<a href="${url}"`) !== -1) {
+                            return match;
+                        }
+                        
+                        tempDiv.textContent = ''; // Clear previous content
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.textContent = url;
+                        a.target = '_blank';
+                        a.rel = 'noopener noreferrer';
+                        tempDiv.appendChild(a);
+                        return tempDiv.innerHTML;
+                    });
+                    
+                    return `<p>${line}</p>`;
+                }).join('');
 
                 // Format code blocks
                 formatted = formatted.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
@@ -172,12 +206,12 @@
                 // Format inline code
                 formatted = formatted.replace(/`([^`]+)`/g, '<code>$1</code>');
 
-        // Format lists
-        formatted = formatted.replace(/^\s*[-*]\s+(.+)/gm, '<li>$1</li>');
-        formatted = formatted.replace(/(<li>.*?<\/li>\s*)+/g, '<ul>$&</ul>');
+                // Format lists
+                formatted = formatted.replace(/^\s*[-*]\s+(.+)/gm, '<li>$1</li>');
+                formatted = formatted.replace(/(<li>.*?<\/li>\s*)+/g, '<ul>$&</ul>');
 
-        return formatted;
-    }
+                return formatted;
+            }
 
     function getUserAvatar() {
         return ` <svg width="50" height="50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
