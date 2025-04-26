@@ -495,7 +495,12 @@
             } catch (error) {
                 loadingDiv.remove();
                 console.error('Chat error:', error);
-                this.addMessageToChat('Sorry, I encountered an error. Please try again later.', false);
+                
+                if (error.message && error.message.includes('リクエスト回数制限を超えました')) {
+                    this.addMessageToChat('リクエスト回数制限を超えました。しばらくしてから再度お試しください。', false);
+                } else {
+                    this.addMessageToChat('Sorry, I encountered an error. Please try again later.', false);
+                }
             }
         }
 
