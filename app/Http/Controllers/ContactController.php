@@ -44,4 +44,26 @@ class ContactController extends Controller
 
         return redirect()->route('contact.index')->with('success', '問い合わせ完了');
     }
+    
+    /**
+     * Handle feedback form submission
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function feedback(Request $request)
+    {
+        $validated = $request->validate([
+            'feedback' => 'required|string',
+            'recipient' => 'required|email',
+        ]);
+
+        Mail::to($validated['recipient'])->send(new ContactMail([
+            'name' => auth()->user()->name ?? 'ユーザー',
+            'email' => auth()->user()->email ?? 'フィードバックフォーム',
+            'message' => $validated['feedback'],
+        ]));
+
+        return redirect()->back()->with('success', 'フィードバックをお送りいただきありがとうございます。');
+    }
 }
