@@ -387,8 +387,12 @@
                     return tempDiv.innerHTML;
                 });
                 
-                const urlRegex = /(https?:\/\/[^\s\)\]]+)(?!\)|\])/g;
+                const urlRegex = /(https?:\/\/[^\s<>"']+)/g;
                 line = line.replace(urlRegex, (match, url) => {
+                    if (line.indexOf(`<a href="${url}"`) !== -1) {
+                        return match;
+                    }
+                    
                     tempDiv.textContent = ''; // Clear previous content
                     const a = document.createElement('a');
                     a.href = url;
