@@ -20,7 +20,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/chat/message', [ChatController::class, 'message'])->withoutMiddleware(['auth', 'auth:sanctum']);
+Route::post('/chat/message', [ChatController::class, 'message'])
+    ->middleware(['throttle.custom:10,1'])
+    ->withoutMiddleware(['auth', 'auth:sanctum']);
 
 Route::get('/get-chat-history', [ChatController::class, 'getChatHistory'])->withoutMiddleware(['auth', 'auth:sanctum']);
 
