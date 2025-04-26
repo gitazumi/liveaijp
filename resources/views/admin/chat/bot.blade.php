@@ -83,6 +83,39 @@
 
     @push('script')
         <script>
+            let typingCancelled = false;
+            let currentTypingPromise = null;
+
+            function typeText(element, text, speed = 50) {
+                typingCancelled = false;
+                
+                return new Promise((resolve) => {
+                    let i = 0;
+                    const type = () => {
+                        if (typingCancelled) {
+                            element.innerHTML = formatMessage(text);
+                            scrollToBottom();
+                            return resolve();
+                        }
+                        
+                        if (i < text.length) {
+                            const currentText = text.substring(0, i + 1);
+                            element.innerHTML = formatMessage(currentText);
+                            i++;
+                            setTimeout(type, speed);
+                        } else {
+                            scrollToBottom();
+                            resolve();
+                        }
+                    };
+                    type();
+                });
+            }
+
+            function cancelTyping() {
+                typingCancelled = true;
+            }
+
             function scrollToBottom() {
                 const messageList = document.getElementById('message-list');
                 messageList.scrollTop = messageList.scrollHeight;
@@ -117,11 +150,14 @@
                 </div>
                 <div class="flex flex-col max-w-[75%]">
                     <div class="bg-[#D0E4FF] border border-[#344EAB] p-4 rounded-lg shadow-sm">
-                        <p class="text-base sm:text-lg font-medium mb-2">${formatMessage(message)}</p>
+                        <p class="text-base sm:text-lg font-medium mb-2">${isUser ? formatMessage(message) : ""}</p>
                         <span class="text-xs text-gray-500">${timestamp}</span>
                     </div>
                 </div>
             `;
+                if (isUser) {
+                    messageDiv.querySelector('.text-base').innerHTML = formatMessage(message);
+                }
                 return messageDiv;
             }
 
@@ -164,6 +200,8 @@
         return false;
         @endif
         
+        cancelTyping();
+        
         const messageInput = $('#message');
         const message = messageInput.val().trim();
 
@@ -203,8 +241,11 @@
                     },
                     success: function(response) {
                         typingDiv.remove();
-                        messageList.appendChild(createMessageElement(response.response, false));
-                        scrollToBottom();
+                        const messageDiv = createMessageElement(response.response, false);
+                        messageList.appendChild(messageDiv);
+                        
+                        const responseTextElement = messageDiv.querySelector('.text-base');
+                        currentTypingPromise = typeText(responseTextElement, response.response);
                     },
                     error: function(xhr, status, error) {
                         console.error("Error:", xhr.responseJSON);
@@ -215,7 +256,9 @@
                         }
                         const errorMessage = createMessageElement(errorMsg, false);
                         messageList.appendChild(errorMessage);
-                        scrollToBottom();
+                        
+                        const errorTextElement = errorMessage.querySelector('.text-base');
+                        currentTypingPromise = typeText(errorTextElement, errorMsg);
                     }
                 });
             });

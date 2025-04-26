@@ -105,7 +105,7 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('chat-history/download', [ChatController::class, 'downloadHistory'])->name('chat.history.download');
     Route::get('chat-history/{chatId}', [ChatController::class, 'chat'])->name('chat.chat');
     Route::get('chat-bot', [ChatController::class, 'chatBot'])->name('chat.bot');
-    Route::post('chat/message', [ChatController::class, 'message'])->name('chat.message');
+    Route::post('chat/message', [ChatController::class, 'message'])->middleware(['throttle.custom:10,1'])->name('chat.message');
     Route::get('chat/generate-snippet', [ChatController::class, 'generateSnippet'])->name('chat.generate-snippet');
     // Route::get('google-calendar', [GoogleCalendarController::class, 'index'])->name('google-calendar.index');
     // Route::put('google-calendar', [GoogleCalendarController::class, 'update'])->name('google-calendar.update');
