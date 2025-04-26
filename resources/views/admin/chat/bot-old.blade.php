@@ -157,11 +157,36 @@
                         // Replace typing indicator with the bot's response
                         botTypingDiv.remove();
 
+                        function decodeHtmlEntities(text) {
+                            const textarea = document.createElement('textarea');
+                            textarea.innerHTML = text;
+                            return textarea.value;
+                        }
+                        
+                        const decodedResponse = decodeHtmlEntities(response.response);
+                        
+                        const containsHtmlTags = /<[a-z][\s\S]*>/i.test(decodedResponse);
+                        
+                        let displayText = decodedResponse;
+                        if (!containsHtmlTags) {
+                            const tempDiv = document.createElement('div');
+                            displayText = decodedResponse.replace(/(https?:\/\/[^\s<>"']+)/g, (match, url) => {
+                                tempDiv.textContent = ''; // Clear previous content
+                                const a = document.createElement('a');
+                                a.href = url;
+                                a.textContent = url;
+                                a.target = '_blank';
+                                a.rel = 'noopener noreferrer';
+                                tempDiv.appendChild(a);
+                                return tempDiv.innerHTML;
+                            });
+                        }
+                        
                         let responseDiv = document.createElement('div');
                         responseDiv.innerHTML = `
                         <div class="flex mb-5">
                             <div class="bg-[#D0E4FF] border border-[#344EAB] p-1 px-3 rounded relative min-h-[70px] w-full">
-                                <p class="text-[16px] sm:text-[20px] font-semibold mb-5">${response.response}</p>
+                                <p class="text-[16px] sm:text-[20px] font-semibold mb-5"></p>
                             </div>
                             <div class="ml-2">
                                 <svg width="40" height="40" viewBox="0 0 38 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -170,6 +195,9 @@
                             </div>
                         </div>
                     `;
+                        
+                        const responseParagraph = responseDiv.querySelector('p');
+                        responseParagraph.innerHTML = displayText;
                         $('#message-list').append(responseDiv);
                         scrollToBottom();
                     },
