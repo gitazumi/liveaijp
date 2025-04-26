@@ -161,7 +161,22 @@
                 return messageDiv;
             }
 
+            function decodeHtmlEntities(text) {
+                const textarea = document.createElement('textarea');
+                textarea.innerHTML = text;
+                return textarea.value;
+            }
+
             function formatMessage(text) {
+                text = decodeHtmlEntities(text);
+                
+                const containsHtmlTags = /<[a-z][\s\S]*>/i.test(text);
+                
+                if (containsHtmlTags) {
+                    let formatted = text.replace(/\n/g, '<br>');
+                    return formatted;
+                }
+                
                 const tempDiv = document.createElement('div');
                 
                 // Convert line breaks to paragraphs
