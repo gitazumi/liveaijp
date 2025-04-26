@@ -64,6 +64,18 @@
                         <li>・チャット利用回数(1日)：{{ $usageInfo['chatCount'] }} / {{ $usageInfo['chatLimit'] }}</li>
                     </ul>
                 </div>
+                
+                <div class="mt-6 bg-blue-50 p-4 rounded-lg">
+                    <h3 class="font-medium text-[#173F74] mb-2">LiveAIの使い勝手やご意見をお聞かせください。今後の改善に活かしてまいります！</h3>
+                    <form action="{{ route('contact.feedback') }}" method="POST">
+                        @csrf
+                        <textarea name="feedback" rows="4" class="w-full p-2 border border-[#344EAB] rounded-lg focus:ring-[#344EAB] focus:border-[#344EAB]" required></textarea>
+                        <input type="hidden" name="recipient" value="code.sawa@gmail.com">
+                        <div class="mt-2 text-right">
+                            <button type="submit" class="bg-[#344EAB] text-white px-4 py-2 rounded-lg hover:bg-[#1f3276]">送信する</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

@@ -33,6 +33,19 @@
                 </div>
                 <div class="mb-3">
                     <label for="" class="text-[20px] font-medium">
+                        ホームページアドレス
+                    </label>
+                    <input type="url" name="website" id="website" value="{{ $data->website ?? '' }}"
+                        class="w-full block rounded border-[#344EAF] bg-white text-black focus:ring-[#344EAF] mt-1" maxlength="100">
+                    <div class="text-right text-sm mt-1">
+                        <span id="website-count">0</span>/100文字
+                    </div>
+                    @error('website')
+                        {{ $message }}
+                    @enderror
+                </div>
+                <div class="mb-3">
+                    <label for="" class="text-[20px] font-medium">
                         住所
                     </label>
                     <input type="text" name="address" id="address" value="{{ $data->address ?? '' }}" required
@@ -96,12 +109,14 @@
     <script>
         (function() {
             countChars('venue_name', 50);
+            countChars('website', 100);
             countChars('address', 50);
             countChars('phone', 20);
             countChars('email', 30);
             countChars('additional_information', 300);
             
             document.getElementById('venue_name').oninput = function() { countChars('venue_name', 50); };
+            document.getElementById('website').oninput = function() { countChars('website', 100); };
             document.getElementById('address').oninput = function() { countChars('address', 50); };
             document.getElementById('phone').oninput = function() { countChars('phone', 20); };
             document.getElementById('email').oninput = function() { countChars('email', 30); };
