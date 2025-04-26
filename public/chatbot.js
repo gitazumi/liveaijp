@@ -410,6 +410,37 @@
             return formatted;
         }
 
+        typingCancelled = false;
+        currentTypingPromise = null;
+
+        typeText(element, text, speed = 50) {
+            this.typingCancelled = false;
+            
+            return new Promise((resolve) => {
+                let i = 0;
+                const type = () => {
+                    if (this.typingCancelled) {
+                        element.innerHTML = this.formatMessage(text);
+                        return resolve();
+                    }
+                    
+                    if (i < text.length) {
+                        const currentText = text.substring(0, i + 1);
+                        element.innerHTML = this.formatMessage(currentText);
+                        i++;
+                        setTimeout(type, speed);
+                    } else {
+                        resolve();
+                    }
+                };
+                type();
+            });
+        }
+
+        cancelTyping() {
+            this.typingCancelled = true;
+        }
+
         addMessageToChat(message, isUser) {
             const messagesDiv = this.shadow.querySelector('.ai-chat-messages');
             const messageDiv = document.createElement('div');
@@ -418,7 +449,10 @@
             if (isUser) {
                 messageDiv.textContent = message;
             } else {
-                messageDiv.innerHTML = this.formatMessage(message);
+                messageDiv.innerHTML = '';
+                this.currentTypingPromise = this.typeText(messageDiv, message).then(() => {
+                    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+                });
             }
 
             messagesDiv.appendChild(messageDiv);
@@ -426,6 +460,8 @@
         }
 
         async sendMessage(message) {
+            this.cancelTyping();
+            
             this.addMessageToChat(message, true);
 
             const loadingDiv = document.createElement('div');
