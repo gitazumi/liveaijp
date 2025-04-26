@@ -18,6 +18,7 @@ class InformationController extends Controller
     {
         $validatedData = $request->validate([
             'venue_name' => 'required',
+            'website' => 'nullable|url|max:100',
             'address' => 'required',
             'phone' => 'required',
             'email' => 'required|email',
