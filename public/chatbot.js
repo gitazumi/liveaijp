@@ -92,7 +92,6 @@
                     box-shadow: 0 5px 20px rgba(0,0,0,0.15);
                     flex-direction: column;
                     overflow: hidden;
-                    resize: both;
                 }
 
                 #ai-chat-resize-handle {
@@ -141,6 +140,7 @@
                     padding: 16px;
                     border-top: 1px solid #e2e8f0;
                     display: flex;
+                    align-items: center;
                     background: white;
                 }
 
@@ -149,7 +149,7 @@
                     padding: 12px;
                     border: 1px solid #e2e8f0;
                     border-radius: 10px;
-                    margin-right: 8px;
+                    margin-right: 10px;
                     font-size: 16px;
                     outline: none;
                     transition: border-color 0.2s ease;
@@ -335,8 +335,8 @@
                     <div class="ai-chat-input">
                         <textarea placeholder="メッセージを入力してください..." rows="1"></textarea>
                         <button>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 16 16">
-                                <path d="M8 15V1M8 1l4 4M8 1l-4 4"/>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 24 24">
+                                <path d="M21.73 3.73L2.77 12.23c-.4.2-.24.74.22.74l7.78-.02L10.73 20.5c0 .5.55.7.83.3l10.14-16.22c.36-.52-.05-1.1-.67-.84z"/>
                             </svg>
                         </button>
                     </div>
@@ -647,49 +647,43 @@
 
         setupResizing() {
             const chatWindow = this.shadow.getElementById('ai-chat-window');
-            const resizeHandle = this.shadow.getElementById('ai-chat-resize-handle');
-            let isResizing = false;
-            let initialWidth, initialHeight, initialX, initialY;
+            const dragHandle = this.shadow.getElementById('ai-chat-resize-handle');
+            let isDragging = false;
+            let initialX, initialY, initialLeft, initialTop;
 
-            const minWidth = 250;
-            const minHeight = 250;
-            const maxWidth = Math.min(800, window.innerWidth * 0.9);
-            const maxHeight = Math.min(800, window.innerHeight * 0.9);
-
-            resizeHandle.addEventListener('mousedown', (e) => {
+            dragHandle.addEventListener('mousedown', (e) => {
                 e.preventDefault();
-                isResizing = true;
+                isDragging = true;
 
-                initialWidth = parseInt(window.getComputedStyle(chatWindow).width);
-                initialHeight = parseInt(window.getComputedStyle(chatWindow).height);
                 initialX = e.clientX;
                 initialY = e.clientY;
 
-                chatWindow.classList.add('resizing');
+                const rect = chatWindow.getBoundingClientRect();
+                initialLeft = rect.left;
+                initialTop = rect.top;
+
+                chatWindow.classList.add('dragging');
 
                 document.addEventListener('mousemove', onMouseMove);
                 document.addEventListener('mouseup', onMouseUp);
             });
 
             const onMouseMove = (e) => {
-                if (!isResizing) return;
+                if (!isDragging) return;
 
-                const widthChange = initialX - e.clientX;
-                const heightChange = initialY - e.clientY;
-
-                let newWidth = Math.min(Math.max(initialWidth + widthChange, minWidth), maxWidth);
-                let newHeight = Math.min(Math.max(initialHeight + heightChange, minHeight), maxHeight);
-
-                const currentRight = parseInt(window.getComputedStyle(chatWindow).right);
-                const currentBottom = parseInt(window.getComputedStyle(chatWindow).bottom);
-
-                chatWindow.style.width = `${newWidth}px`;
-                chatWindow.style.height = `${newHeight}px`;
+                const dx = e.clientX - initialX;
+                const dy = e.clientY - initialY;
+                
+                chatWindow.style.left = `${initialLeft + dx}px`;
+                chatWindow.style.top = `${initialTop + dy}px`;
+                
+                chatWindow.style.right = 'auto';
+                chatWindow.style.bottom = 'auto';
             };
 
             const onMouseUp = () => {
-                isResizing = false;
-                chatWindow.classList.remove('resizing');
+                isDragging = false;
+                chatWindow.classList.remove('dragging');
 
                 document.removeEventListener('mousemove', onMouseMove);
                 document.removeEventListener('mouseup', onMouseUp);
