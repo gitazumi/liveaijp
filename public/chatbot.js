@@ -117,6 +117,41 @@
                     border: none;
                     outline: none;
                 }
+                
+                #ai-chat-drag-handle {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 20px;
+                    height: 20px;
+                    cursor: move;
+                    z-index: 101;
+                    background-color: transparent;
+                    border: none;
+                    outline: none;
+                }
+                
+                #ai-chat-drag-handle::before,
+                #ai-chat-drag-handle::after {
+                    content: "";
+                    position: absolute;
+                    background-color: #2563eb;
+                    transform: rotate(45deg);
+                }
+                
+                #ai-chat-drag-handle::before {
+                    top: 4px;
+                    left: 8px;
+                    width: 10px;
+                    height: 2px;
+                }
+                
+                #ai-chat-drag-handle::after {
+                    top: 8px;
+                    left: 4px;
+                    width: 2px;
+                    height: 10px;
+                }
 
                 .ai-chat-header {
                     padding: 20px;
@@ -324,6 +359,7 @@
             widget.innerHTML = `
                 <div id="ai-chat-window">
                     <div id="ai-chat-resize-handle"></div>
+                    <div id="ai-chat-drag-handle"></div>
                     <div class="ai-chat-header">
                         <a href="https://liveai.jp" target="_blank" style="color: black; text-decoration: none; text-align: left; display: block;">liveAI</a>
                         <button id="ai-chat-close" style="position: absolute; top: 15px; right: 15px; background: none; border: none; cursor: pointer;">
@@ -649,8 +685,11 @@
         setupResizing() {
             const chatWindow = this.shadow.getElementById('ai-chat-window');
             const resizeHandle = this.shadow.getElementById('ai-chat-resize-handle');
+            const dragHandle = this.shadow.getElementById('ai-chat-drag-handle');
             let isResizing = false;
+            let isDragging = false;
             let initialWidth, initialHeight, initialX, initialY;
+            let initialBottom, initialRight;
 
             const minWidth = 250;
             const minHeight = 250;
@@ -668,11 +707,11 @@
 
                 chatWindow.classList.add('resizing');
 
-                document.addEventListener('mousemove', onMouseMove);
-                document.addEventListener('mouseup', onMouseUp);
+                document.addEventListener('mousemove', onResizeMove);
+                document.addEventListener('mouseup', onResizeUp);
             });
 
-            const onMouseMove = (e) => {
+            const onResizeMove = (e) => {
                 if (!isResizing) return;
 
                 const dx = e.clientX - initialX;
@@ -685,12 +724,49 @@
                 chatWindow.style.height = `${newHeight}px`;
             };
 
-            const onMouseUp = () => {
+            const onResizeUp = () => {
                 isResizing = false;
                 chatWindow.classList.remove('resizing');
 
-                document.removeEventListener('mousemove', onMouseMove);
-                document.removeEventListener('mouseup', onMouseUp);
+                document.removeEventListener('mousemove', onResizeMove);
+                document.removeEventListener('mouseup', onResizeUp);
+            };
+
+            dragHandle.addEventListener('mousedown', (e) => {
+                e.preventDefault();
+                isDragging = true;
+
+                const style = window.getComputedStyle(chatWindow);
+                initialBottom = parseInt(style.bottom);
+                initialRight = parseInt(style.right);
+                initialX = e.clientX;
+                initialY = e.clientY;
+
+                chatWindow.classList.add('dragging');
+
+                document.addEventListener('mousemove', onDragMove);
+                document.addEventListener('mouseup', onDragUp);
+            });
+
+            const onDragMove = (e) => {
+                if (!isDragging) return;
+
+                const dx = e.clientX - initialX;
+                const dy = e.clientY - initialY;
+                
+                const newBottom = Math.max(initialBottom + dy, 0);
+                const newRight = Math.max(initialRight - dx, 0);
+                
+                chatWindow.style.bottom = `${newBottom}px`;
+                chatWindow.style.right = `${newRight}px`;
+            };
+
+            const onDragUp = () => {
+                isDragging = false;
+                chatWindow.classList.remove('dragging');
+
+                document.removeEventListener('mousemove', onDragMove);
+                document.removeEventListener('mouseup', onDragUp);
             };
         }
 
