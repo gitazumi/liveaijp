@@ -56,8 +56,8 @@
             const css = `
                 #ai-chat-widget {
                     position: fixed;
-                    bottom: 20px;
-                    right: 20px;
+                    top: 20px;
+                    left: 20px;
                     z-index: 99999;
                     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
                 }
@@ -83,8 +83,8 @@
                 #ai-chat-window {
                     display: none;
                     position: fixed;
-                    bottom: 90px;
-                    right: 20px;
+                    top: 90px;
+                    left: 20px;
                     width: 350px;
                     height: 480px;
                     background: white;
@@ -103,6 +103,7 @@
                     height: 20px;
                     cursor: nwse-resize;
                     z-index: 100;
+                    background-color: transparent;
                 }
 
                 #ai-chat-resize-handle::before {
@@ -143,35 +144,51 @@
                     background: white;
                 }
 
-                .ai-chat-input input {
+                .ai-chat-input textarea {
                     flex: 1;
                     padding: 12px;
                     border: 1px solid #e2e8f0;
-                    border-radius: 8px;
+                    border-radius: 10px;
                     margin-right: 8px;
                     font-size: 16px;
                     outline: none;
                     transition: border-color 0.2s ease;
                     -webkit-text-size-adjust: 100%;
+                    resize: none;
+                    min-height: 40px;
+                    max-height: 150px;
+                    overflow-y: auto;
+                    font-family: inherit;
                 }
 
-                .ai-chat-input input:focus {
+                .ai-chat-input textarea:focus {
                     border-color: #2563eb;
                 }
 
                 .ai-chat-input button {
-                    padding: 8px 16px;
-                    background: #2563eb;
-                    color: white;
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    background: #000000;
+                    color: #FFFFFF;
                     border: none;
-                    border-radius: 8px;
                     cursor: pointer;
-                    font-weight: 500;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 20px;
                     transition: background 0.2s ease;
+                    flex-shrink: 0;
                 }
 
                 .ai-chat-input button:hover {
-                    background: #1d4ed8;
+                    background: #333333;
+                }
+
+                .ai-chat-input button svg {
+                    width: 20px;
+                    height: 20px;
+                    fill: #FFFFFF;
                 }
 
                 .ai-message {
@@ -288,7 +305,7 @@
                         padding: 12px;
                     }
 
-                    .ai-chat-input input {
+                    .ai-chat-input textarea {
                         font-size: 16px;
                         -webkit-text-size-adjust: 100%;
                     }
@@ -316,8 +333,13 @@
                     </div>
                     <div class="ai-chat-messages"></div>
                     <div class="ai-chat-input">
-                        <input type="text" placeholder="メッセージを入力してください...">
-                        <button>送信</button>
+                        <textarea placeholder="メッセージを入力してください..." rows="1"></textarea>
+                        <button>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 4L12 20" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M5 11L12 4L19 11" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
                     </div>
                 </div>
                 <button id="ai-chat-button">
@@ -333,7 +355,7 @@
         addEventListeners() {
             const button = this.shadow.getElementById('ai-chat-button');
             const window = this.shadow.getElementById('ai-chat-window');
-            const input = window.querySelector('input');
+            const textarea = window.querySelector('textarea');
             const sendButton = window.querySelector('.ai-chat-input button');
             const closeButton = this.shadow.getElementById('ai-chat-close');
 
@@ -352,17 +374,28 @@
                 window.style.display = 'none';
             });
 
+            const resizeTextarea = () => {
+                textarea.style.height = 'auto';
+                textarea.style.height = Math.min(textarea.scrollHeight, 150) + 'px';
+            };
+
+            textarea.addEventListener('input', resizeTextarea);
+
             const sendMessage = () => {
-                const message = input.value.trim();
+                const message = textarea.value.trim();
                 if (message) {
                     this.sendMessage(message);
-                    input.value = '';
+                    textarea.value = '';
+                    textarea.style.height = 'auto';
                 }
             };
 
             sendButton.addEventListener('click', sendMessage);
-            input.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') sendMessage();
+            textarea.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
             });
         }
 
