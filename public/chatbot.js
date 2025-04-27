@@ -83,7 +83,7 @@
                 #ai-chat-window {
                     display: none;
                     position: fixed;
-                    bottom: 90px;
+                    bottom: 20px;
                     right: 20px;
                     width: 350px;
                     height: 480px;
@@ -92,6 +92,7 @@
                     box-shadow: 0 5px 20px rgba(0,0,0,0.15);
                     flex-direction: column;
                     overflow: hidden;
+                    resize: both;
                 }
 
                 #ai-chat-resize-handle {
@@ -100,9 +101,11 @@
                     left: 0;
                     width: 20px;
                     height: 20px;
-                    cursor: move;
+                    cursor: nwse-resize;
                     z-index: 100;
                     background-color: transparent;
+                    border: none;
+                    outline: none;
                 }
 
                 #ai-chat-resize-handle::before {
@@ -112,9 +115,8 @@
                     left: 0;
                     width: 10px;
                     height: 10px;
-                    border-top: 2px solid #2563eb;
-                    border-left: 2px solid #2563eb;
-                    border-top-left-radius: 4px;
+                    border: none;
+                    outline: none;
                 }
 
                 .ai-chat-header {
@@ -647,43 +649,46 @@
 
         setupResizing() {
             const chatWindow = this.shadow.getElementById('ai-chat-window');
-            const dragHandle = this.shadow.getElementById('ai-chat-resize-handle');
-            let isDragging = false;
-            let initialX, initialY, initialLeft, initialTop;
+            const resizeHandle = this.shadow.getElementById('ai-chat-resize-handle');
+            let isResizing = false;
+            let initialWidth, initialHeight, initialX, initialY;
 
-            dragHandle.addEventListener('mousedown', (e) => {
+            const minWidth = 250;
+            const minHeight = 250;
+            const maxWidth = Math.min(800, window.innerWidth * 0.9);
+            const maxHeight = Math.min(800, window.innerHeight * 0.9);
+
+            resizeHandle.addEventListener('mousedown', (e) => {
                 e.preventDefault();
-                isDragging = true;
+                isResizing = true;
 
+                initialWidth = parseInt(window.getComputedStyle(chatWindow).width);
+                initialHeight = parseInt(window.getComputedStyle(chatWindow).height);
                 initialX = e.clientX;
                 initialY = e.clientY;
 
-                const rect = chatWindow.getBoundingClientRect();
-                initialLeft = rect.left;
-                initialTop = rect.top;
-
-                chatWindow.classList.add('dragging');
+                chatWindow.classList.add('resizing');
 
                 document.addEventListener('mousemove', onMouseMove);
                 document.addEventListener('mouseup', onMouseUp);
             });
 
             const onMouseMove = (e) => {
-                if (!isDragging) return;
+                if (!isResizing) return;
 
                 const dx = e.clientX - initialX;
                 const dy = e.clientY - initialY;
                 
-                chatWindow.style.left = `${initialLeft + dx}px`;
-                chatWindow.style.top = `${initialTop + dy}px`;
+                let newWidth = Math.min(Math.max(initialWidth - dx, minWidth), maxWidth);
+                let newHeight = Math.min(Math.max(initialHeight - dy, minHeight), maxHeight);
                 
-                chatWindow.style.right = 'auto';
-                chatWindow.style.bottom = 'auto';
+                chatWindow.style.width = `${newWidth}px`;
+                chatWindow.style.height = `${newHeight}px`;
             };
 
             const onMouseUp = () => {
-                isDragging = false;
-                chatWindow.classList.remove('dragging');
+                isResizing = false;
+                chatWindow.classList.remove('resizing');
 
                 document.removeEventListener('mousemove', onMouseMove);
                 document.removeEventListener('mouseup', onMouseUp);
