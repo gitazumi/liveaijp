@@ -56,8 +56,8 @@
             const css = `
                 #ai-chat-widget {
                     position: fixed;
-                    top: 20px;
-                    left: 20px;
+                    bottom: 20px;
+                    right: 20px;
                     z-index: 99999;
                     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
                 }
@@ -83,8 +83,8 @@
                 #ai-chat-window {
                     display: none;
                     position: fixed;
-                    top: 90px;
-                    left: 20px;
+                    bottom: 90px;
+                    right: 20px;
                     width: 350px;
                     height: 480px;
                     background: white;
@@ -101,7 +101,7 @@
                     left: 0;
                     width: 20px;
                     height: 20px;
-                    cursor: nwse-resize;
+                    cursor: move;
                     z-index: 100;
                     background-color: transparent;
                 }
@@ -335,9 +335,8 @@
                     <div class="ai-chat-input">
                         <textarea placeholder="メッセージを入力してください..." rows="1"></textarea>
                         <button>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 4L12 20" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M5 11L12 4L19 11" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 16 16">
+                                <path d="M8 15V1M8 1l4 4M8 1l-4 4"/>
                             </svg>
                         </button>
                     </div>
