@@ -83,7 +83,7 @@
                 #ai-chat-window {
                     display: none;
                     position: fixed;
-                    bottom: 20px;
+                    bottom: 90px;
                     right: 20px;
                     width: 350px;
                     height: 480px;
@@ -92,7 +92,6 @@
                     box-shadow: 0 5px 20px rgba(0,0,0,0.15);
                     flex-direction: column;
                     overflow: hidden;
-                    resize: both;
                 }
 
                 #ai-chat-resize-handle {
