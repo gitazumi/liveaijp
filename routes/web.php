@@ -5,6 +5,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\GoogleCalendarController;
 use App\Http\Controllers\InformationController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Models\GoogleCalendar;
@@ -134,5 +135,10 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 Route::get('return-to-admin', [UserController::class, 'returnToAdmin'])->name('return-to-admin');
 
 Route::get('api/chat/store-info', [ChatController::class, 'getStoreInfo']);
+
+Route::get('/report', [ReportController::class, 'create'])->name('report.create');
+Route::post('/report', [ReportController::class, 'store'])->name('report.store');
+Route::get('/report/edit/{token}', [ReportController::class, 'edit'])->name('report.edit');
+Route::post('/report/edit/{token}', [ReportController::class, 'update'])->name('report.update');
 
 require __DIR__ . '/auth.php';
