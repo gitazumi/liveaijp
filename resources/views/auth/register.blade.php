@@ -46,6 +46,15 @@
                 <p>登録することで、<a href="{{ url('policy') }}" class="text-[#173F74] hover:underline">利用規約</a>および<a href="{{ url('privacy-policy') }}" class="text-[#173F74] hover:underline">プライバシーポリシー</a>に同意したことになります。</p>
             </div>
 
+            <!-- Google Event Snippet -->
+            <script>
+                gtag('event', 'conversion', {
+                    'send_to': 'AW-16623256919/pksLCKPNjMEaENeKy_Y9', // これをあなたのコードに変更
+                    'value': 1.0,
+                    'currency': 'USD'
+                });
+            </script>
+
             <div class="flex flex-col items-end mt-4">
                 <x-primary-button class="w-full">
                     {{ __('登録する') }}
