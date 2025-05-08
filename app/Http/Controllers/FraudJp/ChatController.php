@@ -18,7 +18,11 @@ class ChatController extends Controller
 
     public function __construct()
     {
-        $this->openai_api_key = env('FRAUDJP_OPENAI_API_KEY', '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');
+        $this->openai_api_key = env('FRAUDJP_OPENAI_API_KEY');
+        
+        if (empty($this->openai_api_key)) {
+            Log::error('FRAUDJP_OPENAI_API_KEY is not set in the environment');
+        }
     }
 
     /**
