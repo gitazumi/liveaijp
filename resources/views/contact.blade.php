@@ -1,5 +1,8 @@
 @extends('company_description.description_layout')
 @section('title', 'お問い合わせ | LiveAI')
+@section('head')
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+@endsection
 @section('content')
     <h1 class="wf txt-42 txt-s f-weight-800">お問い合わせ</h1>
 
@@ -48,6 +51,13 @@
                 <textarea name="message" id="message" rows="6" required 
                     class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">{{ old('message') }}</textarea>
                 @error('message')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+            
+            <div class="mb-4">
+                <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY', '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI') }}"></div>
+                @error('g-recaptcha-response')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
             </div>

@@ -30,10 +30,10 @@ class ContactController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'message' => 'required|string',
-            // 'g-recaptcha-response' => 'required|recaptcha',
+            'g-recaptcha-response' => 'required|recaptcha',
         ], [
-            // 'g-recaptcha-response.required' => 'ロボットではないことを確認してください。',
-            // 'g-recaptcha-response.recaptcha' => 'reCAPTCHA認証に失敗しました。もう一度お試しください。',
+            'g-recaptcha-response.required' => 'ロボットではないことを確認してください。',
+            'g-recaptcha-response.recaptcha' => 'reCAPTCHA認証に失敗しました。もう一度お試しください。',
         ]);
 
         Mail::to('code.sawa@gmail.com')->send(new ContactMail([
