@@ -6,27 +6,27 @@ import { TrendingUp, Clock4, HeartHandshake, Lightbulb } from "lucide-react";
 const benefits = [
   {
     icon: Clock4,
-    title: "問い合わせ対応の自動化",
+    title: "電話・メール対応を大幅削減",
     description:
-      "定型的な質問はAIが自動回答。スタッフの負担を大幅に軽減し、本来の業務に集中できます。",
+      "「営業時間は？」「予約方法は？」など、毎回同じ質問にスタッフが対応する必要がなくなります。空いた時間で接客や本業に集中できます。",
   },
   {
     icon: HeartHandshake,
-    title: "顧客満足度の向上",
+    title: "お客様を待たせない",
     description:
-      "待ち時間ゼロの即時回答で、顧客のストレスを解消。いつでもどこでもサポートを提供します。",
+      "深夜でも休日でも、AIが即座に回答。「電話がつながらない」「返信が遅い」というお客様の不満を解消し、顧客満足度がアップします。",
   },
   {
     icon: TrendingUp,
-    title: "コスト削減",
+    title: "初期費用0円でスタート",
     description:
-      "カスタマーサポートの人件費を削減しながら、対応品質を維持。小規模ビジネスにも最適です。",
+      "高額なシステム開発費は不要。無料プランですべての機能が使えるので、まずは気軽にお試しいただけます。",
   },
   {
     icon: Lightbulb,
-    title: "ニーズの可視化",
+    title: "お客様の本音がわかる",
     description:
-      "チャット履歴から顧客のリアルなニーズを把握。データに基づいたサービス改善が可能になります。",
+      "チャット履歴から「お客様が本当に知りたいこと」が見えてきます。メニュー改善や新サービスのヒントとして活用できます。",
   },
 ];
 
@@ -35,9 +35,9 @@ export function Benefits() {
     <section id="benefits" className="py-20">
       <div className="mx-auto max-w-6xl px-4">
         <div className="text-center">
-          <h2 className="text-3xl font-bold md:text-4xl">導入メリット</h2>
+          <h2 className="text-3xl font-bold md:text-4xl">導入するとこう変わります</h2>
           <p className="mt-3 text-muted-foreground">
-            LiveAIを導入することで得られるメリット
+            飲食店・美容室・クリニック・士業など、問い合わせの多い業種で効果を実感いただいています
           </p>
         </div>
         <div className="mt-12 grid gap-8 md:grid-cols-2">

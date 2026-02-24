@@ -17,23 +17,23 @@ export function Hero() {
         >
           <div className="mx-auto mb-6 inline-flex items-center gap-2 rounded-full border bg-white px-4 py-1.5 text-sm text-muted-foreground shadow-sm">
             <Sparkles className="h-4 w-4 text-primary" />
-            完全無料で利用可能
+            初期費用0円・プログラミング不要
           </div>
 
           <h1 className="mx-auto max-w-4xl text-4xl font-bold leading-tight tracking-tight md:text-6xl">
-            FAQを登録するだけで
+            お店や会社の問い合わせを
             <br />
-            <span className="text-primary">AIチャットボット</span>を作成
+            <span className="text-primary">AIが24時間</span>自動対応
           </h1>
 
           <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground md:text-xl">
-            ChatGPT APIを活用した高精度なAIチャットボットを、
-            コーディング不要で簡単に導入。24時間自動で顧客対応を実現します。
+            よくある質問を登録するだけで、あなたのビジネス専用のAIチャットボットが完成。
+            電話やメールの対応件数を減らし、スタッフの負担を軽減します。
           </p>
 
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Button size="lg" asChild className="gap-2 text-base">
-              <Link href="/register">
+              <Link href="/login">
                 無料で始める
                 <ArrowRight className="h-4 w-4" />
               </Link>
@@ -56,30 +56,29 @@ export function Hero() {
           <div className="rounded-2xl border bg-white p-6 shadow-xl">
             <div className="flex items-center gap-2 border-b pb-3 text-sm font-medium text-muted-foreground">
               <Bot className="h-5 w-5 text-primary" />
-              LiveAI チャットデモ
+              AIチャットのイメージ（右下のボタンで実際にお試しいただけます）
             </div>
             <div className="mt-4 space-y-3">
               <div className="flex justify-end">
                 <div className="rounded-2xl rounded-tr-md bg-primary px-4 py-2 text-sm text-white">
-                  営業時間を教えてください
+                  どんなサービスですか？
                 </div>
               </div>
               <div className="flex justify-start">
                 <div className="rounded-2xl rounded-tl-md border bg-muted/50 px-4 py-2 text-sm">
-                  営業時間は平日 10:00〜18:00 となっております。
-                  土日祝日はお休みをいただいております。
-                  お急ぎの場合はメールにてお問い合わせください。
+                  LiveAIは、よくある質問を登録するだけでAIチャットボットを作れるサービスです。
+                  お店や会社のホームページに簡単に設置できます。
                 </div>
               </div>
               <div className="flex justify-end">
                 <div className="rounded-2xl rounded-tr-md bg-primary px-4 py-2 text-sm text-white">
-                  予約はどこからできますか？
+                  料金はかかりますか？
                 </div>
               </div>
               <div className="flex justify-start">
                 <div className="rounded-2xl rounded-tl-md border bg-muted/50 px-4 py-2 text-sm">
-                  ご予約は公式サイトの「予約」ページから承っております。
-                  お電話でも受け付けております。
+                  現在は無料でお試しいただけます。
+                  メールアドレスだけで登録でき、すぐにご利用を開始できます。
                 </div>
               </div>
             </div>

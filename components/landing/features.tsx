@@ -7,39 +7,39 @@ import { Card, CardContent } from "@/components/ui/card";
 const features = [
   {
     icon: Bot,
-    title: "ChatGPT搭載",
+    title: "ChatGPT搭載の高精度AI",
     description:
-      "OpenAIのChatGPT APIを活用し、自然な会話で顧客の質問に回答します。",
+      "最新のChatGPT技術で、まるで人が対応しているかのような自然な会話を実現。お客様の質問意図を正確に理解します。",
   },
   {
     icon: Code2,
-    title: "ノーコード導入",
+    title: "IT知識不要で導入できる",
     description:
-      "JavaScriptスニペットを貼り付けるだけ。またはリンクを共有するだけで即座に利用開始。",
+      "コードを1行コピーして貼り付けるだけ。専用URLの共有でも利用可能。ホームページの知識がなくても大丈夫です。",
   },
   {
     icon: Clock,
-    title: "24時間自動対応",
+    title: "営業時間外も自動で対応",
     description:
-      "休日・深夜を問わず、AIが自動で顧客の問い合わせに対応します。",
+      "深夜・休日・年末年始もAIが対応。「電話がつながらない」というお客様のストレスを解消します。",
   },
   {
     icon: BarChart3,
-    title: "チャット履歴分析",
+    title: "お客様の声を見える化",
     description:
-      "顧客がどんな質問をしているか把握し、サービス改善に活用できます。",
+      "チャット履歴からお客様がどんなことに困っているかを把握。サービス改善やFAQ追加のヒントが見つかります。",
   },
   {
     icon: Shield,
-    title: "安全なデータ管理",
+    title: "安心のセキュリティ",
     description:
-      "FAQデータは暗号化通信で保護。外部に公開・共有されることはありません。",
+      "登録データは暗号化通信で保護。お客様の情報が外部に漏れることはありません。",
   },
   {
     icon: Smartphone,
-    title: "マルチデバイス対応",
+    title: "スマホでもPCでも快適",
     description:
-      "PC・スマートフォン・タブレットなど、あらゆるデバイスで快適に利用可能。",
+      "お客様はスマートフォン・PC・タブレットなど、どのデバイスからでもチャットボットを利用できます。",
   },
 ];
 
@@ -57,9 +57,9 @@ export function Features() {
     <section id="features" className="py-20">
       <div className="mx-auto max-w-6xl px-4">
         <div className="text-center">
-          <h2 className="text-3xl font-bold md:text-4xl">サービス概要</h2>
+          <h2 className="text-3xl font-bold md:text-4xl">中小企業に選ばれる理由</h2>
           <p className="mt-3 text-muted-foreground">
-            LiveAIが提供する主な機能をご紹介します
+            専門知識も高額な費用も不要。中小企業・店舗が今日から使えるAIチャットボットです
           </p>
         </div>
         <motion.div

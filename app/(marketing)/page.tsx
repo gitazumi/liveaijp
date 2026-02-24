@@ -1,3 +1,4 @@
+import Script from "next/script";
 import { Header } from "@/components/landing/header";
 import { Hero } from "@/components/landing/hero";
 import { Features } from "@/components/landing/features";
@@ -20,6 +21,10 @@ export default function HomePage() {
         <Faq />
       </main>
       <Footer />
+      <Script
+        src="/api/widget/6772cc2d-f404-41bc-96cd-2518d5641146"
+        strategy="lazyOnload"
+      />
     </>
   );
 }

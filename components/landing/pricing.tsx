@@ -7,14 +7,14 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Check } from "lucide-react";
 
 const features = [
-  "AIチャットボット作成",
-  "FAQ無制限登録",
-  "チャット履歴閲覧・分析",
-  "Webサイト埋め込み（JSスニペット）",
-  "専用URLでのリンク共有",
-  "カスタム挨拶メッセージ",
-  "マルチデバイス対応",
-  "暗号化通信による安全なデータ管理",
+  "AIチャットボット作成（ChatGPT搭載）",
+  "FAQ登録数 無制限",
+  "チャット履歴の閲覧・分析",
+  "ホームページへの埋め込み",
+  "専用URLでのリンク共有（SNS・LINEなどに）",
+  "挨拶メッセージのカスタマイズ",
+  "スマホ・PC・タブレット対応",
+  "SSL暗号化通信による安全な運用",
 ];
 
 export function Pricing() {
@@ -24,7 +24,7 @@ export function Pricing() {
         <div className="text-center">
           <h2 className="text-3xl font-bold md:text-4xl">料金プラン</h2>
           <p className="mt-3 text-muted-foreground">
-            現在、すべての機能を無料でお使いいただけます
+            初期費用・月額費用ともに0円。すべての機能を無料でお使いいただけます
           </p>
         </div>
         <motion.div
@@ -56,7 +56,7 @@ export function Pricing() {
                 ))}
               </ul>
               <Button asChild className="mt-8 w-full" size="lg">
-                <Link href="/register">無料で始める</Link>
+                <Link href="/login">無料で始める</Link>
               </Button>
             </CardContent>
           </Card>

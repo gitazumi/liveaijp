@@ -7,22 +7,22 @@ const steps = [
   {
     icon: UserPlus,
     step: "Step 1",
-    title: "アカウント登録",
-    description: "メールアドレスとパスワードだけで簡単に無料登録できます。",
+    title: "メールアドレスで無料登録",
+    description: "メールアドレスを入力するだけ。届いたリンクをクリックすれば登録完了。パスワードの設定は不要です。",
   },
   {
     icon: FileText,
     step: "Step 2",
-    title: "FAQを登録",
+    title: "よくある質問を登録",
     description:
-      "管理画面から質問と回答のペアを登録。AIが自動で学習します。",
+      "お客様からよく聞かれる質問と回答を管理画面から入力。営業時間・料金・アクセスなど、お店の情報を登録しましょう。",
   },
   {
     icon: Rocket,
     step: "Step 3",
-    title: "チャットボットを公開",
+    title: "ホームページに設置",
     description:
-      "JSスニペットをサイトに貼り付けるか、専用URLを共有するだけで完了。",
+      "生成されたコードをホームページに貼り付ければ完了。専用URLをSNSやLINEで共有することもできます。",
   },
 ];
 
@@ -31,9 +31,9 @@ export function HowItWorks() {
     <section id="how-it-works" className="bg-muted/30 py-20">
       <div className="mx-auto max-w-6xl px-4">
         <div className="text-center">
-          <h2 className="text-3xl font-bold md:text-4xl">かんたん3ステップ</h2>
+          <h2 className="text-3xl font-bold md:text-4xl">最短5分で導入完了</h2>
           <p className="mt-3 text-muted-foreground">
-            たった3ステップでAIチャットボットを導入できます
+            難しい設定は一切なし。3ステップで今日からAIが顧客対応を始めます
           </p>
         </div>
         <div className="mt-12 grid gap-8 md:grid-cols-3">

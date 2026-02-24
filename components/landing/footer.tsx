@@ -12,8 +12,8 @@ export function Footer() {
               LiveAI
             </Link>
             <p className="mt-3 max-w-sm text-sm text-muted-foreground">
-              FAQを登録するだけで、ビジネスに最適化されたAIチャットボットを作成。
-              24時間自動対応でカスタマーサポートを効率化します。
+              中小企業・店舗向けのAIチャットボット作成サービス。
+              FAQ登録だけで導入でき、24時間自動でお客様対応を行います。
             </p>
           </div>
           <div>
