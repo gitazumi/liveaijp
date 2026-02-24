@@ -38,11 +38,8 @@ export function Header() {
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
-          <Button variant="ghost" asChild>
-            <Link href="/login">ログイン</Link>
-          </Button>
           <Button asChild>
-            <Link href="/register">無料で始める</Link>
+            <Link href="/login">無料で始める</Link>
           </Button>
         </div>
 
@@ -65,11 +62,8 @@ export function Header() {
                 </a>
               ))}
               <div className="mt-4 flex flex-col gap-2">
-                <Button variant="outline" asChild>
-                  <Link href="/login">ログイン</Link>
-                </Button>
                 <Button asChild>
-                  <Link href="/register">無料で始める</Link>
+                  <Link href="/login">無料で始める</Link>
                 </Button>
               </div>
             </nav>
