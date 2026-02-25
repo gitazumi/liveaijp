@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { HelpCircle, MessageSquare, MessagesSquare, TrendingUp } from "lucide-react";
+import { HelpCircle, MessageSquare, MessagesSquare, TrendingUp, BookOpen, ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 interface Stats {
   faqCount: number;
@@ -129,6 +130,68 @@ export default function DashboardPage() {
           </Card>
         ))}
       </div>
+
+      <Card className="mt-6">
+        <CardHeader>
+          <h2 className="flex items-center gap-2 text-lg font-semibold">
+            <BookOpen className="h-5 w-5" />
+            使い方ガイド
+          </h2>
+          <p className="text-sm text-muted-foreground">
+            LiveAIを活用するための簡単4ステップ
+          </p>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              {
+                step: 1,
+                title: "FAQ登録",
+                desc: "FAQ管理ページでよくある質問と回答を登録しましょう。営業時間、料金、アクセスなどがおすすめです。",
+                href: "/dashboard/faqs",
+                link: "FAQ管理へ",
+              },
+              {
+                step: 2,
+                title: "テスト",
+                desc: "設定ページのチャットテストで、登録したFAQに対してAIがどう応答するか確認できます。",
+                href: "/dashboard/settings",
+                link: "設定ページへ",
+              },
+              {
+                step: 3,
+                title: "設置",
+                desc: "設定ページの埋め込みコードをコピーして、お使いのWebサイトに貼り付けるだけで設置完了です。",
+                href: "/dashboard/settings",
+                link: "埋め込みコードへ",
+              },
+              {
+                step: 4,
+                title: "確認",
+                desc: "チャット履歴でお客様との会話内容を確認し、FAQの改善に活用しましょう。",
+                href: "/dashboard/history",
+                link: "チャット履歴へ",
+              },
+            ].map((item) => (
+              <div key={item.step} className="rounded-lg border p-4">
+                <div className="flex items-center gap-2 text-sm font-semibold">
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-xs text-white">
+                    {item.step}
+                  </span>
+                  {item.title}
+                </div>
+                <p className="mt-2 text-sm text-muted-foreground">{item.desc}</p>
+                <Link
+                  href={item.href}
+                  className="mt-2 inline-flex items-center gap-1 text-sm text-primary hover:underline"
+                >
+                  {item.link} <ArrowRight className="h-3 w-3" />
+                </Link>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

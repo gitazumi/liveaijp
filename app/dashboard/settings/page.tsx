@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,8 +8,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Copy, Check, Code2, Link2 } from "lucide-react";
+import { Copy, Check, Code2, Link2, MessageSquareText, Send, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
+
+interface TestMessage {
+  role: "user" | "assistant";
+  content: string;
+}
 
 export default function SettingsPage() {
   const [chatbotId, setChatbotId] = useState("");
@@ -18,6 +23,12 @@ export default function SettingsPage() {
   const [greeting, setGreeting] = useState("");
   const [saving, setSaving] = useState(false);
   const [copied, setCopied] = useState<string | null>(null);
+
+  // テストチャット用state
+  const [testMessages, setTestMessages] = useState<TestMessage[]>([]);
+  const [testInput, setTestInput] = useState("");
+  const [testSending, setTestSending] = useState(false);
+  const testMessagesEndRef = useRef<HTMLDivElement>(null);
 
   const loadSettings = useCallback(async () => {
     const supabase = createClient();
@@ -37,11 +48,18 @@ export default function SettingsPage() {
     setToken(chatbot.token);
     setName(chatbot.name);
     setGreeting(chatbot.greeting ?? "");
+    setTestMessages([
+      { role: "assistant", content: chatbot.greeting || "こんにちは！なんでもお聞きください！" },
+    ]);
   }, []);
 
   useEffect(() => {
     loadSettings();
   }, [loadSettings]);
+
+  useEffect(() => {
+    testMessagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [testMessages]);
 
   async function handleSave() {
     setSaving(true);
@@ -67,6 +85,70 @@ export default function SettingsPage() {
     setCopied(key);
     toast.success("コピーしました");
     setTimeout(() => setCopied(null), 2000);
+  }
+
+  async function handleTestSend() {
+    const text = testInput.trim();
+    if (!text || testSending || !token) return;
+
+    setTestSending(true);
+    setTestInput("");
+
+    const newMessages: TestMessage[] = [...testMessages, { role: "user", content: text }];
+    setTestMessages(newMessages);
+
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: newMessages.filter((m) => m.role === "user" || m.role === "assistant"),
+          token,
+          test: true,
+        }),
+      });
+
+      const reader = res.body?.getReader();
+      if (!reader) return;
+
+      const decoder = new TextDecoder();
+      let fullText = "";
+
+      setTestMessages((prev) => [...prev, { role: "assistant", content: "" }]);
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        const chunk = decoder.decode(value, { stream: true });
+        fullText += chunk;
+        setTestMessages((prev) => {
+          const updated = [...prev];
+          updated[updated.length - 1] = { role: "assistant", content: fullText };
+          return updated;
+        });
+      }
+    } catch {
+      setTestMessages((prev) => [
+        ...prev,
+        { role: "assistant", content: "エラーが発生しました。もう一度お試しください。" },
+      ]);
+    }
+
+    setTestSending(false);
+  }
+
+  function handleTestKeyDown(e: React.KeyboardEvent) {
+    if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) {
+      e.preventDefault();
+      handleTestSend();
+    }
+  }
+
+  function handleTestReset() {
+    setTestMessages([
+      { role: "assistant", content: greeting || "こんにちは！なんでもお聞きください！" },
+    ]);
+    setTestInput("");
   }
 
   const origin = typeof window !== "undefined" ? window.location.origin : "";
@@ -176,6 +258,72 @@ export default function SettingsPage() {
                 </div>
               </TabsContent>
             </Tabs>
+          </CardContent>
+        </Card>
+
+        {/* テストチャット */}
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between">
+            <div>
+              <h2 className="flex items-center gap-2 text-lg font-semibold">
+                <MessageSquareText className="h-5 w-5" />
+                チャットテスト
+              </h2>
+              <p className="text-sm text-muted-foreground">
+                設置前にチャットボットの応答をテストできます（履歴には保存されません）
+              </p>
+            </div>
+            <Button variant="outline" size="sm" onClick={handleTestReset} className="gap-1">
+              <RotateCcw className="h-3.5 w-3.5" />
+              リセット
+            </Button>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-col rounded-lg border">
+              <div className="h-80 space-y-3 overflow-y-auto p-4">
+                {testMessages.map((msg, i) => (
+                  <div
+                    key={i}
+                    className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
+                  >
+                    <div
+                      className={`max-w-[85%] whitespace-pre-wrap rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
+                        msg.role === "user"
+                          ? "rounded-tr-md bg-primary text-white"
+                          : "rounded-tl-md bg-muted"
+                      }`}
+                    >
+                      {msg.content || (
+                        <span className="flex gap-1">
+                          <span className="inline-block h-2 w-2 animate-bounce rounded-full bg-muted-foreground/40" />
+                          <span className="inline-block h-2 w-2 animate-bounce rounded-full bg-muted-foreground/40 [animation-delay:0.2s]" />
+                          <span className="inline-block h-2 w-2 animate-bounce rounded-full bg-muted-foreground/40 [animation-delay:0.4s]" />
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                ))}
+                <div ref={testMessagesEndRef} />
+              </div>
+              <div className="flex gap-2 border-t p-3">
+                <Textarea
+                  value={testInput}
+                  onChange={(e) => setTestInput(e.target.value)}
+                  onKeyDown={handleTestKeyDown}
+                  placeholder="テストメッセージを入力..."
+                  rows={1}
+                  className="min-h-[40px] max-h-24 resize-none rounded-full px-4"
+                />
+                <Button
+                  onClick={handleTestSend}
+                  disabled={testSending || !testInput.trim()}
+                  size="icon"
+                  className="h-10 w-10 shrink-0 rounded-full"
+                >
+                  <Send className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>

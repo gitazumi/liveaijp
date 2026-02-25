@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,6 +13,7 @@ import {
   Settings,
   User,
   LogOut,
+  Shield,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -26,6 +28,24 @@ const navItems = [
 export function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    async function checkRole() {
+      const supabase = createClient();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) return;
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("id", user.id)
+        .single();
+      setIsAdmin(profile?.role === "admin");
+    }
+    checkRole();
+  }, []);
 
   async function handleLogout() {
     const supabase = createClient();
@@ -33,6 +53,13 @@ export function Sidebar() {
     router.push("/");
     router.refresh();
   }
+
+  const allNavItems = [
+    ...navItems,
+    ...(isAdmin
+      ? [{ href: "/dashboard/admin", icon: Shield, label: "管理者" }]
+      : []),
+  ];
 
   return (
     <aside className="flex h-screen w-64 flex-col border-r bg-sidebar">
@@ -43,7 +70,7 @@ export function Sidebar() {
         </Link>
       </div>
       <nav className="flex-1 space-y-1 p-4">
-        {navItems.map((item) => {
+        {allNavItems.map((item) => {
           const isActive =
             pathname === item.href ||
             (item.href !== "/dashboard" && pathname.startsWith(item.href));

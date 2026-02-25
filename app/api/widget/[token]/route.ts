@@ -126,7 +126,7 @@ export async function GET(
   });
 
   inputEl.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) {
       e.preventDefault();
       sendMessage();
     }
@@ -193,19 +193,10 @@ export async function GET(
       while (true) {
         var result = await reader.read();
         if (result.done) break;
-        var chunk = decoder.decode(result.value);
-        var lines = chunk.split('\\n');
-        for (var i = 0; i < lines.length; i++) {
-          var line = lines[i];
-          if (line.startsWith('0:')) {
-            try {
-              var parsed = JSON.parse(line.slice(2));
-              fullText += parsed;
-              botMsg.textContent = fullText;
-              messagesDiv.scrollTop = messagesDiv.scrollHeight;
-            } catch(e) {}
-          }
-        }
+        var chunk = decoder.decode(result.value, { stream: true });
+        fullText += chunk;
+        botMsg.textContent = fullText;
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
       }
       if (fullText) {
         messages.push({ role: 'assistant', content: fullText });

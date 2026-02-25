@@ -36,6 +36,21 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
+  // 管理者ルートの保護
+  if (user && request.nextUrl.pathname.startsWith("/dashboard/admin")) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .single();
+
+    if (profile?.role !== "admin") {
+      const url = request.nextUrl.clone();
+      url.pathname = "/dashboard";
+      return NextResponse.redirect(url);
+    }
+  }
+
   // 認証済みユーザーがログイン/登録ページにアクセスしたらダッシュボードへ
   if (
     user &&

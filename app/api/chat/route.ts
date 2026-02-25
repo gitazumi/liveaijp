@@ -19,10 +19,12 @@ export async function POST(req: Request) {
     messages,
     token,
     conversationId,
+    test,
   }: {
     messages: { role: "user" | "assistant"; content: string }[];
     token: string;
     conversationId?: string;
+    test?: boolean;
   } = await req.json();
 
   if (!token || !messages?.length) {
@@ -61,25 +63,27 @@ FAQに関連する情報がない場合は、「申し訳ございませんが�
 【FAQ情報】
 ${faqContext}`;
 
-  // 会話をDBに保存
+  // テストモードでない場合のみ会話をDBに保存
   let convId = conversationId;
-  if (!convId) {
-    const { data: conv } = await supabase
-      .from("conversations")
-      .insert({ chatbot_id: chatbot.id })
-      .select("id")
-      .single();
-    convId = conv?.id;
-  }
+  if (!test) {
+    if (!convId) {
+      const { data: conv } = await supabase
+        .from("conversations")
+        .insert({ chatbot_id: chatbot.id })
+        .select("id")
+        .single();
+      convId = conv?.id;
+    }
 
-  // ユーザーメッセージを保存
-  const lastUserMsg = messages[messages.length - 1];
-  if (convId && lastUserMsg.role === "user") {
-    await supabase.from("messages").insert({
-      conversation_id: convId,
-      role: "user",
-      content: lastUserMsg.content,
-    });
+    // ユーザーメッセージを保存
+    const lastUserMsg = messages[messages.length - 1];
+    if (convId && lastUserMsg.role === "user") {
+      await supabase.from("messages").insert({
+        conversation_id: convId,
+        role: "user",
+        content: lastUserMsg.content,
+      });
+    }
   }
 
   const result = streamText({
@@ -87,8 +91,7 @@ ${faqContext}`;
     system: systemMessage,
     messages,
     async onFinish({ text }) {
-      // アシスタント回答を保存
-      if (convId) {
+      if (!test && convId) {
         await supabase.from("messages").insert({
           conversation_id: convId,
           role: "assistant",

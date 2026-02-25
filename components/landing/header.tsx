@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, MessageSquare } from "lucide-react";
@@ -16,6 +17,21 @@ const navLinks = [
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    async function checkAuth() {
+      const supabase = createClient();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      setIsLoggedIn(!!user);
+    }
+    checkAuth();
+  }, []);
+
+  const ctaHref = isLoggedIn ? "/dashboard" : "/login";
+  const ctaLabel = isLoggedIn ? "ダッシュボード" : "無料で始める";
 
   return (
     <header className="sticky top-0 z-50 border-b bg-white/80 backdrop-blur-md">
@@ -39,7 +55,7 @@ export function Header() {
 
         <div className="hidden items-center gap-3 md:flex">
           <Button asChild>
-            <Link href="/login">無料で始める</Link>
+            <Link href={ctaHref}>{ctaLabel}</Link>
           </Button>
         </div>
 
@@ -63,7 +79,7 @@ export function Header() {
               ))}
               <div className="mt-4 flex flex-col gap-2">
                 <Button asChild>
-                  <Link href="/login">無料で始める</Link>
+                  <Link href={ctaHref}>{ctaLabel}</Link>
                 </Button>
               </div>
             </nav>
