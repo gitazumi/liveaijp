@@ -81,7 +81,7 @@ export async function POST(req: Request) {
     content: msg.role === "user" ? msg.content.replace(/<[^>]*>/g, "") : msg.content,
   }));
 
-  // チャットボットをトークンで取得
+  // チャットボットをトークンで取得 + FAQを並列取得
   const { data: chatbot } = await supabase
     .from("chatbots")
     .select("id, name, greeting, user_id, language, allowed_origins")
@@ -92,28 +92,39 @@ export async function POST(req: Request) {
     return new Response("Chatbot not found", { status: 404 });
   }
 
-  // 利用制限チェック（テストモード以外）
-  if (!test) {
-    const { data: subscription } = await supabase
+  // プラン確認 + FAQ取得 + 会話数チェックを並列実行
+  const startOfMonth = new Date();
+  startOfMonth.setDate(1);
+  startOfMonth.setHours(0, 0, 0, 0);
+
+  const [subscriptionResult, faqsResult, countResult] = await Promise.all([
+    // プラン取得
+    supabase
       .from("subscriptions")
       .select("plan")
       .eq("user_id", chatbot.user_id)
-      .single();
+      .single(),
+    // FAQ取得
+    supabase
+      .from("faqs")
+      .select("question, answer")
+      .eq("chatbot_id", chatbot.id)
+      .order("sort_order"),
+    // 月間会話数カウント（テストモードでなければ）
+    !test
+      ? supabase
+          .from("conversations")
+          .select("*", { count: "exact", head: true })
+          .eq("chatbot_id", chatbot.id)
+          .gte("created_at", startOfMonth.toISOString())
+      : Promise.resolve({ count: 0 }),
+  ]);
 
-    const plan = getPlanLimits((subscription?.plan as PlanType) ?? "free");
-
+  // 利用制限チェック
+  if (!test) {
+    const plan = getPlanLimits((subscriptionResult.data?.plan as PlanType) ?? "free");
     if (plan.conversationLimit !== Infinity) {
-      const startOfMonth = new Date();
-      startOfMonth.setDate(1);
-      startOfMonth.setHours(0, 0, 0, 0);
-
-      const { count } = await supabase
-        .from("conversations")
-        .select("*", { count: "exact", head: true })
-        .eq("chatbot_id", chatbot.id)
-        .gte("created_at", startOfMonth.toISOString());
-
-      if ((count ?? 0) >= plan.conversationLimit) {
+      if ((countResult.count ?? 0) >= plan.conversationLimit) {
         return new Response(
           "月間会話数の上限に達しました。プランのアップグレードをご検討ください。",
           { status: 429 }
@@ -122,14 +133,8 @@ export async function POST(req: Request) {
     }
   }
 
-  // FAQを取得
-  const { data: faqs } = await supabase
-    .from("faqs")
-    .select("question, answer")
-    .eq("chatbot_id", chatbot.id)
-    .order("sort_order");
-
   // FAQコンテキストを構築
+  const faqs = faqsResult.data;
   const faqContext =
     faqs && faqs.length > 0
       ? faqs.map((f) => `Q: ${f.question}\nA: ${f.answer}`).join("\n\n")
@@ -154,9 +159,13 @@ FAQに関連する情報がない場合は、「申し訳ございませんが�
 【FAQ情報】
 ${faqContext}`;
 
-  // テストモードでない場合のみ会話をDBに保存
+  // 最新20件のみOpenAIへ送信（コスト制御）
+  const recentMessages = sanitizedMessages.slice(-20);
+
+  // DB保存を非同期で実行（ストリーミング開始をブロックしない）
   let convId = conversationId;
-  if (!test) {
+  const savePromise = (async () => {
+    if (test) return;
     if (!convId) {
       const { data: conv } = await supabase
         .from("conversations")
@@ -165,8 +174,6 @@ ${faqContext}`;
         .single();
       convId = conv?.id;
     }
-
-    // ユーザーメッセージを保存
     const lastUserMsg = sanitizedMessages[sanitizedMessages.length - 1];
     if (convId && lastUserMsg.role === "user") {
       await supabase.from("messages").insert({
@@ -175,16 +182,14 @@ ${faqContext}`;
         content: lastUserMsg.content,
       });
     }
-  }
-
-  // 最新20件のみOpenAIへ送信（コスト制御）
-  const recentMessages = sanitizedMessages.slice(-20);
+  })();
 
   const result = streamText({
     model: openai("gpt-4o-mini"),
     system: systemMessage,
     messages: recentMessages,
     async onFinish({ text }) {
+      await savePromise; // ユーザーメッセージ保存完了を待つ
       if (!test && convId) {
         await supabase.from("messages").insert({
           conversation_id: convId,
