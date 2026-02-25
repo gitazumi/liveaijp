@@ -21,10 +21,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Plus, Pencil, Trash2, ArrowUpCircle, Upload, Download } from "lucide-react";
+import { Plus, Pencil, Trash2, ArrowUpCircle, Upload, Download, Lock } from "lucide-react";
 import { toast } from "sonner";
 import Link from "next/link";
-import { PlanGate } from "@/components/dashboard/plan-gate";
+import { usePlan } from "@/lib/hooks/use-plan";
 
 const PLAN_FAQ_LIMITS: Record<string, number> = {
   free: 10,
@@ -49,6 +49,7 @@ export default function FaqsPage() {
   const [loading, setLoading] = useState(false);
   const [importing, setImporting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { canUse } = usePlan();
   const [plan, setPlan] = useState<string>("free");
   const faqLimit = PLAN_FAQ_LIMITS[plan] ?? 10;
   const isAtLimit = faqLimit !== Infinity && faqs.length >= faqLimit;
@@ -216,7 +217,7 @@ export default function FaqsPage() {
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <PlanGate feature="csvExport">
+          {canUse("csvExport") ? (
             <div className="flex items-center gap-2">
               <input
                 ref={fileInputRef}
@@ -246,7 +247,14 @@ export default function FaqsPage() {
                 エクスポート
               </Button>
             </div>
-          </PlanGate>
+          ) : (
+            <Button asChild variant="outline" size="sm" className="gap-1.5">
+              <Link href="/dashboard/billing">
+                <Lock className="h-3.5 w-3.5" />
+                CSV機能（アップグレード）
+              </Link>
+            </Button>
+          )}
           {faqLimit !== Infinity && (
             <span className="text-sm text-muted-foreground">
               {faqs.length} / {faqLimit} 件

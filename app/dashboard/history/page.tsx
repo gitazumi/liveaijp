@@ -4,10 +4,11 @@ import { useEffect, useState, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MessageSquare, Download } from "lucide-react";
+import { MessageSquare, Download, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { PlanGate } from "@/components/dashboard/plan-gate";
+import { usePlan } from "@/lib/hooks/use-plan";
 import { toast } from "sonner";
+import Link from "next/link";
 
 interface Conversation {
   id: string;
@@ -16,6 +17,7 @@ interface Conversation {
 }
 
 export default function HistoryPage() {
+  const { canUse } = usePlan();
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [selected, setSelected] = useState<Conversation | null>(null);
 
@@ -101,7 +103,7 @@ export default function HistoryPage() {
             ユーザーとのチャット履歴を確認できます
           </p>
         </div>
-        <PlanGate feature="csvExport">
+        {canUse("csvExport") ? (
           <Button
             variant="outline"
             size="sm"
@@ -112,7 +114,14 @@ export default function HistoryPage() {
             <Download className="h-3.5 w-3.5" />
             CSVエクスポート
           </Button>
-        </PlanGate>
+        ) : (
+          <Button asChild variant="outline" size="sm" className="gap-1.5">
+            <Link href="/dashboard/billing">
+              <Lock className="h-3.5 w-3.5" />
+              CSVエクスポート（アップグレード）
+            </Link>
+          </Button>
+        )}
       </div>
 
       {conversations.length === 0 ? (
