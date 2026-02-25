@@ -2,6 +2,7 @@ import { openai } from "@ai-sdk/openai";
 import { streamText } from "ai";
 import { createClient } from "@supabase/supabase-js";
 import { getPlanLimits, PlanType } from "@/lib/stripe";
+import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 
 function getSupabase() {
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -32,10 +33,58 @@ export async function POST(req: Request) {
     return new Response("Bad request", { status: 400 });
   }
 
+  // --- レート制限 ---
+  const clientIp = getClientIp(req);
+  const ipLimit = checkRateLimit(
+    { name: "chat-ip", windowMs: 60_000, maxRequests: 20 },
+    clientIp
+  );
+  if (!ipLimit.success) {
+    return new Response("リクエストが多すぎます。しばらく待ってからお試しください。", {
+      status: 429,
+      headers: {
+        "Retry-After": String(Math.ceil((ipLimit.resetAt - Date.now()) / 1000)),
+      },
+    });
+  }
+
+  const tokenLimit = checkRateLimit(
+    { name: "chat-token", windowMs: 60_000, maxRequests: 60 },
+    token
+  );
+  if (!tokenLimit.success) {
+    return new Response("このチャットボットへのリクエストが集中しています。少し待ってからお試しください。", {
+      status: 429,
+      headers: {
+        "Retry-After": String(Math.ceil((tokenLimit.resetAt - Date.now()) / 1000)),
+      },
+    });
+  }
+
+  // --- メッセージバリデーション ---
+  if (messages.length > 20) {
+    return new Response("メッセージ履歴が長すぎます", { status: 400 });
+  }
+
+  for (const msg of messages) {
+    if (typeof msg.content !== "string" || msg.content.length > 2000) {
+      return new Response("メッセージが長すぎます（最大2000文字）", { status: 400 });
+    }
+    if (msg.role !== "user" && msg.role !== "assistant") {
+      return new Response("不正なメッセージ形式です", { status: 400 });
+    }
+  }
+
+  // --- 入力サニタイズ（HTMLタグ除去） ---
+  const sanitizedMessages = messages.map((msg) => ({
+    ...msg,
+    content: msg.role === "user" ? msg.content.replace(/<[^>]*>/g, "") : msg.content,
+  }));
+
   // チャットボットをトークンで取得
   const { data: chatbot } = await supabase
     .from("chatbots")
-    .select("id, name, greeting, user_id, language")
+    .select("id, name, greeting, user_id, language, allowed_origins")
     .eq("token", token)
     .single();
 
@@ -118,7 +167,7 @@ ${faqContext}`;
     }
 
     // ユーザーメッセージを保存
-    const lastUserMsg = messages[messages.length - 1];
+    const lastUserMsg = sanitizedMessages[sanitizedMessages.length - 1];
     if (convId && lastUserMsg.role === "user") {
       await supabase.from("messages").insert({
         conversation_id: convId,
@@ -128,10 +177,13 @@ ${faqContext}`;
     }
   }
 
+  // 最新20件のみOpenAIへ送信（コスト制御）
+  const recentMessages = sanitizedMessages.slice(-20);
+
   const result = streamText({
     model: openai("gpt-4o-mini"),
     system: systemMessage,
-    messages,
+    messages: recentMessages,
     async onFinish({ text }) {
       if (!test && convId) {
         await supabase.from("messages").insert({
@@ -143,9 +195,21 @@ ${faqContext}`;
     },
   });
 
+  // CORS オリジン制御
+  const requestOrigin = req.headers.get("origin");
+  const allowedOrigins: string[] | null = chatbot.allowed_origins;
+  let corsOrigin = "*";
+  if (allowedOrigins?.length && requestOrigin) {
+    corsOrigin = allowedOrigins.includes(requestOrigin) ? requestOrigin : allowedOrigins[0];
+  } else if (requestOrigin) {
+    corsOrigin = requestOrigin;
+  }
+
   return result.toTextStreamResponse({
     headers: {
       "X-Conversation-Id": convId ?? "",
+      "Access-Control-Allow-Origin": corsOrigin,
+      "Vary": "Origin",
     },
   });
 }

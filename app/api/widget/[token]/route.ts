@@ -6,25 +6,52 @@ const supabaseAdmin = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
+/** Hex色コードのみ許可（XSS防止） */
+function sanitizeColor(value: string): string {
+  return /^#[0-9a-fA-F]{3,6}$/.test(value) ? value : "#4f46e5";
+}
+
+/** JSテンプレートリテラル内でのHTMLインジェクション防止 */
+function escapeForJs(value: string): string {
+  return value
+    .replace(/\\/g, "\\\\")
+    .replace(/`/g, "\\`")
+    .replace(/\$/g, "\\$")
+    .replace(/'/g, "\\'")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ token: string }> }
 ) {
   const { token } = await params;
-  const origin = request.headers.get("origin") || request.nextUrl.origin;
   const apiUrl = `${request.nextUrl.origin}/api/chat`;
 
   // チャットボットのカスタム設定を取得
   const { data: chatbot } = await supabaseAdmin
     .from("chatbots")
-    .select("widget_color, widget_display_name, widget_placeholder, greeting")
+    .select("widget_color, widget_display_name, widget_placeholder, greeting, allowed_origins")
     .eq("token", token)
     .single();
 
-  const widgetColor = chatbot?.widget_color || "#4f46e5";
-  const widgetName = chatbot?.widget_display_name || "LiveAI";
-  const widgetPlaceholder = chatbot?.widget_placeholder || "メッセージを入力...";
-  const greetingMsg = chatbot?.greeting || "こんにちは！なんでもお聞きください！";
+  // XSSサニタイズ
+  const widgetColor = sanitizeColor(chatbot?.widget_color || "#4f46e5");
+  const widgetName = escapeForJs(chatbot?.widget_display_name || "LiveAI");
+  const widgetPlaceholder = escapeForJs(chatbot?.widget_placeholder || "メッセージを入力...");
+  const greetingMsg = escapeForJs(chatbot?.greeting || "こんにちは！なんでもお聞きください！");
+
+  // オリジン制御
+  const requestOrigin = request.headers.get("origin");
+  const allowedOrigins: string[] | null = chatbot?.allowed_origins;
+  let corsOrigin = "*";
+  if (allowedOrigins?.length && requestOrigin) {
+    corsOrigin = allowedOrigins.includes(requestOrigin) ? requestOrigin : allowedOrigins[0];
+  } else if (requestOrigin) {
+    corsOrigin = requestOrigin;
+  }
 
   const js = `
 (function() {
@@ -243,7 +270,8 @@ export async function GET(
   return new NextResponse(js, {
     headers: {
       "Content-Type": "application/javascript",
-      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Origin": corsOrigin,
+      "Vary": "Origin",
       "Cache-Control": "public, max-age=300",
     },
   });

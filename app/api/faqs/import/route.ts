@@ -93,6 +93,23 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "ファイルが必要です" }, { status: 400 });
   }
 
+  // ファイルサイズ制限: 5MB
+  const MAX_FILE_SIZE = 5 * 1024 * 1024;
+  if (file.size > MAX_FILE_SIZE) {
+    return NextResponse.json(
+      { error: "ファイルサイズが大きすぎます（最大5MB）" },
+      { status: 413 }
+    );
+  }
+
+  // ファイル形式チェック
+  if (!file.name.endsWith(".csv") && !file.type.includes("csv")) {
+    return NextResponse.json(
+      { error: "CSVファイルのみ対応しています" },
+      { status: 400 }
+    );
+  }
+
   const text = await file.text();
   // BOM除去
   const cleanText = text.replace(/^\uFEFF/, "");

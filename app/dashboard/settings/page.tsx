@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Copy, Check, Code2, Link2, MessageSquareText, Send, RotateCcw, Palette, Globe } from "lucide-react";
+import { Copy, Check, Code2, Link2, MessageSquareText, Send, RotateCcw, Palette, Globe, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
 import { PlanGate } from "@/components/dashboard/plan-gate";
 
@@ -26,6 +26,7 @@ export default function SettingsPage() {
   const [widgetDisplayName, setWidgetDisplayName] = useState("");
   const [widgetPlaceholder, setWidgetPlaceholder] = useState("メッセージを入力...");
   const [language, setLanguage] = useState("ja");
+  const [allowedOrigins, setAllowedOrigins] = useState("");
   const [saving, setSaving] = useState(false);
   const [copied, setCopied] = useState<string | null>(null);
 
@@ -57,6 +58,7 @@ export default function SettingsPage() {
     setWidgetDisplayName(chatbot.widget_display_name ?? "");
     setWidgetPlaceholder(chatbot.widget_placeholder ?? "メッセージを入力...");
     setLanguage(chatbot.language ?? "ja");
+    setAllowedOrigins((chatbot.allowed_origins ?? []).join("\n"));
     setTestMessages([
       { role: "assistant", content: chatbot.greeting || "こんにちは！なんでもお聞きください！" },
     ]);
@@ -82,6 +84,9 @@ export default function SettingsPage() {
         widget_display_name: widgetDisplayName.trim() || null,
         widget_placeholder: widgetPlaceholder.trim() || "メッセージを入力...",
         language,
+        allowed_origins: allowedOrigins.trim()
+          ? allowedOrigins.split("\n").map((o) => o.trim()).filter(Boolean)
+          : null,
       })
       .eq("id", chatbotId);
 
@@ -267,6 +272,36 @@ export default function SettingsPage() {
               </div>
               <Button onClick={handleSave} disabled={saving}>
                 {saving ? "保存中..." : "デザインを保存"}
+              </Button>
+            </CardContent>
+          </Card>
+        </PlanGate>
+
+        {/* 許可オリジン設定（有料機能） */}
+        <PlanGate feature="widgetCustom">
+          <Card>
+            <CardHeader>
+              <h2 className="flex items-center gap-2 text-lg font-semibold">
+                <ShieldCheck className="h-5 w-5" />
+                埋め込み許可ドメイン
+              </h2>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <Label>許可するドメイン（1行に1つ）</Label>
+                <Textarea
+                  value={allowedOrigins}
+                  onChange={(e) => setAllowedOrigins(e.target.value)}
+                  placeholder={"https://example.com\nhttps://www.example.com"}
+                  rows={4}
+                />
+                <p className="text-xs text-muted-foreground">
+                  空欄の場合、全てのサイトでウィジェットが利用可能です。
+                  ドメインを指定すると、指定したサイトのみウィジェットが動作します。
+                </p>
+              </div>
+              <Button onClick={handleSave} disabled={saving}>
+                {saving ? "保存中..." : "ドメイン設定を保存"}
               </Button>
             </CardContent>
           </Card>
