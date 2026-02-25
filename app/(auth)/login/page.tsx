@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,7 +10,9 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { MessageSquare, Mail } from "lucide-react";
 
-export default function LoginPage() {
+function LoginForm() {
+  const searchParams = useSearchParams();
+  const callbackError = searchParams.get("error");
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -21,15 +24,22 @@ export default function LoginPage() {
     setLoading(true);
 
     const supabase = createClient();
-    const { error } = await supabase.auth.signInWithOtp({
+    const { error: otpError } = await supabase.auth.signInWithOtp({
       email,
       options: {
         emailRedirectTo: `${window.location.origin}/auth/callback`,
       },
     });
 
-    if (error) {
-      setError("エラーが発生しました。もう一度お試しください。");
+    if (otpError) {
+      console.error("Supabase OTP error:", otpError.message, otpError.status);
+      if (otpError.message.includes("Signups not allowed")) {
+        setError("現在、新規登録を受け付けていません。管理者にお問い合わせください。");
+      } else if (otpError.message.includes("rate limit")) {
+        setError("送信回数の制限に達しました。しばらく待ってからもう一度お試しください。");
+      } else {
+        setError(`エラーが発生しました: ${otpError.message}`);
+      }
       setLoading(false);
       return;
     }
@@ -76,6 +86,11 @@ export default function LoginPage() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
+              {callbackError === "callback_failed" && !error && (
+                <div className="rounded-md bg-destructive/10 p-3 text-sm text-destructive">
+                  ログインリンクの認証に失敗しました。もう一度お試しください。
+                </div>
+              )}
               {error && (
                 <div className="rounded-md bg-destructive/10 p-3 text-sm text-destructive">
                   {error}
@@ -112,5 +127,13 @@ export default function LoginPage() {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
   );
 }

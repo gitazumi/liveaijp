@@ -9,10 +9,15 @@ export async function GET(request: Request) {
   if (code) {
     const supabase = await createClient();
     const { error } = await supabase.auth.exchangeCodeForSession(code);
-    if (!error) {
-      return NextResponse.redirect(`${origin}${next}`);
+    if (error) {
+      console.error("Auth callback error:", error.message, error.status);
+      const loginUrl = new URL("/login", origin);
+      loginUrl.searchParams.set("error", "callback_failed");
+      return NextResponse.redirect(loginUrl.toString());
     }
+    return NextResponse.redirect(`${origin}${next}`);
   }
 
+  console.error("Auth callback: no code parameter in URL");
   return NextResponse.redirect(`${origin}/login`);
 }
