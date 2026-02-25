@@ -177,6 +177,15 @@ export async function GET(
         })
       });
 
+      if (!res.ok) {
+        typingEl.remove();
+        var errText = await res.text();
+        addMessage('bot', errText || 'エラーが発生しました。');
+        sending = false;
+        sendBtn.disabled = false;
+        return;
+      }
+
       if (res.headers.get('X-Conversation-Id')) {
         conversationId = res.headers.get('X-Conversation-Id');
       }

@@ -1,6 +1,7 @@
 import { openai } from "@ai-sdk/openai";
 import { streamText } from "ai";
 import { createClient } from "@supabase/supabase-js";
+import { getPlanLimits, PlanType } from "@/lib/stripe";
 
 function getSupabase() {
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -34,12 +35,42 @@ export async function POST(req: Request) {
   // チャットボットをトークンで取得
   const { data: chatbot } = await supabase
     .from("chatbots")
-    .select("id, name, greeting")
+    .select("id, name, greeting, user_id")
     .eq("token", token)
     .single();
 
   if (!chatbot) {
     return new Response("Chatbot not found", { status: 404 });
+  }
+
+  // 利用制限チェック（テストモード以外）
+  if (!test) {
+    const { data: subscription } = await supabase
+      .from("subscriptions")
+      .select("plan")
+      .eq("user_id", chatbot.user_id)
+      .single();
+
+    const plan = getPlanLimits((subscription?.plan as PlanType) ?? "free");
+
+    if (plan.conversationLimit !== Infinity) {
+      const startOfMonth = new Date();
+      startOfMonth.setDate(1);
+      startOfMonth.setHours(0, 0, 0, 0);
+
+      const { count } = await supabase
+        .from("conversations")
+        .select("*", { count: "exact", head: true })
+        .eq("chatbot_id", chatbot.id)
+        .gte("created_at", startOfMonth.toISOString());
+
+      if ((count ?? 0) >= plan.conversationLimit) {
+        return new Response(
+          "月間会話数の上限に達しました。プランのアップグレードをご検討ください。",
+          { status: 429 }
+        );
+      }
+    }
   }
 
   // FAQを取得

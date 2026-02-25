@@ -21,8 +21,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Plus, Pencil, Trash2 } from "lucide-react";
+import { Plus, Pencil, Trash2, ArrowUpCircle } from "lucide-react";
 import { toast } from "sonner";
+import Link from "next/link";
+
+const PLAN_FAQ_LIMITS: Record<string, number> = {
+  free: 10,
+  standard: 50,
+  pro: Infinity,
+};
 
 interface Faq {
   id: string;
@@ -39,6 +46,9 @@ export default function FaqsPage() {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [loading, setLoading] = useState(false);
+  const [plan, setPlan] = useState<string>("free");
+  const faqLimit = PLAN_FAQ_LIMITS[plan] ?? 10;
+  const isAtLimit = faqLimit !== Infinity && faqs.length >= faqLimit;
 
   const loadFaqs = useCallback(async () => {
     const supabase = createClient();
@@ -46,6 +56,14 @@ export default function FaqsPage() {
       data: { user },
     } = await supabase.auth.getUser();
     if (!user) return;
+
+    // プラン取得
+    const { data: subscription } = await supabase
+      .from("subscriptions")
+      .select("plan")
+      .eq("user_id", user.id)
+      .single();
+    if (subscription?.plan) setPlan(subscription.plan);
 
     const { data: chatbot } = await supabase
       .from("chatbots")
@@ -150,13 +168,27 @@ export default function FaqsPage() {
             チャットボットが回答に使用するFAQを管理します
           </p>
         </div>
-        <Dialog open={open} onOpenChange={setOpen}>
-          <DialogTrigger asChild>
-            <Button onClick={openCreate} className="gap-2">
-              <Plus className="h-4 w-4" />
-              FAQ追加
+        <div className="flex items-center gap-3">
+          {faqLimit !== Infinity && (
+            <span className="text-sm text-muted-foreground">
+              {faqs.length} / {faqLimit} 件
+            </span>
+          )}
+          {isAtLimit ? (
+            <Button asChild variant="outline" className="gap-2">
+              <Link href="/dashboard/billing">
+                <ArrowUpCircle className="h-4 w-4" />
+                アップグレード
+              </Link>
             </Button>
-          </DialogTrigger>
+          ) : (
+            <Dialog open={open} onOpenChange={setOpen}>
+              <DialogTrigger asChild>
+                <Button onClick={openCreate} className="gap-2">
+                  <Plus className="h-4 w-4" />
+                  FAQ追加
+                </Button>
+              </DialogTrigger>
           <DialogContent>
             <DialogHeader>
               <DialogTitle>{editing ? "FAQ編集" : "FAQ追加"}</DialogTitle>
@@ -190,6 +222,8 @@ export default function FaqsPage() {
             </div>
           </DialogContent>
         </Dialog>
+          )}
+        </div>
       </div>
 
       <div className="mt-6 rounded-lg border bg-card">

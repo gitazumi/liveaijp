@@ -15,6 +15,26 @@ export async function GET(request: Request) {
       loginUrl.searchParams.set("error", "callback_failed");
       return NextResponse.redirect(loginUrl.toString());
     }
+
+    // Ensure subscription record exists for this user
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (user) {
+      const { data: existing } = await supabase
+        .from("subscriptions")
+        .select("id")
+        .eq("user_id", user.id)
+        .single();
+      if (!existing) {
+        await supabase.from("subscriptions").insert({
+          user_id: user.id,
+          plan: "free",
+          status: "active",
+        });
+      }
+    }
+
     return NextResponse.redirect(`${origin}${next}`);
   }
 

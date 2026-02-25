@@ -6,6 +6,12 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Users, MessageSquare, HelpCircle, Eye } from "lucide-react";
 
+const PLAN_LABELS: Record<string, string> = {
+  free: "無料",
+  standard: "スタンダード",
+  pro: "プロ",
+};
+
 interface AdminUser {
   id: string;
   company_name: string | null;
@@ -13,6 +19,8 @@ interface AdminUser {
   created_at: string;
   email: string;
   banned: boolean;
+  plan: string;
+  subscriptionStatus: string;
   chatbot: {
     id: string;
     name: string;
@@ -98,6 +106,7 @@ export default function AdminPage() {
                   <tr className="border-b text-left text-muted-foreground">
                     <th className="pb-3 font-medium">メール</th>
                     <th className="pb-3 font-medium">会社名</th>
+                    <th className="pb-3 font-medium">プラン</th>
                     <th className="pb-3 font-medium">FAQ数</th>
                     <th className="pb-3 font-medium">会話数</th>
                     <th className="pb-3 font-medium">ステータス</th>
@@ -110,6 +119,19 @@ export default function AdminPage() {
                     <tr key={user.id} className="border-b">
                       <td className="py-3">{user.email}</td>
                       <td className="py-3">{user.company_name || "-"}</td>
+                      <td className="py-3">
+                        <span
+                          className={`rounded px-2 py-0.5 text-xs ${
+                            user.plan === "pro"
+                              ? "bg-purple-100 text-purple-700"
+                              : user.plan === "standard"
+                              ? "bg-blue-100 text-blue-700"
+                              : "bg-gray-100 text-gray-700"
+                          }`}
+                        >
+                          {PLAN_LABELS[user.plan] ?? user.plan}
+                        </span>
+                      </td>
                       <td className="py-3">{user.chatbot?.faqCount ?? 0}</td>
                       <td className="py-3">{user.chatbot?.conversationCount ?? 0}</td>
                       <td className="py-3">

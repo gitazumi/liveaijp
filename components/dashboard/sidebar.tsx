@@ -14,6 +14,7 @@ import {
   User,
   LogOut,
   Shield,
+  CreditCard,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -23,6 +24,7 @@ const navItems = [
   { href: "/dashboard/history", icon: History, label: "チャット履歴" },
   { href: "/dashboard/settings", icon: Settings, label: "設定" },
   { href: "/dashboard/account", icon: User, label: "アカウント" },
+  { href: "/dashboard/billing", icon: CreditCard, label: "課金" },
 ];
 
 export function Sidebar() {

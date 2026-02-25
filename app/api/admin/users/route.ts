@@ -44,15 +44,22 @@ export async function GET() {
     .from("conversations")
     .select("id, chatbot_id");
 
+  const { data: subscriptions } = await adminClient
+    .from("subscriptions")
+    .select("user_id, plan, status");
+
   const enrichedUsers = profiles?.map((p) => {
     const authUser = authUsers?.find((u) => u.id === p.id);
     const userChatbot = chatbots?.find((c) => c.user_id === p.id);
+    const userSub = subscriptions?.find((s) => s.user_id === p.id);
     const faqCount = faqs?.filter((f) => f.chatbot_id === userChatbot?.id).length ?? 0;
     const convCount = conversations?.filter((c) => c.chatbot_id === userChatbot?.id).length ?? 0;
     return {
       ...p,
       email: authUser?.email,
       banned: authUser?.banned_until ? new Date(authUser.banned_until) > new Date() : false,
+      plan: userSub?.plan ?? "free",
+      subscriptionStatus: userSub?.status ?? "active",
       chatbot: userChatbot
         ? { ...userChatbot, faqCount, conversationCount: convCount }
         : null,

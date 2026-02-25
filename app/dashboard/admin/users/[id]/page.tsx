@@ -11,7 +11,14 @@ import {
   MessageSquare,
   Ban,
   CheckCircle,
+  CreditCard,
 } from "lucide-react";
+
+const PLAN_LABELS: Record<string, string> = {
+  free: "無料",
+  standard: "スタンダード",
+  pro: "プロ",
+};
 
 interface UserDetail {
   profile: {
@@ -22,6 +29,12 @@ interface UserDetail {
   };
   email: string;
   banned: boolean;
+  subscription: {
+    plan: string;
+    status: string;
+    current_period_end: string | null;
+    stripe_customer_id: string | null;
+  } | null;
   chatbot: {
     id: string;
     name: string;
@@ -135,6 +148,48 @@ export default function AdminUserDetailPage() {
           </Button>
         </div>
       </div>
+
+      {/* サブスクリプション */}
+      <Card className="mt-6">
+        <CardHeader className="flex flex-row items-center gap-3">
+          <CreditCard className="h-5 w-5 text-blue-600" />
+          <h2 className="text-lg font-semibold">サブスクリプション</h2>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-3 text-sm sm:grid-cols-2">
+            <div>
+              <span className="text-muted-foreground">プラン:</span>{" "}
+              <span
+                className={`rounded px-2 py-0.5 text-xs ${
+                  data.subscription?.plan === "pro"
+                    ? "bg-purple-100 text-purple-700"
+                    : data.subscription?.plan === "standard"
+                    ? "bg-blue-100 text-blue-700"
+                    : "bg-gray-100 text-gray-700"
+                }`}
+              >
+                {PLAN_LABELS[data.subscription?.plan ?? "free"] ?? "無料"}
+              </span>
+            </div>
+            <div>
+              <span className="text-muted-foreground">ステータス:</span>{" "}
+              {data.subscription?.status ?? "active"}
+            </div>
+            {data.subscription?.current_period_end && (
+              <div>
+                <span className="text-muted-foreground">次回更新日:</span>{" "}
+                {new Date(
+                  data.subscription.current_period_end
+                ).toLocaleDateString("ja-JP")}
+              </div>
+            )}
+            <div>
+              <span className="text-muted-foreground">Stripe:</span>{" "}
+              {data.subscription?.stripe_customer_id ? "連携済み" : "未連携"}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* チャットボット情報 */}
       <Card className="mt-6">

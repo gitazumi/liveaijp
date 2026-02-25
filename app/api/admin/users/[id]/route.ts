@@ -39,6 +39,12 @@ export async function GET(
   } = await adminClient.auth.admin.listUsers();
   const authUser = users?.find((u) => u.id === id);
 
+  const subRes = await adminClient
+    .from("subscriptions")
+    .select("*")
+    .eq("user_id", id)
+    .single();
+
   let faqs: unknown[] = [];
   let conversations: unknown[] = [];
   if (chatbotRes.data) {
@@ -65,6 +71,7 @@ export async function GET(
     banned: authUser?.banned_until
       ? new Date(authUser.banned_until) > new Date()
       : false,
+    subscription: subRes.data,
     chatbot: chatbotRes.data,
     faqs,
     conversations,
