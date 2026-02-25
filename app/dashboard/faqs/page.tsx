@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,9 +21,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Plus, Pencil, Trash2, ArrowUpCircle } from "lucide-react";
+import { Plus, Pencil, Trash2, ArrowUpCircle, Upload, Download } from "lucide-react";
 import { toast } from "sonner";
 import Link from "next/link";
+import { PlanGate } from "@/components/dashboard/plan-gate";
 
 const PLAN_FAQ_LIMITS: Record<string, number> = {
   free: 10,
@@ -46,6 +47,8 @@ export default function FaqsPage() {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [loading, setLoading] = useState(false);
+  const [importing, setImporting] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [plan, setPlan] = useState<string>("free");
   const faqLimit = PLAN_FAQ_LIMITS[plan] ?? 10;
   const isAtLimit = faqLimit !== Infinity && faqs.length >= faqLimit;
@@ -159,6 +162,50 @@ export default function FaqsPage() {
     }
   }
 
+  async function handleExport() {
+    const res = await fetch("/api/faqs/export");
+    if (!res.ok) {
+      toast.error("エクスポートに失敗しました");
+      return;
+    }
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `faqs_${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success("CSVをダウンロードしました");
+  }
+
+  async function handleImport(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setImporting(true);
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await fetch("/api/faqs/import", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      if (res.ok) {
+        toast.success(data.message);
+        loadFaqs();
+      } else {
+        toast.error(data.error || "インポートに失敗しました");
+      }
+    } catch {
+      toast.error("インポートに失敗しました");
+    }
+
+    setImporting(false);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  }
+
   return (
     <div>
       <div className="flex items-center justify-between">
@@ -169,6 +216,37 @@ export default function FaqsPage() {
           </p>
         </div>
         <div className="flex items-center gap-3">
+          <PlanGate feature="csvExport">
+            <div className="flex items-center gap-2">
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".csv"
+                onChange={handleImport}
+                className="hidden"
+              />
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-1.5"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={importing}
+              >
+                <Upload className="h-3.5 w-3.5" />
+                {importing ? "処理中..." : "インポート"}
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-1.5"
+                onClick={handleExport}
+                disabled={faqs.length === 0}
+              >
+                <Download className="h-3.5 w-3.5" />
+                エクスポート
+              </Button>
+            </div>
+          </PlanGate>
           {faqLimit !== Infinity && (
             <span className="text-sm text-muted-foreground">
               {faqs.length} / {faqLimit} 件

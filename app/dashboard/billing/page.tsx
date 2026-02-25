@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CheckCircle, CreditCard, Zap } from "lucide-react";
+import { CheckCircle, CreditCard, Zap, X } from "lucide-react";
 
 const PLANS = {
   free: { name: "無料", price: 0, faqLimit: 10, convLimit: 100 },
@@ -224,6 +224,34 @@ function BillingContent() {
         </CardContent>
       </Card>
 
+      {/* 利用可能な機能 */}
+      <Card className="mt-6">
+        <CardHeader>
+          <h2 className="text-lg font-semibold">利用可能な機能</h2>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-2 text-sm sm:grid-cols-2">
+            {[
+              { name: "チャット分析", available: currentPlan !== "free" },
+              { name: "ウィジェットカスタマイズ", available: currentPlan !== "free" },
+              { name: "CSVインポート/エクスポート", available: currentPlan !== "free" },
+              { name: "多言語対応", available: currentPlan === "pro" },
+            ].map((feature) => (
+              <div key={feature.name} className="flex items-center gap-2 rounded-lg border px-3 py-2">
+                {feature.available ? (
+                  <CheckCircle className="h-4 w-4 text-green-500" />
+                ) : (
+                  <X className="h-4 w-4 text-muted-foreground" />
+                )}
+                <span className={feature.available ? "" : "text-muted-foreground"}>
+                  {feature.name}
+                </span>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
       {/* アップグレード */}
       {currentPlan !== "pro" && (
         <div className="mt-6 grid gap-4 md:grid-cols-2">
@@ -247,7 +275,15 @@ function BillingContent() {
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle className="h-4 w-4 text-green-500" />
-                    チャット履歴閲覧
+                    チャット分析ダッシュボード
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle className="h-4 w-4 text-green-500" />
+                    ウィジェットカスタマイズ
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle className="h-4 w-4 text-green-500" />
+                    CSVインポート/エクスポート
                   </li>
                 </ul>
                 <Button
@@ -279,6 +315,14 @@ function BillingContent() {
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-4 w-4 text-green-500" />
                   会話無制限
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-4 w-4 text-green-500" />
+                  全機能利用可能
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-4 w-4 text-green-500" />
+                  多言語対応
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-4 w-4 text-green-500" />

@@ -8,8 +8,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Copy, Check, Code2, Link2, MessageSquareText, Send, RotateCcw } from "lucide-react";
+import { Copy, Check, Code2, Link2, MessageSquareText, Send, RotateCcw, Palette, Globe } from "lucide-react";
 import { toast } from "sonner";
+import { PlanGate } from "@/components/dashboard/plan-gate";
 
 interface TestMessage {
   role: "user" | "assistant";
@@ -21,6 +22,10 @@ export default function SettingsPage() {
   const [token, setToken] = useState("");
   const [name, setName] = useState("");
   const [greeting, setGreeting] = useState("");
+  const [widgetColor, setWidgetColor] = useState("#4f46e5");
+  const [widgetDisplayName, setWidgetDisplayName] = useState("");
+  const [widgetPlaceholder, setWidgetPlaceholder] = useState("メッセージを入力...");
+  const [language, setLanguage] = useState("ja");
   const [saving, setSaving] = useState(false);
   const [copied, setCopied] = useState<string | null>(null);
 
@@ -48,6 +53,10 @@ export default function SettingsPage() {
     setToken(chatbot.token);
     setName(chatbot.name);
     setGreeting(chatbot.greeting ?? "");
+    setWidgetColor(chatbot.widget_color ?? "#4f46e5");
+    setWidgetDisplayName(chatbot.widget_display_name ?? "");
+    setWidgetPlaceholder(chatbot.widget_placeholder ?? "メッセージを入力...");
+    setLanguage(chatbot.language ?? "ja");
     setTestMessages([
       { role: "assistant", content: chatbot.greeting || "こんにちは！なんでもお聞きください！" },
     ]);
@@ -69,6 +78,10 @@ export default function SettingsPage() {
       .update({
         name: name.trim(),
         greeting: greeting.trim(),
+        widget_color: widgetColor,
+        widget_display_name: widgetDisplayName.trim() || null,
+        widget_placeholder: widgetPlaceholder.trim() || "メッセージを入力...",
+        language,
       })
       .eq("id", chatbotId);
 
@@ -193,6 +206,102 @@ export default function SettingsPage() {
             </Button>
           </CardContent>
         </Card>
+
+        {/* ウィジェットカスタマイズ（有料機能） */}
+        <PlanGate feature="widgetCustom">
+          <Card>
+            <CardHeader>
+              <h2 className="flex items-center gap-2 text-lg font-semibold">
+                <Palette className="h-5 w-5" />
+                ウィジェットデザイン
+              </h2>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <Label>テーマカラー</Label>
+                <div className="flex items-center gap-3">
+                  <input
+                    type="color"
+                    value={widgetColor}
+                    onChange={(e) => setWidgetColor(e.target.value)}
+                    className="h-10 w-14 cursor-pointer rounded border"
+                  />
+                  <Input
+                    value={widgetColor}
+                    onChange={(e) => setWidgetColor(e.target.value)}
+                    placeholder="#4f46e5"
+                    className="w-32"
+                  />
+                  <div
+                    className="flex h-10 w-10 items-center justify-center rounded-full text-white"
+                    style={{ backgroundColor: widgetColor }}
+                  >
+                    <MessageSquareText className="h-5 w-5" />
+                  </div>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  チャットボタン・ヘッダー・ユーザーメッセージの背景色に適用されます
+                </p>
+              </div>
+              <div className="space-y-2">
+                <Label>表示名</Label>
+                <Input
+                  value={widgetDisplayName}
+                  onChange={(e) => setWidgetDisplayName(e.target.value)}
+                  placeholder="LiveAI（デフォルト）"
+                />
+                <p className="text-xs text-muted-foreground">
+                  ウィジェットのヘッダーに表示される名前です
+                </p>
+              </div>
+              <div className="space-y-2">
+                <Label>プレースホルダー</Label>
+                <Input
+                  value={widgetPlaceholder}
+                  onChange={(e) => setWidgetPlaceholder(e.target.value)}
+                  placeholder="メッセージを入力..."
+                />
+                <p className="text-xs text-muted-foreground">
+                  入力欄の案内テキストです
+                </p>
+              </div>
+              <Button onClick={handleSave} disabled={saving}>
+                {saving ? "保存中..." : "デザインを保存"}
+              </Button>
+            </CardContent>
+          </Card>
+        </PlanGate>
+
+        {/* 多言語対応（Proプラン機能） */}
+        <PlanGate feature="multilingual">
+          <Card>
+            <CardHeader>
+              <h2 className="flex items-center gap-2 text-lg font-semibold">
+                <Globe className="h-5 w-5" />
+                多言語対応
+              </h2>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <Label>応答言語</Label>
+                <select
+                  value={language}
+                  onChange={(e) => setLanguage(e.target.value)}
+                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                >
+                  <option value="ja">日本語のみ</option>
+                  <option value="auto">自動検出（多言語対応）</option>
+                </select>
+                <p className="text-xs text-muted-foreground">
+                  「自動検出」にすると、ユーザーの言語を自動判別して同じ言語で応答します（英語、中国語、韓国語など）
+                </p>
+              </div>
+              <Button onClick={handleSave} disabled={saving}>
+                {saving ? "保存中..." : "言語設定を保存"}
+              </Button>
+            </CardContent>
+          </Card>
+        </PlanGate>
 
         <Card>
           <CardHeader>

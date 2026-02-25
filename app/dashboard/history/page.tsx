@@ -4,7 +4,10 @@ import { useEffect, useState, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MessageSquare } from "lucide-react";
+import { MessageSquare, Download } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { PlanGate } from "@/components/dashboard/plan-gate";
+import { toast } from "sonner";
 
 interface Conversation {
   id: string;
@@ -73,12 +76,44 @@ export default function HistoryPage() {
     });
   }
 
+  async function handleExport() {
+    const res = await fetch("/api/history/export");
+    if (!res.ok) {
+      toast.error("エクスポートに失敗しました");
+      return;
+    }
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `chat_history_${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success("CSVをダウンロードしました");
+  }
+
   return (
     <div>
-      <h1 className="text-2xl font-bold">チャット履歴</h1>
-      <p className="mt-1 text-sm text-muted-foreground">
-        ユーザーとのチャット履歴を確認できます
-      </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold">チャット履歴</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            ユーザーとのチャット履歴を確認できます
+          </p>
+        </div>
+        <PlanGate feature="csvExport">
+          <Button
+            variant="outline"
+            size="sm"
+            className="gap-1.5"
+            onClick={handleExport}
+            disabled={conversations.length === 0}
+          >
+            <Download className="h-3.5 w-3.5" />
+            CSVエクスポート
+          </Button>
+        </PlanGate>
+      </div>
 
       {conversations.length === 0 ? (
         <div className="mt-12 text-center text-muted-foreground">

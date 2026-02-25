@@ -1,4 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createClient } from "@supabase/supabase-js";
+
+const supabaseAdmin = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
 
 export async function GET(
   request: NextRequest,
@@ -7,6 +13,18 @@ export async function GET(
   const { token } = await params;
   const origin = request.headers.get("origin") || request.nextUrl.origin;
   const apiUrl = `${request.nextUrl.origin}/api/chat`;
+
+  // チャットボットのカスタム設定を取得
+  const { data: chatbot } = await supabaseAdmin
+    .from("chatbots")
+    .select("widget_color, widget_display_name, widget_placeholder, greeting")
+    .eq("token", token)
+    .single();
+
+  const widgetColor = chatbot?.widget_color || "#4f46e5";
+  const widgetName = chatbot?.widget_display_name || "LiveAI";
+  const widgetPlaceholder = chatbot?.widget_placeholder || "メッセージを入力...";
+  const greetingMsg = chatbot?.greeting || "こんにちは！なんでもお聞きください！";
 
   const js = `
 (function() {
@@ -24,9 +42,9 @@ export async function GET(
     .liveai-btn {
       position: fixed; bottom: 20px; right: 20px; z-index: 9999;
       width: 56px; height: 56px; border-radius: 50%;
-      background: #4f46e5; color: white; border: none; cursor: pointer;
+      background: ${widgetColor}; color: white; border: none; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 4px 12px rgba(79,70,229,0.4);
+      box-shadow: 0 4px 12px ${widgetColor}66;
       transition: transform 0.2s;
     }
     .liveai-btn:hover { transform: scale(1.05); }
@@ -40,7 +58,7 @@ export async function GET(
     }
     .liveai-chat.open { display: flex; }
     .liveai-header {
-      padding: 16px; background: #4f46e5; color: white;
+      padding: 16px; background: ${widgetColor}; color: white;
       font-weight: 600; font-size: 14px;
       display: flex; align-items: center; gap: 8px;
     }
@@ -49,7 +67,7 @@ export async function GET(
       display: flex; flex-direction: column; gap: 8px;
     }
     .liveai-msg { max-width: 85%; padding: 10px 14px; border-radius: 16px; font-size: 14px; line-height: 1.5; word-break: break-word; }
-    .liveai-msg.user { align-self: flex-end; background: #4f46e5; color: white; border-bottom-right-radius: 4px; }
+    .liveai-msg.user { align-self: flex-end; background: ${widgetColor}; color: white; border-bottom-right-radius: 4px; }
     .liveai-msg.bot { align-self: flex-start; background: #f3f4f6; color: #1f2937; border-bottom-left-radius: 4px; }
     .liveai-input-wrap {
       padding: 12px; border-top: 1px solid #e5e7eb;
@@ -60,10 +78,10 @@ export async function GET(
       font-size: 14px; outline: none; resize: none; max-height: 100px;
       font-family: inherit;
     }
-    .liveai-input:focus { border-color: #4f46e5; }
+    .liveai-input:focus { border-color: ${widgetColor}; }
     .liveai-send {
       width: 40px; height: 40px; border-radius: 50%;
-      background: #4f46e5; color: white; border: none; cursor: pointer;
+      background: ${widgetColor}; color: white; border: none; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
     }
@@ -91,11 +109,11 @@ export async function GET(
     <div class="liveai-chat" id="liveai-chat">
       <div class="liveai-header">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-        LiveAI
+        ${widgetName}
       </div>
       <div class="liveai-messages" id="liveai-messages"></div>
       <div class="liveai-input-wrap">
-        <textarea class="liveai-input" id="liveai-input" rows="1" placeholder="メッセージを入力..."></textarea>
+        <textarea class="liveai-input" id="liveai-input" rows="1" placeholder="${widgetPlaceholder}"></textarea>
         <button class="liveai-send" id="liveai-send">\${sendIcon}</button>
       </div>
     </div>
@@ -121,7 +139,7 @@ export async function GET(
     chatDiv.classList.toggle('open', isOpen);
     toggleBtn.innerHTML = isOpen ? closeIcon : chatIcon;
     if (isOpen && messages.length === 0) {
-      addMessage('bot', 'こんにちは！なんでもお聞きください！');
+      addMessage('bot', '${greetingMsg.replace(/'/g, "\\'")}');
     }
   });
 

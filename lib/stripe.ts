@@ -35,6 +35,18 @@ export const PLANS = {
 
 export type PlanType = keyof typeof PLANS;
 
+export type FeatureKey = "analytics" | "widgetCustom" | "csvExport" | "multilingual";
+
+export const PLAN_FEATURES: Record<PlanType, Record<FeatureKey, boolean>> = {
+  free: { analytics: false, widgetCustom: false, csvExport: false, multilingual: false },
+  standard: { analytics: true, widgetCustom: true, csvExport: true, multilingual: false },
+  pro: { analytics: true, widgetCustom: true, csvExport: true, multilingual: true },
+};
+
 export function getPlanLimits(plan: PlanType) {
   return PLANS[plan] ?? PLANS.free;
+}
+
+export function canUsePlanFeature(plan: PlanType, feature: FeatureKey): boolean {
+  return PLAN_FEATURES[plan]?.[feature] ?? false;
 }

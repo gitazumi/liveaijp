@@ -15,6 +15,7 @@ import {
   LogOut,
   Shield,
   CreditCard,
+  BarChart3,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -22,6 +23,7 @@ const navItems = [
   { href: "/dashboard", icon: LayoutDashboard, label: "ダッシュボード" },
   { href: "/dashboard/faqs", icon: HelpCircle, label: "FAQ管理" },
   { href: "/dashboard/history", icon: History, label: "チャット履歴" },
+  { href: "/dashboard/analytics", icon: BarChart3, label: "分析" },
   { href: "/dashboard/settings", icon: Settings, label: "設定" },
   { href: "/dashboard/account", icon: User, label: "アカウント" },
   { href: "/dashboard/billing", icon: CreditCard, label: "課金" },

@@ -35,7 +35,7 @@ export async function POST(req: Request) {
   // チャットボットをトークンで取得
   const { data: chatbot } = await supabase
     .from("chatbots")
-    .select("id, name, greeting, user_id")
+    .select("id, name, greeting, user_id, language")
     .eq("token", token)
     .single();
 
@@ -86,7 +86,18 @@ export async function POST(req: Request) {
       ? faqs.map((f) => `Q: ${f.question}\nA: ${f.answer}`).join("\n\n")
       : "FAQが登録されていません。";
 
-  const systemMessage = `あなたは「${chatbot.name}」というチャットボットアシスタントです。
+  const isMultilingual = chatbot.language === "auto";
+
+  const systemMessage = isMultilingual
+    ? `あなたは「${chatbot.name}」というチャットボットアシスタントです。
+以下のFAQ情報を元に、ユーザーの質問に丁寧に回答してください。
+重要: ユーザーが使用している言語を自動検出し、同じ言語で回答してください。例えば英語で質問されたら英語で、中国語なら中国語で回答します。
+FAQに関連する情報がない場合は、ユーザーの言語で「その質問にはお答えできません」と伝えてください。
+回答は簡潔にわかりやすくしてください。
+
+【FAQ情報】
+${faqContext}`
+    : `あなたは「${chatbot.name}」というチャットボットアシスタントです。
 以下のFAQ情報を元に、ユーザーの質問に日本語で丁寧に回答してください。
 FAQに関連する情報がない場合は、「申し訳ございませんが、その質問にはお答えできません。」と回答してください。
 回答は簡潔にわかりやすくしてください。
