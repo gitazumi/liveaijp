@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/client";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { HelpCircle, MessageSquare, MessagesSquare, TrendingUp, BookOpen, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { DashboardSkeleton } from "@/components/dashboard/skeletons";
 
 interface Stats {
   faqCount: number;
@@ -21,6 +22,7 @@ export default function DashboardPage() {
     todayConversations: 0,
   });
   const [chatbotName, setChatbotName] = useState("");
+  const [pageLoading, setPageLoading] = useState(true);
 
   useEffect(() => {
     async function loadStats() {
@@ -74,6 +76,7 @@ export default function DashboardPage() {
         messageCount: msgRes.count ?? 0,
         todayConversations: todayRes.count ?? 0,
       });
+      setPageLoading(false);
     }
     loadStats();
   }, []);
@@ -108,6 +111,8 @@ export default function DashboardPage() {
       bg: "bg-orange-50",
     },
   ];
+
+  if (pageLoading) return <DashboardSkeleton />;
 
   return (
     <div>

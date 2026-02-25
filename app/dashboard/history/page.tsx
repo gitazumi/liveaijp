@@ -4,15 +4,19 @@ import { useEffect, useState, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MessageSquare, Download, Lock } from "lucide-react";
+import { MessageSquare, Download, Lock, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { usePlan } from "@/lib/hooks/use-plan";
 import { toast } from "sonner";
 import Link from "next/link";
+import { HistorySkeleton } from "@/components/dashboard/skeletons";
+import { getCountryName } from "@/lib/country-names";
 
 interface Conversation {
   id: string;
   created_at: string;
+  country?: string | null;
+  city?: string | null;
   messages: { role: string; content: string; created_at: string }[];
 }
 
@@ -20,6 +24,7 @@ export default function HistoryPage() {
   const { canUse } = usePlan();
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [selected, setSelected] = useState<Conversation | null>(null);
+  const [pageLoading, setPageLoading] = useState(true);
 
   const loadConversations = useCallback(async () => {
     const supabase = createClient();
@@ -38,31 +43,41 @@ export default function HistoryPage() {
 
     const { data: convs } = await supabase
       .from("conversations")
-      .select("id, created_at")
+      .select("id, created_at, country, city")
       .eq("chatbot_id", chatbot.id)
       .order("created_at", { ascending: false })
       .limit(50);
 
-    if (!convs) return;
-
-    const conversationsWithMessages: Conversation[] = [];
-    for (const conv of convs) {
-      const { data: messages } = await supabase
-        .from("messages")
-        .select("role, content, created_at")
-        .eq("conversation_id", conv.id)
-        .order("created_at");
-
-      conversationsWithMessages.push({
-        ...conv,
-        messages: messages ?? [],
-      });
+    if (!convs || convs.length === 0) {
+      setPageLoading(false);
+      return;
     }
+
+    // N+1解消: 全メッセージを1回のクエリで取得してJSでグルーピング
+    const convIds = convs.map((c) => c.id);
+    const { data: allMessages } = await supabase
+      .from("messages")
+      .select("conversation_id, role, content, created_at")
+      .in("conversation_id", convIds)
+      .order("created_at");
+
+    const messagesByConv = new Map<string, { role: string; content: string; created_at: string }[]>();
+    for (const msg of allMessages ?? []) {
+      const list = messagesByConv.get(msg.conversation_id) ?? [];
+      list.push({ role: msg.role, content: msg.content, created_at: msg.created_at });
+      messagesByConv.set(msg.conversation_id, list);
+    }
+
+    const conversationsWithMessages: Conversation[] = convs.map((conv) => ({
+      ...conv,
+      messages: messagesByConv.get(conv.id) ?? [],
+    }));
 
     setConversations(conversationsWithMessages);
     if (conversationsWithMessages.length > 0) {
       setSelected(conversationsWithMessages[0]);
     }
+    setPageLoading(false);
   }, []);
 
   useEffect(() => {
@@ -93,6 +108,8 @@ export default function HistoryPage() {
     URL.revokeObjectURL(url);
     toast.success("CSVをダウンロードしました");
   }
+
+  if (pageLoading) return <HistorySkeleton />;
 
   return (
     <div>
@@ -151,9 +168,15 @@ export default function HistoryPage() {
                     {conv.messages.length}件
                   </Badge>
                 </div>
-                <p className="mt-1 text-xs text-muted-foreground">
-                  {formatDate(conv.created_at)}
-                </p>
+                <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
+                  <span>{formatDate(conv.created_at)}</span>
+                  {conv.country && (
+                    <span className="flex items-center gap-0.5">
+                      <MapPin className="h-3 w-3" />
+                      {conv.city ? `${conv.city}, ` : ""}{getCountryName(conv.country)}
+                    </span>
+                  )}
+                </div>
               </button>
             ))}
           </div>
@@ -161,9 +184,15 @@ export default function HistoryPage() {
           {selected && (
             <Card>
               <CardHeader className="pb-3">
-                <p className="text-sm text-muted-foreground">
-                  {formatDate(selected.created_at)} の会話
-                </p>
+                <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                  <span>{formatDate(selected.created_at)} の会話</span>
+                  {selected.country && (
+                    <span className="flex items-center gap-1 rounded-full bg-muted px-2 py-0.5 text-xs">
+                      <MapPin className="h-3 w-3" />
+                      {selected.city ? `${selected.city}, ` : ""}{getCountryName(selected.country)}
+                    </span>
+                  )}
+                </div>
               </CardHeader>
               <CardContent className="space-y-3">
                 {selected.messages.map((msg, i) => (

@@ -11,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Copy, Check, Code2, Link2, MessageSquareText, Send, RotateCcw, Palette, Globe, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
 import { PlanGate } from "@/components/dashboard/plan-gate";
+import { SettingsSkeleton } from "@/components/dashboard/skeletons";
 
 interface TestMessage {
   role: "user" | "assistant";
@@ -18,6 +19,7 @@ interface TestMessage {
 }
 
 export default function SettingsPage() {
+  const [pageLoading, setPageLoading] = useState(true);
   const [chatbotId, setChatbotId] = useState("");
   const [token, setToken] = useState("");
   const [name, setName] = useState("");
@@ -62,6 +64,7 @@ export default function SettingsPage() {
     setTestMessages([
       { role: "assistant", content: chatbot.greeting || "こんにちは！なんでもお聞きください！" },
     ]);
+    setPageLoading(false);
   }, []);
 
   useEffect(() => {
@@ -172,6 +175,8 @@ export default function SettingsPage() {
   const origin = typeof window !== "undefined" ? window.location.origin : "";
   const snippetCode = `<script src="${origin}/api/widget/${token}"></script>`;
   const chatUrl = `${origin}/chat/${token}`;
+
+  if (pageLoading) return <SettingsSkeleton />;
 
   return (
     <div>

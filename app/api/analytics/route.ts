@@ -43,7 +43,7 @@ export async function GET() {
 
   const { data: conversations } = await supabase
     .from("conversations")
-    .select("id, created_at")
+    .select("id, created_at, country, city")
     .eq("chatbot_id", chatbot.id)
     .gte("created_at", thirtyDaysAgo.toISOString())
     .order("created_at");
@@ -118,6 +118,32 @@ export async function GET() {
     daily.push({ date: dateStr, count: dateMap[dateStr] || 0 });
   }
 
+  // 5. 地域別会話数
+  const countryCounts: Record<string, number> = {};
+  const cityCounts: Record<string, number> = {};
+  for (const conv of conversations ?? []) {
+    const c = (conv as { country?: string | null }).country;
+    const city = (conv as { city?: string | null }).city;
+    if (c) {
+      countryCounts[c] = (countryCounts[c] || 0) + 1;
+    }
+    if (city && c) {
+      const key = `${city}|${c}`;
+      cityCounts[key] = (cityCounts[key] || 0) + 1;
+    }
+  }
+  const topCountries = Object.entries(countryCounts)
+    .sort(([, a], [, b]) => b - a)
+    .slice(0, 10)
+    .map(([country, count]) => ({ country, count }));
+  const topCities = Object.entries(cityCounts)
+    .sort(([, a], [, b]) => b - a)
+    .slice(0, 10)
+    .map(([key, count]) => {
+      const [city, country] = key.split("|");
+      return { city, country, count };
+    });
+
   return NextResponse.json({
     totalConversations: conversations?.length ?? 0,
     totalMessages: userMessages.length,
@@ -125,5 +151,7 @@ export async function GET() {
     unanswered: topUnanswered,
     hourly,
     daily,
+    topCountries,
+    topCities,
   });
 }

@@ -170,6 +170,11 @@ ${faqContext}`;
   // 最新20件のみOpenAIへ送信（コスト制御）
   const recentMessages = sanitizedMessages.slice(-20);
 
+  // Vercel 地域情報ヘッダー取得
+  const geoCountry = req.headers.get("x-vercel-ip-country") ?? null;
+  const geoCity = req.headers.get("x-vercel-ip-city") ?? null;
+  const geoIp = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? null;
+
   // DB保存を非同期で実行（ストリーミング開始をブロックしない）
   let convId = conversationId;
   const savePromise = (async () => {
@@ -177,7 +182,12 @@ ${faqContext}`;
     if (!convId) {
       const { data: conv } = await supabase
         .from("conversations")
-        .insert({ chatbot_id: chatbot.id })
+        .insert({
+          chatbot_id: chatbot.id,
+          ip_address: geoIp,
+          country: geoCountry,
+          city: geoCity ? decodeURIComponent(geoCity) : null,
+        })
         .select("id")
         .single();
       convId = conv?.id;

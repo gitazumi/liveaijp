@@ -25,6 +25,7 @@ import { Plus, Pencil, Trash2, ArrowUpCircle, Upload, Download, Lock } from "luc
 import { toast } from "sonner";
 import Link from "next/link";
 import { usePlan } from "@/lib/hooks/use-plan";
+import { FaqsSkeleton } from "@/components/dashboard/skeletons";
 
 const PLAN_FAQ_LIMITS: Record<string, number> = {
   free: 10,
@@ -48,6 +49,7 @@ export default function FaqsPage() {
   const [answer, setAnswer] = useState("");
   const [loading, setLoading] = useState(false);
   const [importing, setImporting] = useState(false);
+  const [pageLoading, setPageLoading] = useState(true);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { canUse } = usePlan();
   const [plan, setPlan] = useState<string>("free");
@@ -88,6 +90,7 @@ export default function FaqsPage() {
       .order("sort_order");
 
     setFaqs(data ?? []);
+    setPageLoading(false);
   }, []);
 
   useEffect(() => {
@@ -209,6 +212,8 @@ export default function FaqsPage() {
     setImporting(false);
     if (fileInputRef.current) fileInputRef.current.value = "";
   }
+
+  if (pageLoading) return <FaqsSkeleton />;
 
   return (
     <div>
