@@ -14,6 +14,10 @@ export const metadata: Metadata = {
     "中小企業・店舗向けのAIチャットボット作成サービス。FAQを登録するだけでChatGPTが24時間自動で顧客対応。プログラミング不要・初期費用0円で今すぐ導入できます。",
   keywords:
     "AIチャットボット,中小企業,顧客対応自動化,FAQ,ChatGPT,カスタマーサポート,無料,ノーコード",
+  icons: {
+    icon: "/icon.svg",
+    apple: "/apple-icon.svg",
+  },
   openGraph: {
     title: "LiveAI - 中小企業向けAIチャットボット",
     description:
