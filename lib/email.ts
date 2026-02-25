@@ -28,7 +28,7 @@ export async function sendReportEmail({
   const resend = getResend();
 
   const { data, error } = await resend.emails.send({
-    from: "LiveAI <noreply@liveai.jp>",
+    from: process.env.RESEND_FROM_EMAIL ?? "LiveAI <onboarding@resend.dev>",
     to,
     subject,
     html,
