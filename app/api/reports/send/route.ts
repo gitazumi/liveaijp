@@ -71,7 +71,7 @@ export async function POST() {
 
   // PDF生成
   const email = user.email ?? "";
-  const pdfBuffer = generateReportPdf(analyticsData, {
+  const pdfBuffer = await generateReportPdf(analyticsData, {
     days: 30,
     email,
     adminStats,

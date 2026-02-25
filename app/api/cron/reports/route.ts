@@ -106,7 +106,7 @@ export async function GET(req: NextRequest) {
         };
       }
 
-      const pdfBuffer = generateReportPdf(analyticsData, {
+      const pdfBuffer = await generateReportPdf(analyticsData, {
         days,
         email,
         adminStats,

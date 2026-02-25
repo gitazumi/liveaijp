@@ -2,6 +2,8 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import type { AnalyticsData } from "./analytics";
 import { getCountryName } from "./country-names";
+import fs from "fs";
+import path from "path";
 
 interface ReportOptions {
   /** レポート対象期間の日数 */
@@ -16,22 +18,44 @@ interface ReportOptions {
 }
 
 /**
- * 分析データからPDFレポートを生成
- * 日本語テキストは英数字+基本記号でフォールバック
+ * 日本語フォントを読み込んでjsPDFに登録
  */
-export function generateReportPdf(
+async function loadJapaneseFont(doc: jsPDF): Promise<void> {
+  try {
+    // Vercel serverless: public/fonts/からファイルを読む
+    const fontPath = path.join(process.cwd(), "public", "fonts", "NotoSansJP-Regular.ttf");
+    const fontBuffer = fs.readFileSync(fontPath);
+    const base64Font = fontBuffer.toString("base64");
+
+    doc.addFileToVFS("NotoSansJP-Regular.ttf", base64Font);
+    doc.addFont("NotoSansJP-Regular.ttf", "NotoSansJP", "normal");
+    doc.setFont("NotoSansJP");
+  } catch (error) {
+    console.error("Failed to load Japanese font:", error);
+    // フォント読み込み失敗時はデフォルトフォントで続行
+  }
+}
+
+/**
+ * 分析データからPDFレポートを生成（日本語対応）
+ */
+export async function generateReportPdf(
   data: AnalyticsData,
   options: ReportOptions
-): Buffer {
+): Promise<Buffer> {
   const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
 
+  // 日本語フォント読み込み
+  await loadJapaneseFont(doc);
+
+  const fontName = "NotoSansJP";
   const pageWidth = doc.internal.pageSize.getWidth();
   let y = 20;
 
   // --- ヘッダー ---
   doc.setFontSize(20);
   doc.setTextColor(30, 30, 30);
-  doc.text("LiveAI Report", pageWidth / 2, y, { align: "center" });
+  doc.text("LiveAI レポート", pageWidth / 2, y, { align: "center" });
   y += 10;
 
   doc.setFontSize(10);
@@ -40,13 +64,13 @@ export function generateReportPdf(
   const periodStart = new Date();
   periodStart.setDate(periodStart.getDate() - options.days);
   doc.text(
-    `Period: ${periodStart.toISOString().slice(0, 10)} - ${now.toISOString().slice(0, 10)}`,
+    `期間: ${periodStart.toISOString().slice(0, 10)} 〜 ${now.toISOString().slice(0, 10)}`,
     pageWidth / 2,
     y,
     { align: "center" }
   );
   y += 5;
-  doc.text(`Generated: ${now.toISOString().slice(0, 19).replace("T", " ")} UTC`, pageWidth / 2, y, {
+  doc.text(`生成日時: ${now.toISOString().slice(0, 19).replace("T", " ")} UTC`, pageWidth / 2, y, {
     align: "center",
   });
   y += 10;
@@ -59,20 +83,20 @@ export function generateReportPdf(
   // --- サマリー ---
   doc.setFontSize(14);
   doc.setTextColor(30, 30, 30);
-  doc.text("Summary", 20, y);
+  doc.text("サマリー", 20, y);
   y += 8;
 
   doc.setFontSize(11);
-  doc.text(`Total Conversations: ${data.totalConversations}`, 25, y);
+  doc.text(`総会話数: ${data.totalConversations}`, 25, y);
   y += 6;
-  doc.text(`Total Messages (User): ${data.totalMessages}`, 25, y);
+  doc.text(`総メッセージ数（ユーザー）: ${data.totalMessages}`, 25, y);
   y += 6;
 
   if (options.adminStats) {
-    doc.text(`Total Users: ${options.adminStats.totalUsers}`, 25, y);
+    doc.text(`総ユーザー数: ${options.adminStats.totalUsers}`, 25, y);
     y += 6;
     doc.text(
-      `New Users (${options.days} days): ${options.adminStats.newUsersInPeriod}`,
+      `新規ユーザー（過去${options.days}日）: ${options.adminStats.newUsersInPeriod}`,
       25,
       y
     );
@@ -83,20 +107,20 @@ export function generateReportPdf(
   // --- TOP質問 ---
   if (data.topQuestions.length > 0) {
     doc.setFontSize(14);
-    doc.text("Top Questions", 20, y);
+    doc.text("よくある質問", 20, y);
     y += 4;
 
     autoTable(doc, {
       startY: y,
-      head: [["#", "Question", "Count"]],
+      head: [["#", "質問", "回数"]],
       body: data.topQuestions.map((q, i) => [
         (i + 1).toString(),
-        q.question.length > 60 ? q.question.slice(0, 57) + "..." : q.question,
+        q.question.length > 50 ? q.question.slice(0, 47) + "..." : q.question,
         q.count.toString(),
       ]),
       margin: { left: 20, right: 20 },
-      styles: { fontSize: 9, cellPadding: 2 },
-      headStyles: { fillColor: [59, 130, 246] },
+      styles: { fontSize: 9, cellPadding: 2, font: fontName },
+      headStyles: { fillColor: [59, 130, 246], font: fontName },
       columnStyles: {
         0: { cellWidth: 10 },
         1: { cellWidth: "auto" },
@@ -116,20 +140,20 @@ export function generateReportPdf(
     }
 
     doc.setFontSize(14);
-    doc.text("Unanswered Questions (Not in FAQ)", 20, y);
+    doc.text("未回答の質問（FAQにない質問）", 20, y);
     y += 4;
 
     autoTable(doc, {
       startY: y,
-      head: [["#", "Question", "Count"]],
+      head: [["#", "質問", "回数"]],
       body: data.unanswered.slice(0, 10).map((q, i) => [
         (i + 1).toString(),
-        q.question.length > 60 ? q.question.slice(0, 57) + "..." : q.question,
+        q.question.length > 50 ? q.question.slice(0, 47) + "..." : q.question,
         q.count.toString(),
       ]),
       margin: { left: 20, right: 20 },
-      styles: { fontSize: 9, cellPadding: 2 },
-      headStyles: { fillColor: [239, 68, 68] },
+      styles: { fontSize: 9, cellPadding: 2, font: fontName },
+      headStyles: { fillColor: [239, 68, 68], font: fontName },
       columnStyles: {
         0: { cellWidth: 10 },
         1: { cellWidth: "auto" },
@@ -148,7 +172,7 @@ export function generateReportPdf(
   }
 
   doc.setFontSize(14);
-  doc.text("Hourly Distribution", 20, y);
+  doc.text("時間帯別会話数", 20, y);
   y += 8;
 
   const maxHourly = Math.max(...data.hourly, 1);
@@ -167,7 +191,7 @@ export function generateReportPdf(
     if (h % 3 === 0) {
       doc.setFontSize(6);
       doc.setTextColor(100, 100, 100);
-      doc.text(`${h}`, x + barWidth / 2, y + barMaxHeight + 4, {
+      doc.text(`${h}時`, x + barWidth / 2, y + barMaxHeight + 4, {
         align: "center",
       });
     }
@@ -183,19 +207,19 @@ export function generateReportPdf(
 
     doc.setFontSize(14);
     doc.setTextColor(30, 30, 30);
-    doc.text("Top Countries", 20, y);
+    doc.text("国別会話数", 20, y);
     y += 4;
 
     autoTable(doc, {
       startY: y,
-      head: [["Country", "Conversations"]],
+      head: [["国", "会話数"]],
       body: data.topCountries.map((c) => [
         getCountryName(c.country),
         c.count.toString(),
       ]),
       margin: { left: 20, right: 20 },
-      styles: { fontSize: 9, cellPadding: 2 },
-      headStyles: { fillColor: [34, 197, 94] },
+      styles: { fontSize: 9, cellPadding: 2, font: fontName },
+      headStyles: { fillColor: [34, 197, 94], font: fontName },
       columnStyles: {
         0: { cellWidth: "auto" },
         1: { cellWidth: 30, halign: "right" },
@@ -214,20 +238,20 @@ export function generateReportPdf(
     }
 
     doc.setFontSize(14);
-    doc.text("Top Cities", 20, y);
+    doc.text("都市別会話数", 20, y);
     y += 4;
 
     autoTable(doc, {
       startY: y,
-      head: [["City", "Country", "Conversations"]],
+      head: [["都市", "国", "会話数"]],
       body: data.topCities.map((c) => [
         c.city,
         getCountryName(c.country),
         c.count.toString(),
       ]),
       margin: { left: 20, right: 20 },
-      styles: { fontSize: 9, cellPadding: 2 },
-      headStyles: { fillColor: [34, 197, 94] },
+      styles: { fontSize: 9, cellPadding: 2, font: fontName },
+      headStyles: { fillColor: [34, 197, 94], font: fontName },
       columnStyles: {
         0: { cellWidth: "auto" },
         1: { cellWidth: 40 },
@@ -243,7 +267,7 @@ export function generateReportPdf(
     doc.setFontSize(8);
     doc.setTextColor(150, 150, 150);
     doc.text(
-      `LiveAI Report - Page ${i}/${pageCount}`,
+      `LiveAI レポート - ${i}/${pageCount} ページ`,
       pageWidth / 2,
       doc.internal.pageSize.getHeight() - 10,
       { align: "center" }
