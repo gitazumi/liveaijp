@@ -56,6 +56,7 @@ function ChatDemo() {
   const [streamingText, setStreamingText] = useState("");
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const composingRef = useRef(false);
 
   // 自動スクロール（チャットコンテナ内のみ）
   const scrollToBottom = useCallback(() => {
@@ -184,7 +185,7 @@ function ChatDemo() {
   }
 
   function handleKeyDown(e: React.KeyboardEvent) {
-    if (e.key === "Enter" && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey && !composingRef.current) {
       e.preventDefault();
       handleSend();
     }
@@ -255,6 +256,8 @@ function ChatDemo() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
+                onCompositionStart={() => { composingRef.current = true; }}
+                onCompositionEnd={() => { composingRef.current = false; }}
                 placeholder="メッセージを入力して試してみてください..."
                 rows={1}
                 className="flex-1 resize-none rounded-lg border bg-muted/30 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary/30"
