@@ -55,7 +55,7 @@ export async function GET(req: NextRequest) {
 
       const { data: profile } = await supabase
         .from("profiles")
-        .select("role, email")
+        .select("role")
         .eq("id", setting.user_id)
         .single();
 
@@ -74,6 +74,11 @@ export async function GET(req: NextRequest) {
         .single();
 
       if (!chatbot) continue;
+
+      // auth.usersからメール取得
+      const { data: authUser } = await supabase.auth.admin.getUserById(setting.user_id);
+      const email = authUser?.user?.email ?? "";
+      if (!email) continue;
 
       // 期間の決定
       const days = setting.cycle === "daily" ? 1 : setting.cycle === "weekly" ? 7 : 30;
@@ -100,10 +105,6 @@ export async function GET(req: NextRequest) {
           newUsersInPeriod: newUsers ?? 0,
         };
       }
-
-      // PDF生成
-      const email = profile?.email ?? "";
-      if (!email) continue;
 
       const pdfBuffer = generateReportPdf(analyticsData, {
         days,

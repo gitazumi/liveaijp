@@ -18,7 +18,7 @@ export async function POST() {
   // プラン確認
   const [{ data: subscription }, { data: profile }] = await Promise.all([
     supabase.from("subscriptions").select("plan").eq("user_id", user.id).single(),
-    supabase.from("profiles").select("role, email").eq("id", user.id).single(),
+    supabase.from("profiles").select("role").eq("id", user.id).single(),
   ]);
 
   const isAdmin = profile?.role === "admin";
@@ -70,7 +70,7 @@ export async function POST() {
   }
 
   // PDF生成
-  const email = profile?.email ?? user.email ?? "";
+  const email = user.email ?? "";
   const pdfBuffer = generateReportPdf(analyticsData, {
     days: 30,
     email,
