@@ -11,6 +11,7 @@ const FEATURE_LABELS: Record<FeatureKey, { name: string; plan: string }> = {
   widgetCustom: { name: "ウィジェットカスタマイズ", plan: "スタンダード" },
   csvExport: { name: "CSVインポート/エクスポート", plan: "スタンダード" },
   multilingual: { name: "多言語対応", plan: "プロ" },
+  reports: { name: "レポート生成", plan: "プロ" },
 };
 
 interface PlanGateProps {

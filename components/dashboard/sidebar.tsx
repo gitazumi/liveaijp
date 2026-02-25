@@ -17,6 +17,7 @@ import {
   CreditCard,
   BarChart3,
   LifeBuoy,
+  FileText,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -25,6 +26,7 @@ const navItems = [
   { href: "/dashboard/faqs", icon: HelpCircle, label: "FAQ管理" },
   { href: "/dashboard/history", icon: History, label: "チャット履歴" },
   { href: "/dashboard/analytics", icon: BarChart3, label: "分析" },
+  { href: "/dashboard/reports", icon: FileText, label: "レポート" },
   { href: "/dashboard/settings", icon: Settings, label: "設定" },
   { href: "/dashboard/account", icon: User, label: "アカウント" },
   { href: "/dashboard/billing", icon: CreditCard, label: "課金" },

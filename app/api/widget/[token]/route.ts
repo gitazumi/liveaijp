@@ -55,6 +55,7 @@ export async function GET(
 
   const js = `
 (function() {
+  if (window.location.hostname === 'liveai.jp') return;
   if (document.getElementById('liveai-widget')) return;
 
   var container = document.createElement('div');
