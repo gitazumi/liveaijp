@@ -92,12 +92,18 @@ export async function POST(req: Request) {
     return new Response("Chatbot not found", { status: 404 });
   }
 
-  // プラン確認 + FAQ取得 + 会話数チェックを並列実行
+  // プラン確認 + FAQ取得 + 会話数チェック + admin判定を並列実行
   const startOfMonth = new Date();
   startOfMonth.setDate(1);
   startOfMonth.setHours(0, 0, 0, 0);
 
-  const [subscriptionResult, faqsResult, countResult] = await Promise.all([
+  const [profileResult, subscriptionResult, faqsResult, countResult] = await Promise.all([
+    // admin判定
+    supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", chatbot.user_id)
+      .single(),
     // プラン取得
     supabase
       .from("subscriptions")
@@ -120,8 +126,10 @@ export async function POST(req: Request) {
       : Promise.resolve({ count: 0 }),
   ]);
 
-  // 利用制限チェック
-  if (!test) {
+  const isAdmin = profileResult.data?.role === "admin";
+
+  // 利用制限チェック（adminは無制限）
+  if (!test && !isAdmin) {
     const plan = getPlanLimits((subscriptionResult.data?.plan as PlanType) ?? "free");
     if (plan.conversationLimit !== Infinity) {
       if ((countResult.count ?? 0) >= plan.conversationLimit) {

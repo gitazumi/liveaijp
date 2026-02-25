@@ -61,13 +61,16 @@ export default function FaqsPage() {
     } = await supabase.auth.getUser();
     if (!user) return;
 
-    // プラン取得
-    const { data: subscription } = await supabase
-      .from("subscriptions")
-      .select("plan")
-      .eq("user_id", user.id)
-      .single();
-    if (subscription?.plan) setPlan(subscription.plan);
+    // プラン取得 + admin判定を並列実行
+    const [{ data: subscription }, { data: profile }] = await Promise.all([
+      supabase.from("subscriptions").select("plan").eq("user_id", user.id).single(),
+      supabase.from("profiles").select("role").eq("id", user.id).single(),
+    ]);
+    if (profile?.role === "admin") {
+      setPlan("pro");
+    } else if (subscription?.plan) {
+      setPlan(subscription.plan);
+    }
 
     const { data: chatbot } = await supabase
       .from("chatbots")

@@ -12,6 +12,7 @@ interface PlanState {
   conversationCount: number;
   conversationLimit: number;
   loading: boolean;
+  isAdmin: boolean;
 }
 
 const PLAN_LIMITS: Record<PlanType, { faqLimit: number; conversationLimit: number }> = {
@@ -29,6 +30,7 @@ export function usePlan() {
     conversationCount: 0,
     conversationLimit: 100,
     loading: true,
+    isAdmin: false,
   });
 
   useEffect(() => {
@@ -42,14 +44,14 @@ export function usePlan() {
         return;
       }
 
-      // サブスクリプション取得
-      const { data: subscription } = await supabase
-        .from("subscriptions")
-        .select("plan, status")
-        .eq("user_id", user.id)
-        .single();
+      // admin判定 + サブスクリプション取得を並列実行
+      const [{ data: profile }, { data: subscription }] = await Promise.all([
+        supabase.from("profiles").select("role").eq("id", user.id).single(),
+        supabase.from("subscriptions").select("plan, status").eq("user_id", user.id).single(),
+      ]);
 
-      const plan = (subscription?.plan as PlanType) ?? "free";
+      const isAdmin = profile?.role === "admin";
+      const plan = isAdmin ? "pro" as PlanType : (subscription?.plan as PlanType) ?? "free";
       const limits = PLAN_LIMITS[plan] ?? PLAN_LIMITS.free;
 
       // チャットボット取得
@@ -89,6 +91,7 @@ export function usePlan() {
         conversationCount,
         conversationLimit: limits.conversationLimit,
         loading: false,
+        isAdmin,
       });
     }
 
@@ -97,9 +100,10 @@ export function usePlan() {
 
   const canUse = useCallback(
     (feature: FeatureKey): boolean => {
+      if (state.isAdmin) return true;
       return PLAN_FEATURES[state.plan]?.[feature] ?? false;
     },
-    [state.plan]
+    [state.plan, state.isAdmin]
   );
 
   return { ...state, canUse };
