@@ -54,12 +54,15 @@ function ChatDemo() {
   const [sending, setSending] = useState(false);
   const [conversationId, setConversationId] = useState<string | null>(null);
   const [streamingText, setStreamingText] = useState("");
-  const chatEndRef = useRef<HTMLDivElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  // 自動スクロール
+  // 自動スクロール（チャットコンテナ内のみ）
   const scrollToBottom = useCallback(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    const el = chatContainerRef.current;
+    if (el) {
+      el.scrollTop = el.scrollHeight;
+    }
   }, []);
 
   useEffect(() => {
@@ -196,7 +199,7 @@ function ChatDemo() {
       </div>
 
       {/* メッセージエリア */}
-      <div className="h-[320px] overflow-y-auto px-6 py-4">
+      <div ref={chatContainerRef} className="h-[320px] overflow-y-auto px-6 py-4">
         <div className="space-y-3">
           <AnimatePresence>
             {visibleMessages.map((msg, i) => (
@@ -234,7 +237,6 @@ function ChatDemo() {
           )}
 
           {showTyping && <TypingIndicator />}
-          <div ref={chatEndRef} />
         </div>
       </div>
 
