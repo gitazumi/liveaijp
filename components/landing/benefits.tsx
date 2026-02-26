@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { TrendingUp, Clock4, HeartHandshake, Lightbulb } from "lucide-react";
+import { TrendingUp, Clock4, HeartHandshake, Lightbulb, BarChart3, FileText } from "lucide-react";
 
 const benefits = [
   {
@@ -17,10 +17,22 @@ const benefits = [
       "深夜でも休日でも、AIが即座に回答。「電話がつながらない」「返信が遅い」というお客様の不満を解消し、顧客満足度がアップします。",
   },
   {
+    icon: BarChart3,
+    title: "利用状況を分析・可視化",
+    description:
+      "どんな質問が多いか、どの時間帯に問い合わせが集中するかを分析ダッシュボードで確認。データに基づいた改善が可能になります。",
+  },
+  {
+    icon: FileText,
+    title: "定期レポートが届く",
+    description:
+      "分析データをまとめたPDFレポートが自動でメールに届きます。管理画面にログインしなくても、チャットの状況を把握できます。",
+  },
+  {
     icon: TrendingUp,
     title: "初期費用0円でスタート",
     description:
-      "高額なシステム開発費は不要。無料プランですべての機能が使えるので、まずは気軽にお試しいただけます。",
+      "高額なシステム開発費は不要。無料プランで基本機能をお試しいただき、ビジネスの成長に合わせてアップグレードできます。",
   },
   {
     icon: Lightbulb,

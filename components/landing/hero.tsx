@@ -307,8 +307,8 @@ export function Hero() {
           </h1>
 
           <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground md:text-xl">
-            よくある質問を登録するだけで、あなたのビジネス専用のAIチャットボットが完成。
-            電話やメールの対応件数を減らし、スタッフの負担を軽減します。
+            よくある質問を登録するだけで、あなた専用のAIチャットボットが完成。
+            電話やメールの対応を減らし、スタッフの負担を軽減します。
           </p>
 
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
