@@ -165,55 +165,30 @@ export default function AnalyticsPage() {
           </CardContent>
         </Card>
 
-        {/* 地域別会話数 */}
-        {data?.topCountries && data.topCountries.length > 0 && (
-          <Card className="mt-6">
-            <CardHeader className="flex flex-row items-center gap-3">
-              <MapPin className="h-5 w-5 text-rose-500" />
-              <h2 className="text-lg font-semibold">アクセス地域</h2>
-            </CardHeader>
-            <CardContent>
-              <div className="grid gap-6 sm:grid-cols-2">
-                {/* 国別 */}
-                <div>
-                  <h3 className="mb-3 text-sm font-medium text-muted-foreground">国別</h3>
-                  <div className="space-y-2">
-                    {data.topCountries.map((item, i) => {
-                      const max = Math.max(...data.topCountries!.map((c) => c.count), 1);
-                      return (
-                        <div key={i} className="flex items-center gap-3">
-                          <span className="w-24 truncate text-sm">
-                            {getCountryName(item.country)}
-                          </span>
-                          <div className="flex-1">
-                            <div
-                              className="h-5 rounded bg-rose-500/80"
-                              style={{ width: `${(item.count / max) * 100}%`, minWidth: 4 }}
-                            />
-                          </div>
-                          <span className="w-10 text-right text-xs text-muted-foreground">
-                            {item.count}
-                          </span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-                {/* 都市別 */}
-                {data.topCities && data.topCities.length > 0 && (
+        {/* 地域別会話数（プロプラン限定） */}
+        <PlanGate feature="geoAnalytics">
+          {data?.topCountries && data.topCountries.length > 0 && (
+            <Card className="mt-6">
+              <CardHeader className="flex flex-row items-center gap-3">
+                <MapPin className="h-5 w-5 text-rose-500" />
+                <h2 className="text-lg font-semibold">アクセス地域</h2>
+              </CardHeader>
+              <CardContent>
+                <div className="grid gap-6 sm:grid-cols-2">
+                  {/* 国別 */}
                   <div>
-                    <h3 className="mb-3 text-sm font-medium text-muted-foreground">都市別</h3>
+                    <h3 className="mb-3 text-sm font-medium text-muted-foreground">国別</h3>
                     <div className="space-y-2">
-                      {data.topCities.map((item, i) => {
-                        const max = Math.max(...data.topCities!.map((c) => c.count), 1);
+                      {data.topCountries.map((item, i) => {
+                        const max = Math.max(...data.topCountries!.map((c) => c.count), 1);
                         return (
                           <div key={i} className="flex items-center gap-3">
                             <span className="w-24 truncate text-sm">
-                              {item.city}
+                              {getCountryName(item.country)}
                             </span>
                             <div className="flex-1">
                               <div
-                                className="h-5 rounded bg-orange-500/80"
+                                className="h-5 rounded bg-rose-500/80"
                                 style={{ width: `${(item.count / max) * 100}%`, minWidth: 4 }}
                               />
                             </div>
@@ -225,11 +200,38 @@ export default function AnalyticsPage() {
                       })}
                     </div>
                   </div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-        )}
+                  {/* 都市別 */}
+                  {data.topCities && data.topCities.length > 0 && (
+                    <div>
+                      <h3 className="mb-3 text-sm font-medium text-muted-foreground">都市別</h3>
+                      <div className="space-y-2">
+                        {data.topCities.map((item, i) => {
+                          const max = Math.max(...data.topCities!.map((c) => c.count), 1);
+                          return (
+                            <div key={i} className="flex items-center gap-3">
+                              <span className="w-24 truncate text-sm">
+                                {item.city}
+                              </span>
+                              <div className="flex-1">
+                                <div
+                                  className="h-5 rounded bg-orange-500/80"
+                                  style={{ width: `${(item.count / max) * 100}%`, minWidth: 4 }}
+                                />
+                              </div>
+                              <span className="w-10 text-right text-xs text-muted-foreground">
+                                {item.count}
+                              </span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </PlanGate>
 
         {/* 時間帯別チャート */}
         <Card className="mt-6">

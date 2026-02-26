@@ -12,6 +12,7 @@ const FEATURE_LABELS: Record<FeatureKey, { name: string; plan: string }> = {
   csvExport: { name: "CSVインポート/エクスポート", plan: "スタンダード" },
   multilingual: { name: "多言語対応", plan: "プロ" },
   reports: { name: "レポート生成", plan: "プロ" },
+  geoAnalytics: { name: "地域別アクセス分析", plan: "プロ" },
 };
 
 interface PlanGateProps {
